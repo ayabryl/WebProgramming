@@ -1,7 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser')
-
+const axios = require('axios');
+const Product = require("./models/products");
+const Order = require("./models/orders");
+const User = require("./models/users");
+const { getProducts, getUsers, getOrders } = require("./api/api")
 const hostname = 'localhost';
 const port = 3001;
 const app = express(bodyParser.urlencoded({ extended: false }));
@@ -28,4 +32,61 @@ mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true,dbNa
 
 app.get('/', function (req, res) {
   res.send('Server is working');
+})
+
+app.get('/products', async (req, res) => {
+  try {
+    const products = await getProducts();
+    res.send(products)
+  } catch(err) {
+    res.send(err)
+  }
+})
+
+app.get('/users', async (req, res) => {
+  try {
+    const users = await getUsers();
+    res.send(users)
+  } catch(err) {
+    res.send(err)
+  }
+})
+
+app.get('/orders', async (req, res) => {
+  try {
+    const orders = await getOrders();
+    res.send(orders)
+  } catch(err) {
+    res.send(err)
+  }
+})
+
+app.post('/addProducts', async (req, res) => {
+  await axios.get('http://makeup-api.herokuapp.com/api/v1/products.json?brand=covergirl&product_type=lipstick')
+  .then(function (response) {
+    response.data.forEach(element => {
+      const newProduct = new Product({
+        id: element.id,  
+        price: element.price,
+        brand: element.brand,
+        price_sign: element.price_sign,
+        product_link: element.product_link,
+        description: element.description,
+        category: element.category,
+        product_type: element.product_type,
+        image_link: element.image_link,
+        description: element.description
+      });
+      newProduct.save((err,result) => { 
+        if (err){
+          console.log(err);
+          res.send("error creating product. error: " + err)
+        }
+      })
+    });
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+  res.send("success adding products");
 })
