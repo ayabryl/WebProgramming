@@ -7,8 +7,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import toast, { Toaster } from "react-hot-toast";
-
-import UserProfile from "../profile/UserProfile";
+import Cookies from "js-cookie";
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
@@ -25,8 +24,6 @@ const AuthForm = () => {
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-
-  const [idToken, setIdToken] = React.useState();
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -106,10 +103,10 @@ const AuthForm = () => {
           }
         })
         .then((data) => {
-          //ToDo: save the user to the page and exit from this page
+          Cookies.set("idToken", data.idToken, { expires: 7 });
+          Cookies.set("email", data.email, { expires: 7 });
+          //TODO: save the user to the page and exit from this page
           toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
-          console.log(data.idToken);
-          setIdToken(data.idToken);
           console.log(data);
         })
         .catch((err) => {
@@ -162,7 +159,11 @@ const AuthForm = () => {
               </Grid>
 
               {!isLoading && (
-                <Grid item xs={12} sx={{ mb: 2, justifyItems: "center" }}>
+                <Grid
+                  item
+                  xs={12}
+                  sx={{ mb: 2, display: "flex", justifyContent: "center" }}
+                >
                   <Button type="submit" variant="contained" color="primary">
                     {isLogin ? "Login" : "Create Account"}
                   </Button>
@@ -173,7 +174,11 @@ const AuthForm = () => {
                   <p> Loading ... </p>{" "}
                 </Grid>
               )}
-              <Grid item xs={12} sx={{ mb: 2, justifyContent: "center" }}>
+              <Grid
+                item
+                xs={12}
+                sx={{ mb: 2, display: "flex", justifyContent: "center" }}
+              >
                 <Button
                   onClick={switchAuthModeHandler}
                   type="submit"

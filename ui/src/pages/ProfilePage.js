@@ -10,11 +10,9 @@ import { styled } from "@mui/material/styles";
 import toast, { Toaster } from "react-hot-toast";
 
 const profilePage = () => {
-  let idToken = undefined;
-
   return (
     <Grid container alignItems="center" justifyContent="center">
-      <UserProfile idToken={idToken} email="sagi" />
+      <UserProfile />
     </Grid>
   );
 };

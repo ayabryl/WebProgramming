@@ -8,6 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Grid from "@mui/material/Grid";
+import Cookies from "js-cookie";
 
 const PasswordDialog = (props) => {
   const open = props.open;
@@ -19,7 +20,7 @@ const PasswordDialog = (props) => {
   const [passwordHelperText, setPasswordHelperText] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
-  const idToken = props.idToken;
+  const idToken = Cookies.get("idToken");
 
   const validate = (password) => {
     // Validate password

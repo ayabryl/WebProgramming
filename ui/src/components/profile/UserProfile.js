@@ -12,6 +12,7 @@ import Input from "@mui/material/Input";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
@@ -22,8 +23,9 @@ const UserProfile = (props) => {
 
   const [edit, setEdit] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const idToken = props.idToken;
-  let email = props.email;
+  const idToken = Cookies.get("idToken");
+  const email = Cookies.get("email");
+
   const [address, setAddress] = React.useState("");
 
   const fetchData = async () => {
