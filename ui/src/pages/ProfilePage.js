@@ -1,7 +1,7 @@
 import UserProfile from "../components/profile/UserProfile";
 import Grid from "@mui/material/Grid";
 
-const AuthPage = () => {
+const profilePage = () => {
   return (
     <Grid container alignItems="center" justifyContent="center">
       {/* <UserProfile idToken={idToken} /> */}
@@ -9,4 +9,4 @@ const AuthPage = () => {
   );
 };
 
-export default AuthPage;
+export default profilePage;
