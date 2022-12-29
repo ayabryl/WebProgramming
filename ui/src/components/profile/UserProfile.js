@@ -11,6 +11,7 @@ import { styled } from "@mui/material/styles";
 import Input from "@mui/material/Input";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
+import { useEffect } from "react";
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
@@ -22,8 +23,18 @@ const UserProfile = (props) => {
   const [edit, setEdit] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const idToken = props.idToken;
-  const email = props.email;
-  const addressRef = useRef(props.address !== undefined ? props.address : "");
+  let email = props.email;
+  const [address, setAddress] = React.useState("");
+
+  const fetchData = async () => {
+    // const response = await axios.get('/api/user');
+    // setAddress(response.data);
+    setAddress("SAGI");
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -34,10 +45,6 @@ const UserProfile = (props) => {
   };
 
   const submitHandler = (event) => {
-    event.preventDefault();
-
-    const enteredEmail = addressRef.current.value;
-
     // TODO: send the new address to the server
     toast.success(`Updated`);
     setEdit(false);
@@ -60,25 +67,21 @@ const UserProfile = (props) => {
           <Grid
             sx={{ mt: 2 }}
             container
-            alignItems="center"
             justifyContent="center"
             rowSpacing={1}
             columnSpacing={1}
           >
             {!edit ? (
-              <div>
-                <Grid item xs={7}>
-                  {" "}
-                </Grid>
-                <Grid item xs={2}>
-                  <IconButton onClick={() => setEdit(true)} aria-label="edit">
-                    <EditIcon color="primary" />
-                  </IconButton>
-                </Grid>
-              </div>
-            ) : (
-              <Grid item xs={12} />
-            )}
+              <Grid
+                item
+                xs={2}
+                sx={{ mb: 2, display: "flex", justifyContent: "flex-end" }}
+              >
+                <IconButton onClick={() => setEdit(true)} aria-label="edit">
+                  <EditIcon color="primary" />
+                </IconButton>
+              </Grid>
+            ) : null}
 
             <Grid item xs={12}>
               <StyledH1> My Profile</StyledH1>
@@ -87,12 +90,7 @@ const UserProfile = (props) => {
               <Input size="small" disabled placeholder="**************" />
             </Grid>
             <Grid item xs={5}>
-              <Button
-                size="small"
-                disabled={!edit}
-                variant="outlined"
-                onClick={handleClickOpen}
-              >
+              <Button size="small" disabled={!edit} onClick={handleClickOpen}>
                 changing password
               </Button>
             </Grid>
@@ -114,23 +112,32 @@ const UserProfile = (props) => {
                 disabled={!edit}
                 id="address"
                 label="address"
-                inputRef={addressRef}
+                defaultValue={address}
+                onChange={(event) => {
+                  setAddress(event.target.value);
+                }}
                 variant="outlined"
                 size="small"
               />
             </Grid>
 
-            <Grid item xs={6} sx={{ mb: 2, justifyContent: "center" }}>
+            <Grid
+              item
+              xs={12}
+              sx={{ mt: 3, display: "flex", justifyContent: "center" }}
+            >
               {edit ? (
                 <Button
+                  variant="outlined"
                   onClick={submitHandler}
                   type="submit"
-                  variant="filled"
                   color="primary"
                 >
                   Update
                 </Button>
-              ) : null}
+              ) : (
+                <Grid item xs={12} sx={{ mb: 2, justifyContent: "center" }} />
+              )}
             </Grid>
           </Grid>
         </Paper>

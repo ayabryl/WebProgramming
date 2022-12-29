@@ -14,7 +14,7 @@ const profilePage = () => {
 
   return (
     <Grid container alignItems="center" justifyContent="center">
-      <UserProfile idToken={idToken} email="sagi" address="sagi" />
+      <UserProfile idToken={idToken} email="sagi" />
     </Grid>
   );
 };
