@@ -27,14 +27,19 @@ const UserProfile = (props) => {
   const email = Cookies.get("email");
 
   const [address, setAddress] = React.useState("");
+  const [name, setName] = React.useState("");
+  const [phone, setPhone] = React.useState("");
 
-  const fetchData = async () => {
+  const fetchData = () => {
     // const response = await axios.get('/api/user');
     // setAddress(response.data);
     setAddress("SAGI");
+    setName("sagi");
+    setPhone("05468188");
   };
 
   useEffect(() => {
+    console.log("Fetching data...");
     fetchData();
   }, []);
 
@@ -58,16 +63,16 @@ const UserProfile = (props) => {
         sx={{
           display: "flex",
           "& > :not(style)": {
-            m: 1,
-            width: 500,
-            height: 350,
+            m: 2,
+            width: "40%",
+            height: "110%",
           },
         }}
       >
         <Toaster position="top-center" reverseOrder={false} />
         <Paper elevation={3}>
           <Grid
-            sx={{ mt: 2 }}
+            sx={{ mt: 2, ml: 2 }}
             container
             justifyContent="center"
             rowSpacing={1}
@@ -88,18 +93,55 @@ const UserProfile = (props) => {
             <Grid item xs={12}>
               <StyledH1> My Profile</StyledH1>
             </Grid>
-            <Grid item xs={5}>
-              <Input size="small" disabled placeholder="**************" />
+
+            <Grid item xs={12}>
+              <TextField
+                disabled={!edit}
+                id="name"
+                label="full name"
+                defaultValue={name}
+                onChange={(event) => {
+                  setName(event.target.value);
+                }}
+                variant="outlined"
+                size="small"
+              />
             </Grid>
-            <Grid item xs={5}>
-              <Button size="small" disabled={!edit} onClick={handleClickOpen}>
-                changing password
-              </Button>
+
+            <Grid item xs={12}>
+              <TextField
+                disabled={!edit}
+                id="phone"
+                label="phone number"
+                defaultValue={phone}
+                onChange={(event) => {
+                  setPhone(event.target.value);
+                }}
+                variant="outlined"
+                size="small"
+              />
+            </Grid>
+
+            <Grid
+              container
+              item
+              xs={12}
+              alignItems="flex-start"
+              justifyContent="flex-start"
+            >
+              <Grid item xs={5}>
+                <Input size="small" disabled placeholder="**************" />
+              </Grid>
+              <Grid item xs={5}>
+                <Button size="small" disabled={!edit} onClick={handleClickOpen}>
+                  changing password
+                </Button>
+              </Grid>
+              <Grid item xs={12}>
+                <PasswordDialog open={open} handleClose={handleClose} />
+              </Grid>
             </Grid>
             <Grid item xs={12}>
-              <PasswordDialog open={open} handleClose={handleClose} />
-            </Grid>
-            <Grid item xs={5}>
               <TextField
                 disabled
                 id="email"
@@ -109,7 +151,7 @@ const UserProfile = (props) => {
                 size="small"
               />
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={12}>
               <TextField
                 disabled={!edit}
                 id="address"
@@ -126,7 +168,7 @@ const UserProfile = (props) => {
             <Grid
               item
               xs={12}
-              sx={{ mt: 3, display: "flex", justifyContent: "center" }}
+              sx={{ mb: 2, mt: 3, display: "flex", justifyContent: "center" }}
             >
               {edit ? (
                 <Button
@@ -138,7 +180,11 @@ const UserProfile = (props) => {
                   Update
                 </Button>
               ) : (
-                <Grid item xs={12} sx={{ mb: 2, justifyContent: "center" }} />
+                <Grid
+                  item
+                  xs={12}
+                  sx={{ mb: 2, mt: 3, justifyContent: "center" }}
+                />
               )}
             </Grid>
           </Grid>
