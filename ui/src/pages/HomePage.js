@@ -1,9 +1,7 @@
+import Market from "../components/Home/Market";
+
 const HomePage = () => {
-  return (
-    <div>
-      <h1>HomePage</h1>
-    </div>
-  );
+  return <Market />;
 };
 
 export default HomePage;
