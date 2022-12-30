@@ -7,7 +7,6 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link } from "react-router-dom";
 
@@ -87,20 +86,6 @@ const Product = (props) => {
           alt={props.name}
         />
       </Link>
-      {/* <IconButton
-        size="large"
-        edge="end"
-        aria-haspopup="true"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "end",
-          ml: 1,
-          // justifyContent: "space-around",
-        }}
-      >
-        <ArrowForwardIcon />
-      </IconButton> */}
     </Card>
   );
 };
