@@ -15,6 +15,7 @@ function App() {
         <Route path="/auth" exact element={<AuthPage />}></Route>
         <Route path="/profile" exact element={<Profile />}></Route>
         <Route path="/cart" exact element={<Cart />}></Route>
+        <Route path="/product" exact element={<Cart />}></Route>
       </Routes>
     </Layout>
   );

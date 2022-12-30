@@ -8,6 +8,9 @@ import {
   IconButton,
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { Link } from "react-router-dom";
+
 const Product = (props) => {
   // const handleAddToCart = (event) => {
   //   event.preventDefault();
@@ -38,14 +41,16 @@ const Product = (props) => {
           justifyContent: "space-between",
         }}
       >
-        <CardContent>
-          <Typography component="div" variant="h6">
-            {props.name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary" component="div">
-            {props.description}
-          </Typography>
-        </CardContent>
+        <Link to="/product" style={{ textDecoration: "none" }}>
+          <CardContent>
+            <Typography component="div" variant="h6">
+              {props.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" component="div">
+              {props.description}
+            </Typography>
+          </CardContent>
+        </Link>
         <Box
           sx={{
             display: "flex",
@@ -63,22 +68,39 @@ const Product = (props) => {
           >
             {props.price}₪
           </Typography>
+
           <IconButton
             size="large"
             edge="end"
             aria-label="account of current user"
             aria-haspopup="true"
           >
-            <ArrowForwardIcon />
+            <AddShoppingCartIcon />
           </IconButton>
         </Box>
       </Box>
-      <CardMedia
-        component="img"
-        sx={{ width: 170, maxHigh: 150, height: 150 }}
-        image={props.imageURL}
-        alt={props.name}
-      />
+      <Link to="/product" style={{ textDecoration: "none" }}>
+        <CardMedia
+          component="img"
+          sx={{ width: 170, maxHigh: 150, height: 150 }}
+          image={props.imageURL}
+          alt={props.name}
+        />
+      </Link>
+      {/* <IconButton
+        size="large"
+        edge="end"
+        aria-haspopup="true"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "end",
+          ml: 1,
+          // justifyContent: "space-around",
+        }}
+      >
+        <ArrowForwardIcon />
+      </IconButton> */}
     </Card>
   );
 };
