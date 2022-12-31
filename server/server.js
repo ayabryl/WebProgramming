@@ -5,16 +5,16 @@ const axios = require('axios');
 const Product = require("./models/products");
 const Order = require("./models/orders");
 const User = require("./models/users");
-const { getProducts, getUsers, getOrders } = require("./api/api")
+const { getProducts, getUsers, getOrders, addProducts } = require("./api/api")
 const hostname = 'localhost';
 const port = 3001;
 const app = express(bodyParser.urlencoded({ extended: false }));
 
 const cors = require("cors");
 const corsOptions = {
-    origin: '*',
-    credentials: true,            //access-control-allow-credentials:true
-    optionSuccessStatus: 200,
+  origin: '*',
+  credentials: true,            //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
 }
 
 app.use(bodyParser.json());
@@ -24,7 +24,7 @@ app.listen(3001, () => {
 })
 
 const mongoDB = "mongodb+srv://guest_user:Aa123456@cluster0.emt0ekc.mongodb.net/?retryWrites=true&w=majority";
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true,dbName: 'web_final_project'}).then(() => {
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true, dbName: 'web_final_project' }).then(() => {
   console.log("mongo connection open");
 }).catch((err) => {
   console.log("error connecting to mongo: " + err)
@@ -38,7 +38,7 @@ app.get('/products', async (req, res) => {
   try {
     const products = await getProducts();
     res.send(products)
-  } catch(err) {
+  } catch (err) {
     res.send(err)
   }
 })
@@ -47,7 +47,7 @@ app.get('/users', async (req, res) => {
   try {
     const users = await getUsers();
     res.send(users)
-  } catch(err) {
+  } catch (err) {
     res.send(err)
   }
 })
@@ -56,37 +56,55 @@ app.get('/orders', async (req, res) => {
   try {
     const orders = await getOrders();
     res.send(orders)
-  } catch(err) {
+  } catch (err) {
     res.send(err)
   }
 })
 
+
+app.post('/addProduct', async (req, res) => {
+  try {
+    const orders = await getOrders();
+    await addProducts(newProducts)
+    res.send(orders)
+  } catch (err) {
+    res.send(err)
+  }
+})
+
+
+app.post("/addProduct", async (req, res) => {
+  try {
+    const newProduct = new Product(req.body);
+    await addProducts([newProduct]);
+    res.send("success adding new product");
+  } catch {
+    console.log(err);
+    res.send("error creating product. error: " + err);
+  }
+});
+
 app.post('/addProducts', async (req, res) => {
   await axios.get('http://makeup-api.herokuapp.com/api/v1/products.json?brand=covergirl&product_type=lipstick')
-  .then(function (response) {
-    response.data.forEach(element => {
-      const newProduct = new Product({
-        id: element.id,  
-        price: element.price,
-        brand: element.brand,
-        price_sign: element.price_sign,
-        product_link: element.product_link,
-        description: element.description,
-        category: element.category,
-        product_type: element.product_type,
-        image_link: element.image_link,
-        description: element.description
-      });
-      newProduct.save((err,result) => { 
-        if (err){
-          console.log(err);
-          res.send("error creating product. error: " + err)
-        }
+    .then(async function (response) {
+      const newProducts = response.data.map(element => {
+        const newProduct = new Product({
+          id: element.id,
+          price: element.price,
+          brand: element.brand,
+          price_sign: element.price_sign,
+          product_link: element.product_link,
+          description: element.description,
+          category: element.category,
+          product_type: element.product_type,
+          image_link: element.image_link,
+          description: element.description
+        });
       })
+      await addProducts(newProducts);
+      res.send("success adding products");
+    }).catch(function (error) {
+      console.log(error);
+      res.send("Error adding products. error:" + error);
     });
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-  res.send("success adding products");
 })
