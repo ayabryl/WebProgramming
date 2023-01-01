@@ -101,25 +101,3 @@ app.post("/addProducts", async (req, res) => {
     });
   res.send("success adding products");
 });
-
-app.post("/addUser", async (req, res) => {
-  const newUser = new User(req.body);
-  newUser.save((err, result) => {
-    if (err) {
-      console.log(err);
-      res.send("error creating user. error: " + err);
-    }
-  });
-  res.send("success adding new user");
-});
-
-app.post("/addOrder", async (req, res) => {
-  const newOrder = new User(req.body);
-  newOrder.save((err, result) => {
-    if (err) {
-      console.log(err);
-      res.send("error creating order. error: " + err);
-    }
-  });
-  res.send("success adding new order");
-});

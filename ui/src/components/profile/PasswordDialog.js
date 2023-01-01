@@ -58,7 +58,7 @@ const PasswordDialog = (props) => {
       fetch(url, {
         method: "POST",
         body: JSON.stringify({
-          idToken: idToken,
+          idToken: Cookies.get("idToken"),
           password: enteredPassword,
           returnSecureToken: false,
         }),

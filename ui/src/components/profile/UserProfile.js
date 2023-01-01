@@ -146,7 +146,7 @@ const UserProfile = (props) => {
                 disabled
                 id="email"
                 label="email"
-                defaultValue={email}
+                defaultValue={Cookies.get("email")}
                 variant="outlined"
                 size="small"
               />
