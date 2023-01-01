@@ -26,6 +26,8 @@ const UserProfile = (props) => {
   const idToken = Cookies.get("idToken");
   const email = Cookies.get("email");
 
+  const [city, setCity] = React.useState("");
+  const [CommentForDelivery, setCommentForDelivery] = React.useState("");
   const [address, setAddress] = React.useState("");
   const [name, setName] = React.useState("");
   const [phone, setPhone] = React.useState("");
@@ -33,9 +35,6 @@ const UserProfile = (props) => {
   const fetchData = () => {
     // const response = await axios.get('/api/user');
     // setAddress(response.data);
-    setAddress("SAGI");
-    setName("sagi");
-    setPhone("05468188");
   };
 
   useEffect(() => {
@@ -64,26 +63,22 @@ const UserProfile = (props) => {
           display: "flex",
           "& > :not(style)": {
             m: 2,
-            width: "40%",
+            width: "45%",
             height: "110%",
           },
+          justifyContent: "center",
         }}
       >
         <Toaster position="top-center" reverseOrder={false} />
         <Paper elevation={3}>
           <Grid
-            sx={{ mt: 2, ml: 2 }}
+            sx={{ mt: 1, ml: 4 }}
             container
             justifyContent="center"
             rowSpacing={1}
-            columnSpacing={1}
           >
             {!edit ? (
-              <Grid
-                item
-                xs={2}
-                sx={{ mb: 2, display: "flex", justifyContent: "flex-end" }}
-              >
+              <Grid item xs={12} alignSelf="flex-end">
                 <IconButton onClick={() => setEdit(true)} aria-label="edit">
                   <EditIcon color="primary" />
                 </IconButton>
@@ -94,7 +89,7 @@ const UserProfile = (props) => {
               <StyledH1> My Profile</StyledH1>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <TextField
                 disabled={!edit}
                 id="name"
@@ -104,11 +99,10 @@ const UserProfile = (props) => {
                   setName(event.target.value);
                 }}
                 variant="outlined"
-                size="small"
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <TextField
                 disabled={!edit}
                 id="phone"
@@ -118,7 +112,6 @@ const UserProfile = (props) => {
                   setPhone(event.target.value);
                 }}
                 variant="outlined"
-                size="small"
               />
             </Grid>
 
@@ -133,7 +126,12 @@ const UserProfile = (props) => {
                 <Input size="small" disabled placeholder="**************" />
               </Grid>
               <Grid item xs={5}>
-                <Button size="small" disabled={!edit} onClick={handleClickOpen}>
+                <Button
+                  size="extara"
+                  fontSize="small"
+                  disabled={!edit}
+                  onClick={handleClickOpen}
+                >
                   changing password
                 </Button>
               </Grid>
@@ -141,17 +139,30 @@ const UserProfile = (props) => {
                 <PasswordDialog open={open} handleClose={handleClose} />
               </Grid>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <TextField
                 disabled
                 id="email"
                 label="email"
                 defaultValue={Cookies.get("email")}
                 variant="outlined"
-                size="small"
               />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={6}>
+              <TextField
+                disabled={!edit}
+                id="city"
+                label="city"
+                defaultValue={city}
+                onChange={(event) => {
+                  setCity(event.target.value);
+                }}
+                variant="outlined"
+              />
+            </Grid>
+
+            <Grid item xs={6}>
               <TextField
                 disabled={!edit}
                 id="address"
@@ -161,7 +172,21 @@ const UserProfile = (props) => {
                   setAddress(event.target.value);
                 }}
                 variant="outlined"
-                size="small"
+              />
+            </Grid>
+
+            <Grid item xs={6}>
+              <TextField
+                disabled={!edit}
+                id="CommentForDelivery"
+                label="Comment For Delivery"
+                defaultValue={CommentForDelivery}
+                onChange={(event) => {
+                  setCommentForDelivery(event.target.value);
+                }}
+                variant="outlined"
+                rows={3}
+                multiline
               />
             </Grid>
 
