@@ -19,4 +19,16 @@ const getUsers = async () => {
   );
 };
 
-module.exports = { getProducts, getOrders, getUsers };
+const addProducts = async (products) => {
+    products.forEach(element => {
+        const newProduct = new Product(element);
+        newProduct.save((err,result) => { 
+            if (err){
+              console.log(err);
+              res.send("error creating product. error: " + err)
+            }
+          }) 
+    });
+}
+
+module.exports = { getProducts, getOrders, getUsers, addProducts };

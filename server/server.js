@@ -5,7 +5,7 @@ const axios = require("axios");
 const Product = require("./models/products");
 const Order = require("./models/orders");
 const User = require("./models/users");
-const { getProducts, getUsers, getOrders } = require("./api/api");
+const { getProducts, getUsers, getOrders, addProducts } = require("./api/api");
 const hostname = "localhost";
 const port = 3001;
 const app = express(bodyParser.urlencoded({ extended: false }));
@@ -69,13 +69,24 @@ app.get("/orders", async (req, res) => {
   }
 });
 
+app.post("/addProduct", async (req, res) => {
+  try {
+    const newProduct = new Product(req.body);
+    await addProducts([newProduct]);
+    res.send("success adding new product");
+  } catch {
+    console.log(err);
+    res.send("error creating product. error: " + err);
+  }
+});
+
 app.post("/addProducts", async (req, res) => {
   await axios
     .get(
       "http://makeup-api.herokuapp.com/api/v1/products.json?brand=covergirl&product_type=lipstick"
     )
-    .then(function (response) {
-      response.data.forEach((element) => {
+    .then(async function (response) {
+      const newProducts = response.data.map((element) => {
         const newProduct = new Product({
           id: element.id,
           price: element.price,
