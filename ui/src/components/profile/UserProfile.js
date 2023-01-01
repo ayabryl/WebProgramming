@@ -34,7 +34,7 @@ const UserProfile = (props) => {
 
   const fetchData = () => {
     // const response = await axios.get('/api/user');
-    // setAddress(response.data);
+    //TODO: get the data from the server
   };
 
   useEffect(() => {

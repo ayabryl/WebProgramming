@@ -61,13 +61,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const handleLogoutClicked = (e) => {
   console.log("remove cookie clicked");
   // e.preventDefault();
-  Cookies.remove("idToken");
-  Cookies.remove("email");
+  Cookies.remove("idToken", { path: "/" });
+  Cookies.remove("email", { path: "/" });
 };
 const handleIconComponent = () => {
   // user not login
   // TODO: fix log out remove cookie and change icon
-  if (Cookies.get("idToken") === undefined) {
+  if (
+    Cookies.get("idToken") === undefined ||
+    Cookies.get("idToken") === "" ||
+    Cookies.get("idToken") === null
+  ) {
     return (
       <Link to="/auth">
         <IconButton size="large" edge="end" style={{ color: "white" }}>
