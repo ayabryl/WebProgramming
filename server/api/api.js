@@ -15,7 +15,7 @@ const getOrders = async () => {
 const getUsers = async () => {
   return await User.find(
     {},
-    "user_id username password email address is_admin"
+    "uid name phone_number address_line city is_admin comment"
   );
 };
 
@@ -31,4 +31,31 @@ const addProducts = async (products) => {
     });
 }
 
-module.exports = { getProducts, getOrders, getUsers, addProducts };
+const updateUser = async (user) => {
+    const filter = { _id: user._id };
+    const update = { ...user };
+    const updatedUser = await User.findOneAndUpdate(filter, update, {
+        new: true
+    });
+    return updatedUser;
+}
+
+const updateOrder = async (order) => {
+    const filter = { _id: order._id };
+    const update = { ...order };
+    const updatedOrder = await Order.findOneAndUpdate(filter, update, {
+        new: true
+    });
+    return updatedOrder;
+}
+
+const updateProduct = async (product) => {
+    const filter = { _id: product._id };
+    const update = { ...product };
+    const updatedProduct = await Product.findOneAndUpdate(filter, update, {
+        new: true
+    });
+    return updatedProduct;
+}
+
+module.exports = { getProducts, getOrders, getUsers, addProducts, updateUser, updateOrder, updateProduct };
