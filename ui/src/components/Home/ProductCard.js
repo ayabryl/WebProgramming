@@ -10,7 +10,7 @@ import {
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link } from "react-router-dom";
 
-const Product = (props) => {
+const ProductCard = (props) => {
   // const handleAddToCart = (event) => {
   //   event.preventDefault();
   //   const selectedProdact = {
@@ -89,4 +89,4 @@ const Product = (props) => {
     </Card>
   );
 };
-export default Product;
+export default ProductCard;

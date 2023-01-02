@@ -1,5 +1,5 @@
 import * as React from "react";
-import Product from "./Product";
+import ProductCard from "./ProductCard";
 import { useState, useEffect } from "react";
 import { Typography, Grid, Button } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
@@ -80,14 +80,14 @@ const Market = () => {
   ];
   const productsShow = products.map((p) => (
     <Grid item xs={3}>
-      <Product
+      <ProductCard
         key={Math.random().toString()}
         name={p.category}
         description={p.description}
         price={p.price}
         imageURL={p.image_link}
         id={p.id}
-      ></Product>
+      ></ProductCard>
     </Grid>
   ));
 
