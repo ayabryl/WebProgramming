@@ -19,16 +19,20 @@ const getUsers = async () => {
   );
 };
 
-const addProducts = async (products) => {
-    products.forEach(element => {
-        const newProduct = new Product(element);
-        newProduct.save((err,result) => { 
-            if (err){
-              console.log(err);
-              res.send("error creating product. error: " + err)
-            }
-          }) 
-    });
-}
+const getUserById = async (id) => {
+  return await User.findById(id);
+};
 
-module.exports = { getProducts, getOrders, getUsers, addProducts };
+const addProducts = async (products) => {
+  products.forEach((element) => {
+    const newProduct = new Product(element);
+    newProduct.save((err, result) => {
+      if (err) {
+        console.log(err);
+        res.send("error creating product. error: " + err);
+      }
+    });
+  });
+};
+
+module.exports = { getProducts, getOrders, getUsers, addProducts, getUserById };
