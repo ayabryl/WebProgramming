@@ -6,9 +6,9 @@ const userSchema = new Schema({
   name: String,
   phone_number: String,
   city: String,
-  street: String,
-  house_number: Number,
+  address_line: String,
   is_admin: Boolean,
+  comment: String
 });
 
 // Compile model from schema
