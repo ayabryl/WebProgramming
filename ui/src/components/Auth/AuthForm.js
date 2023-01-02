@@ -8,6 +8,7 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import toast, { Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
@@ -21,6 +22,7 @@ const AuthForm = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [emailHelperText, setEmailHelperText] = useState("");
   const [passwordHelperText, setPasswordHelperText] = useState("");
+  const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -103,11 +105,12 @@ const AuthForm = () => {
           }
         })
         .then((data) => {
-          Cookies.set("idToken", data.idToken, { expires: 7 });
-          Cookies.set("email", data.email, { expires: 7 });
+          Cookies.set("idToken", data.idToken);
+          Cookies.set("email", data.email);
           //TODO: save the user to the page and exit from this page
           toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
           console.log(data);
+          navigate("/", { replace: true });
         })
         .catch((err) => {
           toast.error(err.message);

@@ -59,10 +59,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const handleLogoutClicked = (e) => {
-  console.log("remove cookie clicked");
-  // e.preventDefault();
-  Cookies.remove("idToken", { path: "/" });
-  Cookies.remove("email", { path: "/" });
+  Cookies.remove("idToken", { path: window.location.pathname });
+  Cookies.remove("email", { path: window.location.pathname });
 };
 const handleIconComponent = () => {
   // user not login
@@ -81,7 +79,6 @@ const handleIconComponent = () => {
     );
   } else {
     // user alredy login
-    console.log("test");
     // call to logout function
     handleLogoutClicked();
     return (
