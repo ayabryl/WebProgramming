@@ -151,7 +151,7 @@ app.post("/addUser", async (req, res) => {
 });
 
 app.post("/addOrder", async (req, res) => {
-  const newOrder = new User(req.body);
+  const newOrder = new Order(req.body);
   newOrder.save((err, result) => {
     if (err) {
       console.log(err);

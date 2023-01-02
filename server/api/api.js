@@ -15,7 +15,7 @@ const getOrders = async () => {
 const getUsers = async () => {
   return await User.find(
     {},
-    "user_id username password email address is_admin"
+    "_id name phone_number address_line city is_admin comment"
   );
 };
 
