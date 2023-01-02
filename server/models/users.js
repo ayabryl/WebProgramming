@@ -3,8 +3,11 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   uid: Number,
-  username: String,
-  address: String,
+  name: String,
+  phone_number: String,
+  city: String,
+  street: String,
+  house_number: Number,
   is_admin: Boolean,
 });
 
