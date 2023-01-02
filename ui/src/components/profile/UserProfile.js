@@ -28,7 +28,7 @@ const UserProfile = (props) => {
 
   const [city, setCity] = React.useState("");
   const [CommentForDelivery, setCommentForDelivery] = React.useState("");
-  const [address, setAddress] = React.useState("");
+  const [addressLine, setAddressLine] = React.useState("");
   const [name, setName] = React.useState("");
   const [phone, setPhone] = React.useState("");
 
@@ -166,10 +166,10 @@ const UserProfile = (props) => {
               <TextField
                 disabled={!edit}
                 id="address"
-                label="address"
-                defaultValue={address}
+                label="address line"
+                defaultValue={addressLine}
                 onChange={(event) => {
-                  setAddress(event.target.value);
+                  setAddressLine(event.target.value);
                 }}
                 variant="outlined"
               />
