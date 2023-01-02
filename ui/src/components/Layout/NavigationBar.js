@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import {
   AppBar,
@@ -15,6 +16,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -56,6 +58,41 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const handleLogoutClicked = (e) => {
+  console.log("remove cookie clicked");
+  // e.preventDefault();
+  Cookies.remove("idToken");
+  Cookies.remove("email");
+};
+const handleIconComponent = () => {
+  // user not login
+  // TODO: fix log out remove cookie and change icon
+  if (Cookies.get("idToken") === undefined) {
+    return (
+      <Link to="/auth">
+        <IconButton size="large" edge="end" style={{ color: "white" }}>
+          <LoginIcon />
+        </IconButton>
+      </Link>
+    );
+  } else {
+    // user alredy login
+    console.log("test");
+    // call to logout function
+    handleLogoutClicked();
+    return (
+      <IconButton
+        size="large"
+        edge="end"
+        style={{ color: "white" }}
+        onClick={handleLogoutClicked}
+      >
+        <LogoutIcon />
+      </IconButton>
+    );
+  }
+};
+
 const NavigationBar = () => {
   return (
     <Box sx={{ flexGrow: 1, mr: 2, ml: 2 }}>
@@ -83,36 +120,14 @@ const NavigationBar = () => {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <Link to="/auth">
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-haspopup="true"
-                style={{ color: "white" }}
-              >
-                <LoginIcon />
-              </IconButton>
-            </Link>
+            {handleIconComponent()}
             <Link to="/cart">
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-haspopup="true"
-                style={{ color: "white" }}
-              >
+              <IconButton size="large" edge="end" style={{ color: "white" }}>
                 <ShoppingCartIcon />
               </IconButton>
             </Link>
             <Link to="/profile">
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-haspopup="true"
-                style={{ color: "white" }}
-              >
+              <IconButton size="large" edge="end" style={{ color: "white" }}>
                 <AccountCircle />
               </IconButton>
             </Link>
