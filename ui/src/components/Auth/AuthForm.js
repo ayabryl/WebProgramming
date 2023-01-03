@@ -108,6 +108,23 @@ const AuthForm = () => {
           Cookies.set("idToken", data.idToken);
           Cookies.set("email", data.email);
           //TODO: save the user to the page and exit from this page
+          const body = {
+            _id: data.idToken,
+          };
+          const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          };
+          fetch("http://localhost:3001/addUser", requestOptions)
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+              toast.error("Error Occured, Try again");
+            });
+
           toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
           console.log(data);
           navigate("/", { replace: true });
