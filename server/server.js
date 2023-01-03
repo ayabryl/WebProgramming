@@ -140,9 +140,7 @@ app.post("/addProducts", async (req, res) => {
 });
 
 app.post("/addUser", async (req, res) => {
-  console.log(req.body);
   const newUser = new User(req.body);
-  console.log(newUser);
   newUser.save((err, result) => {
     if (err) {
       console.log(err);
