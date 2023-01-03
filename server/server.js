@@ -5,7 +5,13 @@ const axios = require("axios");
 const Product = require("./models/products");
 const Order = require("./models/orders");
 const User = require("./models/users");
-const { getProducts, getUsers, getOrders, addProducts } = require("./api/api");
+const {
+  getProducts,
+  getUsers,
+  getOrders,
+  addProducts,
+  getUserById,
+} = require("./api/api");
 const hostname = "localhost";
 const port = 3001;
 const app = express(bodyParser.urlencoded({ extended: false }));
@@ -60,6 +66,26 @@ app.get("/users", async (req, res) => {
   }
 });
 
+app.get("/users/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await getUserById(id);
+    res.send(user);
+  } catch (err) {
+    res.send("User not found - " + err);
+  }
+});
+
+app.get("/users/isAdmin/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await getUserById(id);
+    res.send(user.is_admin);
+  } catch (err) {
+    res.send("Error finding user or decide if manager - " + err);
+  }
+});
+
 app.get("/orders", async (req, res) => {
   try {
     const orders = await getOrders();
@@ -111,4 +137,26 @@ app.post("/addProducts", async (req, res) => {
       console.log(error);
     });
   res.send("success adding products");
+});
+
+app.post("/addUser", async (req, res) => {
+  const newUser = new User(req.body);
+  newUser.save((err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error creating user. error: " + err);
+    }
+  });
+  res.send("success adding new user");
+});
+
+app.post("/addOrder", async (req, res) => {
+  const newOrder = new User(req.body);
+  newOrder.save((err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error creating order. error: " + err);
+    }
+  });
+  res.send("success adding new order");
 });
