@@ -13,12 +13,12 @@ export default function Product(props) {
                         sx={{  display: 'flex', flexGrow: 1, alignItems:"center", justifyContent: 'center' }}>
                         <CardMedia
                         component="img"
-                        sx={{  width: 500, height: 500, borderRadius: '5%' }}
+                        sx={{  width: 300, height: 300, borderRadius: '5%' }}
                         image={props.makeUpProduct.image_link}
                         alt={props.makeUpProduct.name} />
                     </Box>
                     <Box  sx={{  display: 'flex', flexGrow: 1, alignItems:"center", justifyContent: 'flx-start' }}>
-                         <ProductDetails 
+                         <ProductDetails handleAddToCartClick={props.handleAddToCart}
                          sx={{  display: 'flex', flexGrow: 1}}
                          makeUpProduct={props.makeUpProduct}></ProductDetails>
                     </Box>

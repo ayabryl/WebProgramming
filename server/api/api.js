@@ -4,7 +4,7 @@ const User = require("../models/users");
 const getProducts = async () => {
   return await Product.find(
     {},
-    "id price brand price_sign product_link description category product_type image_link"
+    "id price name brand price_sign product_link description category product_type image_link product_colors"
   );
 };
 

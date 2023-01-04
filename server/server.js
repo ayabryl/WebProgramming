@@ -109,7 +109,7 @@ app.post("/addProduct", async (req, res) => {
 app.post("/addProducts", async (req, res) => {
   await axios
     .get(
-      "http://makeup-api.herokuapp.com/api/v1/products.json?brand=covergirl&product_type=lipstick"
+      "https://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline&product_type=lipstick"
     )
     .then(async function (response) {
       const newProducts = response.data.map((element) => {
@@ -117,6 +117,7 @@ app.post("/addProducts", async (req, res) => {
           id: element.id,
           price: element.price,
           brand: element.brand,
+          name: element.name,
           price_sign: element.price_sign,
           product_link: element.product_link,
           description: element.description,
@@ -124,6 +125,7 @@ app.post("/addProducts", async (req, res) => {
           product_type: element.product_type,
           image_link: element.image_link,
           description: element.description,
+          product_colors: element.product_colors
         });
         newProduct.save((err, result) => {
           if (err) {
