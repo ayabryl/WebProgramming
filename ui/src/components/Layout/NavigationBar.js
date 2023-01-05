@@ -17,6 +17,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { LoginContext } from "../../contexts/LoginContext";
+import { useContext } from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,43 +60,46 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const handleLogoutClicked = (e) => {
-  Cookies.remove("idToken", { path: window.location.pathname });
-  Cookies.remove("email", { path: window.location.pathname });
-};
-const handleIconComponent = () => {
-  // user not login
-  // TODO: fix log out remove cookie and change icon
-  if (
-    Cookies.get("idToken") === undefined ||
-    Cookies.get("idToken") === "" ||
-    Cookies.get("idToken") === null
-  ) {
-    return (
-      <Link to="/auth">
-        <IconButton size="large" edge="end" style={{ color: "white" }}>
-          <LoginIcon />
-        </IconButton>
-      </Link>
-    );
-  } else {
-    // user alredy login
-    // call to logout function
-    handleLogoutClicked();
-    return (
-      <IconButton
-        size="large"
-        edge="end"
-        style={{ color: "white" }}
-        onClick={handleLogoutClicked}
-      >
-        <LogoutIcon />
-      </IconButton>
-    );
-  }
+const useLoginContext = () => {
+  const context = useContext(LoginContext);
+  return context;
 };
 
 const NavigationBar = () => {
+  const { login, logout, email } = useLoginContext();
+
+  const handleLogoutClicked = (e) => {
+    console.log("user logout");
+    logout();
+  };
+  const handleIconComponent = () => {
+    // user not login
+    if (email === null) {
+      return (
+        <Link to="/auth">
+          <IconButton size="large" edge="end" style={{ color: "white" }}>
+            <LoginIcon />
+          </IconButton>
+        </Link>
+      );
+    } else {
+      // user alredy login
+      // call to logout function
+
+      handleLogoutClicked();
+      return (
+        <IconButton
+          size="large"
+          edge="end"
+          style={{ color: "white" }}
+          onClick={handleLogoutClicked}
+        >
+          <LogoutIcon />
+        </IconButton>
+      );
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1, mr: 2, ml: 2 }}>
       <AppBar position="static" style={{ background: "#8D91C7" }}>
