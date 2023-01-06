@@ -6,7 +6,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-} from "@mui/material/Button";
+} from "@mui/material/";
 
 import toast, { Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
