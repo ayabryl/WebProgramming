@@ -9,6 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { styled } from "@mui/material/styles";
 
 import toast, { Toaster } from "react-hot-toast";
@@ -35,6 +36,7 @@ const UserProfile = (props) => {
   const [phone, setPhone] = useState("");
 
   const loggedUserContext = useContext(LoginContext);
+
   const fetchData = () => {
     const url = "http://localhost:3001/users/" + idToken;
     fetch(url)
@@ -65,7 +67,6 @@ const UserProfile = (props) => {
   };
 
   const submitHandler = (event) => {
-    // TODO: send the new address to the server
     const body = {
       _id: idToken,
       name: name,
@@ -120,7 +121,13 @@ const UserProfile = (props) => {
                   <EditIcon color="primary" />
                 </IconButton>
               </Grid>
-            ) : null}
+            ) : (
+              <Grid item xs={12} alignSelf="flex-end">
+                <IconButton onClick={() => setEdit(false)} aria-label="edit">
+                  <CancelIcon color="primary" />
+                </IconButton>
+              </Grid>
+            )}
 
             <Grid item xs={12}>
               <StyledH1> My Profile</StyledH1>
@@ -159,10 +166,10 @@ const UserProfile = (props) => {
               alignItems="flex-start"
               justifyContent="flex-start"
             >
-              <Grid item xs={5}>
+              <Grid item xs={6}>
                 <Input size="small" disabled placeholder="**************" />
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={6}>
                 <Button
                   size="extara"
                   fontSize="small"
