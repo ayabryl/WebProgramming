@@ -33,8 +33,19 @@ const UserProfile = (props) => {
   const [phone, setPhone] = React.useState("");
 
   const fetchData = () => {
-    // const response = await axios.get('/api/user');
-    //TODO: get the data from the server
+    const url = "http://localhost:3001/users/" + idToken;
+    fetch(url)
+      .then((Response) => {
+        Response.json().then((data) => {
+          console.log(data);
+          setAddressLine(data.address_line);
+          setCity(data.city);
+          setPhone(data.phone_number);
+          setName(data.name);
+          setCommentForDelivery(data.comment);
+        });
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -52,7 +63,30 @@ const UserProfile = (props) => {
 
   const submitHandler = (event) => {
     // TODO: send the new address to the server
-    toast.success(`Updated`);
+    const body = {
+      _id: idToken,
+      name: name,
+      phone_number: phone,
+      city: city,
+      address_line: addressLine,
+      is_admin: false,
+      comment: CommentForDelivery,
+    };
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    };
+    // Update user details in mongo
+    fetch("http://localhost:3001/updateUser", requestOptions)
+      .then((response) => {
+        console.log(response);
+        toast.success(`Your details updated :)`);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Error Occured, Try again");
+      });
     setEdit(false);
   };
 
@@ -94,7 +128,7 @@ const UserProfile = (props) => {
                 disabled={!edit}
                 id="name"
                 label="full name"
-                defaultValue={name}
+                value={name}
                 onChange={(event) => {
                   setName(event.target.value);
                 }}
@@ -107,7 +141,7 @@ const UserProfile = (props) => {
                 disabled={!edit}
                 id="phone"
                 label="phone number"
-                defaultValue={phone}
+                value={phone}
                 onChange={(event) => {
                   setPhone(event.target.value);
                 }}
@@ -144,7 +178,7 @@ const UserProfile = (props) => {
                 disabled
                 id="email"
                 label="email"
-                defaultValue={Cookies.get("email")}
+                value={Cookies.get("email")}
                 variant="outlined"
               />
             </Grid>
@@ -154,7 +188,7 @@ const UserProfile = (props) => {
                 disabled={!edit}
                 id="city"
                 label="city"
-                defaultValue={city}
+                value={city}
                 onChange={(event) => {
                   setCity(event.target.value);
                 }}
@@ -167,7 +201,7 @@ const UserProfile = (props) => {
                 disabled={!edit}
                 id="address"
                 label="address line"
-                defaultValue={addressLine}
+                value={addressLine}
                 onChange={(event) => {
                   setAddressLine(event.target.value);
                 }}
@@ -180,7 +214,7 @@ const UserProfile = (props) => {
                 disabled={!edit}
                 id="CommentForDelivery"
                 label="Comment For Delivery"
-                defaultValue={CommentForDelivery}
+                value={CommentForDelivery}
                 onChange={(event) => {
                   setCommentForDelivery(event.target.value);
                 }}
