@@ -1,6 +1,6 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import TextField from "@mui/material/TextField";
 import toast, { Toaster } from "react-hot-toast";
 import PasswordDialog from "./PasswordDialog";
@@ -13,16 +13,16 @@ import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
+import { LoginContext } from "../../contexts/LoginContext";
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
 });
 
 const UserProfile = (props) => {
-  const key = "AIzaSyDM0fLUWNTYnSjw1KhsswJRI4QBKxK2OKc";
-
   const [edit, setEdit] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+
   const idToken = Cookies.get("idToken");
   const email = Cookies.get("email");
 
@@ -32,6 +32,7 @@ const UserProfile = (props) => {
   const [name, setName] = React.useState("");
   const [phone, setPhone] = React.useState("");
 
+  const loggedUserContext = useContext(LoginContext);
   const fetchData = () => {
     const url = "http://localhost:3001/users/" + idToken;
     fetch(url)
@@ -69,7 +70,7 @@ const UserProfile = (props) => {
       phone_number: phone,
       city: city,
       address_line: addressLine,
-      is_admin: false,
+      is_admin: loggedUserContext.isAdmin,
       comment: CommentForDelivery,
     };
     const requestOptions = {
@@ -178,7 +179,7 @@ const UserProfile = (props) => {
                 disabled
                 id="email"
                 label="email"
-                value={Cookies.get("email")}
+                value={email}
                 variant="outlined"
               />
             </Grid>
