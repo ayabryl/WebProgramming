@@ -1,18 +1,20 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import { useState, useRef, useContext } from "react";
-import TextField from "@mui/material/TextField";
-import toast, { Toaster } from "react-hot-toast";
-import PasswordDialog from "./PasswordDialog";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
-import Input from "@mui/material/Input";
-import IconButton from "@mui/material/IconButton";
+import { useState, useContext, useEffect } from "react";
+import {
+  Button,
+  TextField,
+  Grid,
+  Box,
+  Paper,
+  Input,
+  IconButton,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { useEffect } from "react";
+import { styled } from "@mui/material/styles";
+
+import toast, { Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
+
+import PasswordDialog from "./PasswordDialog";
 import { LoginContext } from "../../contexts/LoginContext";
 
 const StyledH1 = styled("h1")({
@@ -20,17 +22,17 @@ const StyledH1 = styled("h1")({
 });
 
 const UserProfile = (props) => {
-  const [edit, setEdit] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
+  const [edit, setEdit] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const idToken = Cookies.get("idToken");
   const email = Cookies.get("email");
 
-  const [city, setCity] = React.useState("");
-  const [CommentForDelivery, setCommentForDelivery] = React.useState("");
-  const [addressLine, setAddressLine] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [phone, setPhone] = React.useState("");
+  const [city, setCity] = useState("");
+  const [CommentForDelivery, setCommentForDelivery] = useState("");
+  const [addressLine, setAddressLine] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
 
   const loggedUserContext = useContext(LoginContext);
   const fetchData = () => {

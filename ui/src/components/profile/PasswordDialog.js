@@ -1,13 +1,14 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
 import { useState, useRef } from "react";
-import TextField from "@mui/material/TextField";
-import DialogTitle from "@mui/material/DialogTitle";
-import Dialog from "@mui/material/Dialog";
+import {
+  Button,
+  TextField,
+  DialogTitle,
+  Dialog,
+  DialogActions,
+  DialogContent,
+} from "@mui/material/Button";
+
 import toast, { Toaster } from "react-hot-toast";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import Grid from "@mui/material/Grid";
 import Cookies from "js-cookie";
 
 const PasswordDialog = (props) => {
