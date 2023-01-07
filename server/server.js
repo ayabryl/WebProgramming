@@ -109,7 +109,7 @@ app.post("/addProduct", async (req, res) => {
   }
 });
 
-app.post("/updateUser", async (req, res) => {
+app.put("/updateUser", async (req, res) => {
   try {
     const updatedUser = await updateUser(req.body);
     res.send(updatedUser);
@@ -119,7 +119,7 @@ app.post("/updateUser", async (req, res) => {
   }
 });
 
-app.post("/updateOrder", async (req, res) => {
+app.put("/updateOrder", async (req, res) => {
   try {
     const updatedOrder = await updateOrder(req.body);
     res.send(updatedOrder);
@@ -129,7 +129,7 @@ app.post("/updateOrder", async (req, res) => {
   }
 });
 
-app.post("/updateProduct", async (req, res) => {
+app.put("/updateProduct", async (req, res) => {
   try {
     const updatedProduct = await updateProduct(req.body);
     res.send(updatedProduct);
