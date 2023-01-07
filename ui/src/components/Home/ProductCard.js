@@ -27,7 +27,7 @@ const ProductCard = (props) => {
     <Card
       sx={{
         display: "flex",
-        height: 150,
+        height: 200,
         boxShadow: 1,
         borderRadius: 2,
         justifyContent: "space-around",
@@ -42,11 +42,11 @@ const ProductCard = (props) => {
       >
         <Link to="/product" style={{ textDecoration: "none" }}>
           <CardContent>
-            <Typography component="div" variant="h6">
-              {props.name}
+            <Typography component="div" variant="body1">
+              {props.category}
             </Typography>
             <Typography variant="body2" color="text.secondary" component="div">
-              {props.description}
+              {props.name}
             </Typography>
           </CardContent>
         </Link>
