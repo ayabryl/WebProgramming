@@ -8,6 +8,15 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import toast, { Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { LoginContext } from "../../contexts/LoginContext";
+import { useContext } from "react";
+import Context from "@mui/base/TabsUnstyled/TabsContext";
+
+const useLoginContext = () => {
+  const context = useContext(LoginContext);
+  return context;
+};
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
@@ -21,6 +30,9 @@ const AuthForm = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [emailHelperText, setEmailHelperText] = useState("");
   const [passwordHelperText, setPasswordHelperText] = useState("");
+  const navigate = useNavigate();
+
+  const { login } = useLoginContext();
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -73,6 +85,8 @@ const AuthForm = () => {
       setIsLoading(true);
 
       let url;
+      let email;
+      let idToken;
 
       if (isLogin) {
         url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`;
@@ -103,11 +117,36 @@ const AuthForm = () => {
           }
         })
         .then((data) => {
-          Cookies.set("idToken", data.idToken, { expires: 7 });
-          Cookies.set("email", data.email, { expires: 7 });
-          //TODO: save the user to the page and exit from this page
+          idToken = data.idToken;
+          email = data.email;
+          const body = {
+            _id: data.idToken,
+            name: "",
+            phone_number: "",
+            city: "",
+            address_line: "",
+            is_admin: false,
+            comment: "",
+          };
+          const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          };
+          // Save the new user in mongo (with the firebase id)
+          fetch("http://localhost:3001/addUser", requestOptions)
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((error) => {
+              console.log(error);
+              toast.error("Error Occured, Try again");
+            });
+
           toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
           console.log(data);
+          login(email, idToken, data.isAdmin);
+          navigate("/", { replace: true });
         })
         .catch((err) => {
           toast.error(err.message);

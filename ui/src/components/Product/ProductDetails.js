@@ -1,10 +1,11 @@
-import { Card, Box, Typography, CardContent, Grid, Button } from "@mui/material";
+import { Card, Box, Typography, CardContent, Grid, Button, IconButton } from "@mui/material";
 import { useState } from "react";
-import { display } from "@mui/system";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 export default function ProductDetails(props) {
 
-    const [chosenColor, setChosenColor] = useState(props.makeUpProduct.product_colors[0]);
+    const [chosenColor, setChosenColor] = useState(props.makeUpProduct.product_colors.legnth ?
+        props.makeUpProduct.product_colors[0] : '');
 
     const setColor = (color) => {
         setChosenColor(color)
@@ -12,8 +13,10 @@ export default function ProductDetails(props) {
 
     const productsColors =
         props.makeUpProduct.product_colors.map((p) => (
-            <Grid item onClick={() => setColor(p)}>
-                <span style={{
+            <Grid item onClick={() => setColor(p)}
+            key={Math.random().toString()}>
+                <span 
+                style={{
                     height: '25px',
                     width: '25px',
                     borderColor: p.hex_value === chosenColor.hex_value ? '#000000' : p.hex_value,
@@ -40,7 +43,7 @@ export default function ProductDetails(props) {
                     </Typography>
                 </Grid>
                 <Grid item>
-                    <Typography variant="h2" component="div">
+                    <Typography variant="h6" component="div">
                         {props.makeUpProduct.name}
                     </Typography>
                 </Grid>
@@ -65,8 +68,9 @@ export default function ProductDetails(props) {
                         {props.makeUpProduct.description}
                     </Typography>
                 </Grid>
-                <Grid item style={{ marginTop: '50px' }}>
+                <Grid item>
                     <Button size='large'
+                    onClick={props.handleAddToCartClick}
                         sx={{
                             color: 'white', backgroundColor: 'black', ':hover': {
                                 bgcolor: 'grey',

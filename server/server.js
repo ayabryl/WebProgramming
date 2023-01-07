@@ -5,7 +5,16 @@ const axios = require("axios");
 const Product = require("./models/products");
 const Order = require("./models/orders");
 const User = require("./models/users");
-const { getProducts, getUsers, getOrders, addProducts, updateUser, updateOrder, updateProduct } = require("./api/api");
+const {
+  getProducts,
+  getUsers,
+  getOrders,
+  addProducts,
+  updateUser,
+  updateOrder,
+  updateProduct,
+  getUserById,
+} = require("./api/api");
 const hostname = "localhost";
 const port = 3001;
 const app = express(bodyParser.urlencoded({ extended: false }));
@@ -57,6 +66,26 @@ app.get("/users", async (req, res) => {
     res.send(users);
   } catch (err) {
     res.send(err);
+  }
+});
+
+app.get("/users/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await getUserById(id);
+    res.send(user);
+  } catch (err) {
+    res.send("User not found - " + err);
+  }
+});
+
+app.get("/users/isAdmin/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await getUserById(id);
+    res.send(user.is_admin);
+  } catch (err) {
+    res.send("Error finding user or decide if manager - " + err);
   }
 });
 
@@ -113,7 +142,7 @@ app.put("/updateProduct", async (req, res) => {
 app.post("/addProducts", async (req, res) => {
   await axios
     .get(
-      "http://makeup-api.herokuapp.com/api/v1/products.json?brand=covergirl&product_type=lipstick"
+      "https://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline&product_type=lipstick"
     )
     .then(async function (response) {
       const newProducts = response.data.map((element) => {
@@ -121,6 +150,7 @@ app.post("/addProducts", async (req, res) => {
           id: element.id,
           price: element.price,
           brand: element.brand,
+          name: element.name,
           price_sign: element.price_sign,
           product_link: element.product_link,
           description: element.description,
@@ -128,6 +158,7 @@ app.post("/addProducts", async (req, res) => {
           product_type: element.product_type,
           image_link: element.image_link,
           description: element.description,
+          product_colors: element.product_colors
         });
         newProduct.save((err, result) => {
           if (err) {
@@ -141,4 +172,26 @@ app.post("/addProducts", async (req, res) => {
       console.log(error);
     });
   res.send("success adding products");
+});
+
+app.post("/addUser", async (req, res) => {
+  const newUser = new User(req.body);
+  newUser.save((err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error creating user. error: " + err);
+    }
+  });
+  res.send("success adding new user");
+});
+
+app.post("/addOrder", async (req, res) => {
+  const newOrder = new Order(req.body);
+  newOrder.save((err, result) => {
+    if (err) {
+      console.log(err);
+      res.send("error creating order. error: " + err);
+    }
+  });
+  res.send("success adding new order");
 });
