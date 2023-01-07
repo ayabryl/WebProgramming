@@ -10,6 +10,9 @@ const {
   getUsers,
   getOrders,
   addProducts,
+  updateUser,
+  updateOrder,
+  updateProduct,
   getUserById,
 } = require("./api/api");
 const hostname = "localhost";
@@ -103,6 +106,36 @@ app.post("/addProduct", async (req, res) => {
   } catch {
     console.log(err);
     res.send("error creating product. error: " + err);
+  }
+});
+
+app.post("/updateUser", async (req, res) => {
+  try {
+    const updatedUser = await updateUser(req.body);
+    res.send(updatedUser);
+  } catch {
+    console.log(err);
+    res.send("error updating user. error: " + err);
+  }
+});
+
+app.post("/updateOrder", async (req, res) => {
+  try {
+    const updatedOrder = await updateOrder(req.body);
+    res.send(updatedOrder);
+  } catch {
+    console.log(err);
+    res.send("error updating order. error: " + err);
+  }
+});
+
+app.post("/updateProduct", async (req, res) => {
+  try {
+    const updatedProduct = await updateProduct(req.body);
+    res.send(updatedProduct);
+  } catch {
+    console.log(err);
+    res.send("error updating product. error: " + err);
   }
 });
 

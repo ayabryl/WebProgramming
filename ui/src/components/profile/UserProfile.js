@@ -1,40 +1,56 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import { useState, useRef } from "react";
-import TextField from "@mui/material/TextField";
-import toast, { Toaster } from "react-hot-toast";
-import PasswordDialog from "./PasswordDialog";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
-import Input from "@mui/material/Input";
-import IconButton from "@mui/material/IconButton";
+import { useState, useContext, useEffect } from "react";
+import {
+  Button,
+  TextField,
+  Grid,
+  Box,
+  Paper,
+  Input,
+  IconButton,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { useEffect } from "react";
+import CancelIcon from "@mui/icons-material/Cancel";
+import { styled } from "@mui/material/styles";
+
+import toast, { Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
+
+import PasswordDialog from "./PasswordDialog";
+import { LoginContext } from "../../contexts/LoginContext";
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
 });
 
 const UserProfile = (props) => {
-  const key = "AIzaSyDM0fLUWNTYnSjw1KhsswJRI4QBKxK2OKc";
+  const [edit, setEdit] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const [edit, setEdit] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
   const idToken = Cookies.get("idToken");
   const email = Cookies.get("email");
 
-  const [city, setCity] = React.useState("");
-  const [CommentForDelivery, setCommentForDelivery] = React.useState("");
-  const [addressLine, setAddressLine] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [phone, setPhone] = React.useState("");
+  const [city, setCity] = useState("");
+  const [CommentForDelivery, setCommentForDelivery] = useState("");
+  const [addressLine, setAddressLine] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const loggedUserContext = useContext(LoginContext);
 
   const fetchData = () => {
-    // const response = await axios.get('/api/user');
-    //TODO: get the data from the server
+    const url = "http://localhost:3001/users/" + idToken;
+    fetch(url)
+      .then((Response) => {
+        Response.json().then((data) => {
+          console.log(data);
+          setAddressLine(data.address_line);
+          setCity(data.city);
+          setPhone(data.phone_number);
+          setName(data.name);
+          setCommentForDelivery(data.comment);
+        });
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -51,8 +67,30 @@ const UserProfile = (props) => {
   };
 
   const submitHandler = (event) => {
-    // TODO: send the new address to the server
-    toast.success(`Updated`);
+    const body = {
+      _id: idToken,
+      name: name,
+      phone_number: phone,
+      city: city,
+      address_line: addressLine,
+      is_admin: loggedUserContext.isAdmin,
+      comment: CommentForDelivery,
+    };
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    };
+    // Update user details in mongo
+    fetch("http://localhost:3001/updateUser", requestOptions)
+      .then((response) => {
+        console.log(response);
+        toast.success(`Your details updated :)`);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Error Occured, Try again");
+      });
     setEdit(false);
   };
 
@@ -83,7 +121,13 @@ const UserProfile = (props) => {
                   <EditIcon color="primary" />
                 </IconButton>
               </Grid>
-            ) : null}
+            ) : (
+              <Grid item xs={12} alignSelf="flex-end">
+                <IconButton onClick={() => setEdit(false)} aria-label="edit">
+                  <CancelIcon color="primary" />
+                </IconButton>
+              </Grid>
+            )}
 
             <Grid item xs={12}>
               <StyledH1> My Profile</StyledH1>
@@ -94,7 +138,7 @@ const UserProfile = (props) => {
                 disabled={!edit}
                 id="name"
                 label="full name"
-                defaultValue={name}
+                value={name}
                 onChange={(event) => {
                   setName(event.target.value);
                 }}
@@ -107,7 +151,7 @@ const UserProfile = (props) => {
                 disabled={!edit}
                 id="phone"
                 label="phone number"
-                defaultValue={phone}
+                value={phone}
                 onChange={(event) => {
                   setPhone(event.target.value);
                 }}
@@ -122,10 +166,10 @@ const UserProfile = (props) => {
               alignItems="flex-start"
               justifyContent="flex-start"
             >
-              <Grid item xs={5}>
+              <Grid item xs={6}>
                 <Input size="small" disabled placeholder="**************" />
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={6}>
                 <Button
                   size="extara"
                   fontSize="small"
@@ -144,7 +188,7 @@ const UserProfile = (props) => {
                 disabled
                 id="email"
                 label="email"
-                defaultValue={Cookies.get("email")}
+                value={email}
                 variant="outlined"
               />
             </Grid>
@@ -154,7 +198,7 @@ const UserProfile = (props) => {
                 disabled={!edit}
                 id="city"
                 label="city"
-                defaultValue={city}
+                value={city}
                 onChange={(event) => {
                   setCity(event.target.value);
                 }}
@@ -167,7 +211,7 @@ const UserProfile = (props) => {
                 disabled={!edit}
                 id="address"
                 label="address line"
-                defaultValue={addressLine}
+                value={addressLine}
                 onChange={(event) => {
                   setAddressLine(event.target.value);
                 }}
@@ -180,7 +224,7 @@ const UserProfile = (props) => {
                 disabled={!edit}
                 id="CommentForDelivery"
                 label="Comment For Delivery"
-                defaultValue={CommentForDelivery}
+                value={CommentForDelivery}
                 onChange={(event) => {
                   setCommentForDelivery(event.target.value);
                 }}

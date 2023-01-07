@@ -9,6 +9,14 @@ import { styled } from "@mui/material/styles";
 import toast, { Toaster } from "react-hot-toast";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { LoginContext } from "../../contexts/LoginContext";
+import { useContext } from "react";
+import Context from "@mui/base/TabsUnstyled/TabsContext";
+
+const useLoginContext = () => {
+  const context = useContext(LoginContext);
+  return context;
+};
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
@@ -23,6 +31,8 @@ const AuthForm = () => {
   const [emailHelperText, setEmailHelperText] = useState("");
   const [passwordHelperText, setPasswordHelperText] = useState("");
   const navigate = useNavigate();
+
+  const { login } = useLoginContext();
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -75,6 +85,8 @@ const AuthForm = () => {
       setIsLoading(true);
 
       let url;
+      let email;
+      let idToken;
 
       if (isLogin) {
         url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`;
@@ -105,8 +117,8 @@ const AuthForm = () => {
           }
         })
         .then((data) => {
-          Cookies.set("idToken", data.idToken);
-          Cookies.set("email", data.email);
+          idToken = data.idToken;
+          email = data.email;
           const body = {
             _id: data.idToken,
             name: "",
@@ -133,6 +145,7 @@ const AuthForm = () => {
 
           toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
           console.log(data);
+          login(email, idToken, data.isAdmin);
           navigate("/", { replace: true });
         })
         .catch((err) => {

@@ -5,19 +5,22 @@ import HomePage from "./pages/HomePage";
 import Cart from "./pages/Cart";
 import ProfilePage from "./pages/ProfilePage";
 import ProductPage from "./pages/ProductPage";
+import { LoginContext, LoginProvider } from "./contexts/LoginContext";
 
 function App() {
   // return <AuthPage />;
   return (
-    <Layout>
-      <Routes>
-        <Route path="/" exact element={<HomePage />}></Route>
-        <Route path="/auth" exact element={<AuthPage />}></Route>
-        <Route path="/profile" exact element={<ProfilePage />}></Route>
-        <Route path="/cart" exact element={<Cart />}></Route>
-        <Route path="/product" exact element={<ProductPage />}></Route>
-      </Routes>
-    </Layout>
+    <LoginProvider>
+      <Layout>
+        <Routes>
+          <Route path="/" exact element={<HomePage />}></Route>
+          <Route path="/auth" exact element={<AuthPage />}></Route>
+          <Route path="/profile" exact element={<ProfilePage />}></Route>
+          <Route path="/cart" exact element={<Cart />}></Route>
+          <Route path="/product" exact element={<ProductPage />}></Route>
+        </Routes>
+      </Layout>
+    </LoginProvider>
   );
 }
 
