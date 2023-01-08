@@ -19,6 +19,7 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Orders from "./Orders";
+import AddProductForm from "./AddProductForm";
 
 import toast, { Toaster } from "react-hot-toast";
 
@@ -78,10 +79,10 @@ const AdminTabs = () => {
         <Orders />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        graph
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <AddProductForm />
       </TabPanel>
     </Box>
   );
