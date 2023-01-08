@@ -17,6 +17,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
+import BuildIcon from "@mui/icons-material/Build";
 import { LoginContext } from "../../contexts/LoginContext";
 import { useContext } from "react";
 
@@ -135,6 +136,11 @@ const NavigationBar = () => {
             <Link to="/profile">
               <IconButton size="large" edge="end" style={{ color: "white" }}>
                 <AccountCircle />
+              </IconButton>
+            </Link>
+            <Link to="/admin">
+              <IconButton size="large" edge="end" style={{ color: "white" }}>
+                <BuildIcon />
               </IconButton>
             </Link>
           </Box>
