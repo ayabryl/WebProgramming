@@ -34,21 +34,21 @@ const Orders = (props) => {
       const data = res.data;
       setOrders(data);
     });
-
-    setOrders([
-      {
-        order_status: "Delivery",
-        created_at: new Date().getTime(),
-        products: [],
-        user_id: "6P8gpz4VnqdrKRJaNMzzMpVLAY12",
-      },
-    ]);
   };
 
   useEffect(() => {
     console.log("Fetching data...");
-    fetchOrdersData();
+    // fetchOrdersData();
     console.log(orders);
+    setOrders([
+      {
+        order_status: "Deliverd",
+        created_at: new Date().toUTCString(),
+        products: [],
+        user_id:
+          "Q.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hvcGF1dGhyZWFj",
+      },
+    ]);
   }, []);
 
   const ordersShow = orders.map((order) => (
@@ -60,8 +60,8 @@ const Orders = (props) => {
   return (
     <React.Fragment>
       <Toaster position="top-center" reverseOrder={false} />
-      <Grid sx={{ mt: 3 }}>
-        <Grid container spacing={4} sx={{ p: 3 }}>
+      <Grid>
+        <Grid container spacing={4} sx={{ p: 1 }}>
           {ordersShow}
         </Grid>
       </Grid>
