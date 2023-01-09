@@ -13,7 +13,6 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { styled } from "@mui/material/styles";
 
 import toast, { Toaster } from "react-hot-toast";
-import Cookies from "js-cookie";
 
 import PasswordDialog from "./PasswordDialog";
 import { LoginContext } from "../../contexts/LoginContext";
@@ -25,9 +24,10 @@ const StyledH1 = styled("h1")({
 const UserProfile = (props) => {
   const [edit, setEdit] = useState(false);
   const [open, setOpen] = useState(false);
+  const loggedUserContext = useContext(LoginContext);
 
-  const idToken = Cookies.get("idToken");
-  const email = Cookies.get("email");
+  const idToken = loggedUserContext.idToken;
+  const email = loggedUserContext.email;
 
   const [city, setCity] = useState("");
   const [CommentForDelivery, setCommentForDelivery] = useState("");
@@ -35,14 +35,13 @@ const UserProfile = (props) => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
-  const loggedUserContext = useContext(LoginContext);
-
-  const fetchData = () => {
+  const fetchUserDetails = () => {
     const url = "http://localhost:3001/users/" + idToken;
+    console.log(url);
+
     fetch(url)
-      .then((Response) => {
-        Response.json().then((data) => {
-          console.log(data);
+      .then((res) => {
+        res.json().then((data) => {
           setAddressLine(data.address_line);
           setCity(data.city);
           setPhone(data.phone_number);
@@ -54,16 +53,12 @@ const UserProfile = (props) => {
   };
 
   useEffect(() => {
-    console.log("Fetching data...");
-    fetchData();
+    console.log("Fetching user data...");
+    fetchUserDetails();
   }, []);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const handleChangePasswordClicked = (openPasswordDialog) => {
+    setOpen(openPasswordDialog);
   };
 
   const submitHandler = (event) => {
@@ -84,7 +79,6 @@ const UserProfile = (props) => {
     // Update user details in mongo
     fetch("http://localhost:3001/updateUser", requestOptions)
       .then((response) => {
-        console.log(response);
         toast.success(`Your details updated :)`);
       })
       .catch((error) => {
@@ -174,13 +168,16 @@ const UserProfile = (props) => {
                   size="extara"
                   fontSize="small"
                   disabled={!edit}
-                  onClick={handleClickOpen}
+                  onClick={() => handleChangePasswordClicked(true)}
                 >
                   changing password
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                <PasswordDialog open={open} handleClose={handleClose} />
+                <PasswordDialog
+                  open={open}
+                  handleClose={() => handleChangePasswordClicked(false)}
+                />
               </Grid>
             </Grid>
             <Grid item xs={6}>

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
 
 import {
   AppBar,
@@ -73,31 +72,38 @@ const NavigationBar = () => {
     logout();
   };
   const handleIconComponent = () => {
-    // user not login
-    if (email === null) {
-      return (
-        <Link to="/auth">
-          <IconButton size="large" edge="end" style={{ color: "white" }}>
-            <LoginIcon />
-          </IconButton>
-        </Link>
-      );
-    } else {
-      // user alredy login
-      // call to logout function
-
-      handleLogoutClicked();
-      return (
-        <IconButton
-          size="large"
-          edge="end"
-          style={{ color: "white" }}
-          onClick={handleLogoutClicked}
-        >
-          <LogoutIcon />
+    return (
+      <Link to="/auth">
+        <IconButton size="large" edge="end" style={{ color: "white" }}>
+          <LoginIcon />
         </IconButton>
-      );
-    }
+      </Link>
+    );
+    // user not login
+    // if (email === null) {
+    //   return (
+    //     <Link to="/auth">
+    //       <IconButton size="large" edge="end" style={{ color: "white" }}>
+    //         <LoginIcon />
+    //       </IconButton>
+    //     </Link>
+    //   );
+    // } else {
+    //   // user alredy login
+    //   // call to logout function
+
+    //   handleLogoutClicked();
+    //   return (
+    //     <IconButton
+    //       size="large"
+    //       edge="end"
+    //       style={{ color: "white" }}
+    //       onClick={handleLogoutClicked}
+    //     >
+    //       <LogoutIcon />
+    //     </IconButton>
+    //   );
+    // }
   };
 
   return (
