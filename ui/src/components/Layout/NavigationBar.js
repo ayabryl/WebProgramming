@@ -82,9 +82,9 @@ const NavigationBar = () => {
   };
 
   const handleAdminLogin = () => {
-    if (email === null || isAdmin === false) {
+    if (email === null && isAdmin === false) {
       return null;
-    } else {
+    } else if (isAdmin === true) {
       return (
         <Link to="/admin">
           <IconButton size="large" edge="end" style={{ color: "white" }}>
