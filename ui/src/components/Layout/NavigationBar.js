@@ -28,7 +28,7 @@ const useLoginContext = () => {
 const NavigationBar = () => {
   const navigate = useNavigate();
 
-  const { login, logout, email } = useLoginContext();
+  const { login, logout, email, isAdmin } = useLoginContext();
 
   const handleLogoutClicked = (e) => {
     console.log("user logout");
@@ -67,6 +67,34 @@ const NavigationBar = () => {
     }
   };
 
+  const handleLogInProfile = () => {
+    if (email === null) {
+      return null;
+    } else {
+      return (
+        <Link to="/profile">
+          <IconButton size="large" edge="end" style={{ color: "white" }}>
+            <AccountCircle />
+          </IconButton>
+        </Link>
+      );
+    }
+  };
+
+  const handleAdminLogin = () => {
+    if (email === null || isAdmin === false) {
+      return null;
+    } else {
+      return (
+        <Link to="/admin">
+          <IconButton size="large" edge="end" style={{ color: "white" }}>
+            <BuildIcon />
+          </IconButton>
+        </Link>
+      );
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1, mr: 2, ml: 2 }}>
       <AppBar position="static" style={{ background: "#8D91C7" }}>
@@ -91,16 +119,8 @@ const NavigationBar = () => {
                 <ShoppingCartIcon />
               </IconButton>
             </Link>
-            <Link to="/profile">
-              <IconButton size="large" edge="end" style={{ color: "white" }}>
-                <AccountCircle />
-              </IconButton>
-            </Link>
-            <Link to="/admin">
-              <IconButton size="large" edge="end" style={{ color: "white" }}>
-                <BuildIcon />
-              </IconButton>
-            </Link>
+            {handleLogInProfile()}
+            {handleAdminLogin()}
           </Box>
         </Toolbar>
       </AppBar>
