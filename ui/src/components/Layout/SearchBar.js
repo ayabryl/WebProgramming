@@ -1,7 +1,8 @@
-import * as React from "react";
-import SearchIcon from "@mui/icons-material/Search";
-import { InputBase, styled, alpha } from "@mui/material";
 import { useContext } from "react";
+import { InputBase, styled, alpha } from "@mui/material";
+
+import SearchIcon from "@mui/icons-material/Search";
+
 import SearchContext from "../../contexts/SearchContext";
 
 const Search = styled("div")(({ theme }) => ({

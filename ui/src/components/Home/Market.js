@@ -1,11 +1,11 @@
-import React from "react";
-import ProductCard from "./ProductCard";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, Fragment } from "react";
 import { Grid, Typography, Button } from "@mui/material";
+
+import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+
+import ProductCard from "./ProductCard";
 import SearchContext from "../../contexts/SearchContext";
 
 const Market = () => {
@@ -63,14 +63,14 @@ const Market = () => {
   }, [searchWord, products]);
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
       <Grid sx={{ mt: 3 }}>
         <Grid container spacing={4} sx={{ p: 3 }}>
           {parsedProduct}
         </Grid>
       </Grid>
-    </React.Fragment>
+    </Fragment>
   );
 };
 export default Market;
