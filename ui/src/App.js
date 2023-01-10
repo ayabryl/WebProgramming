@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import Cart from "./pages/Cart";
 import ProfilePage from "./pages/ProfilePage";
 import ProductPage from "./pages/ProductPage";
+import AdminPage from "./pages/AdminPage";
 import { LoginProvider } from "./contexts/LoginContext";
 import SearchContext from "./contexts/SearchContext";
 
@@ -25,6 +26,7 @@ function App() {
             <Route path="/profile" exact element={<ProfilePage />}></Route>
             <Route path="/cart" exact element={<Cart />}></Route>
             <Route path="/product" exact element={<ProductPage />}></Route>
+            <Route path="/admin" exact element={<AdminPage />}></Route>
           </Routes>
         </Layout>
       </SearchContext.Provider>
