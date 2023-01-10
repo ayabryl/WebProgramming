@@ -32,7 +32,7 @@ const AuthForm = () => {
   const navigate = useNavigate();
 
   // const { login } = useLoginContext();
-  const { email, idToken, login } = useContext(LoginContext);
+  const { email, uid, login } = useContext(LoginContext);
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -110,7 +110,7 @@ const AuthForm = () => {
         ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`
         : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`;
       // let email = enteredEmail;
-      let idToken;
+      let localId;
 
       // if (isLogin) {
       //   url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`;
@@ -143,16 +143,16 @@ const AuthForm = () => {
         .then((data) => {
           console.log(data);
           if (!isLogin) {
-            CreateNewUserInMongo(data.idToken);
+            CreateNewUserInMongo(data.localId);
           }
           toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
           // console.log(email);
-          login(data.email, data.idToken, data.isAdmin);
+          login(data.email, data.localId, data.isAdmin);
 
           navigate("/", { replace: true });
         })
         .then(() => {
-          console.log(email, idToken);
+          console.log(email, localId);
         })
         .catch((err) => {
           toast.error(err.message);

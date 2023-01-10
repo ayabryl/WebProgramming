@@ -33,38 +33,35 @@ const NavigationBar = () => {
     logout();
   };
   const handleIconComponent = () => {
-    return (
-      <Link to="/auth">
-        <IconButton size="large" edge="end" style={{ color: "white" }}>
-          <LoginIcon />
-        </IconButton>
-      </Link>
-    );
-    // user not login
-    // if (email === null) {
-    //   return (
-    //     <Link to="/auth">
-    //       <IconButton size="large" edge="end" style={{ color: "white" }}>
-    //         <LoginIcon />
-    //       </IconButton>
-    //     </Link>
-    //   );
-    // } else {
-    //   // user alredy login
-    //   // call to logout function
+    // <Link to="/auth">
+    //   <IconButton size="large" edge="end" style={{ color: "white" }}>
+    //     <LoginIcon />
+    //   </IconButton>
+    // </Link>
 
-    //   handleLogoutClicked();
-    //   return (
-    //     <IconButton
-    //       size="large"
-    //       edge="end"
-    //       style={{ color: "white" }}
-    //       onClick={handleLogoutClicked}
-    //     >
-    //       <LogoutIcon />
-    //     </IconButton>
-    //   );
-    // }
+    // user not login
+    if (email === null) {
+      return (
+        <Link to="/auth">
+          <IconButton size="large" edge="end" style={{ color: "white" }}>
+            <LoginIcon />
+          </IconButton>
+        </Link>
+      );
+    } else {
+      // user alredy login
+      // call to logout function
+      return (
+        <IconButton
+          size="large"
+          edge="end"
+          style={{ color: "white" }}
+          onClick={handleLogoutClicked}
+        >
+          <LogoutIcon />
+        </IconButton>
+      );
+    }
   };
 
   return (
