@@ -11,7 +11,7 @@ import {
   styled,
   alpha,
 } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
@@ -26,11 +26,14 @@ const useLoginContext = () => {
 };
 
 const NavigationBar = () => {
+  const navigate = useNavigate();
+
   const { login, logout, email } = useLoginContext();
 
   const handleLogoutClicked = (e) => {
     console.log("user logout");
     logout();
+    navigate("/");
   };
   const handleIconComponent = () => {
     // <Link to="/auth">
