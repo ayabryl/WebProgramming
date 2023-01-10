@@ -19,6 +19,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { LoginContext } from "../../contexts/LoginContext";
 import { useContext } from "react";
+import SearchBar from "./SearchBar";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -115,7 +116,7 @@ const NavigationBar = () => {
               My Makeup
             </Typography>
           </Link>
-          <Search>
+          {/* <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -123,7 +124,8 @@ const NavigationBar = () => {
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
             />
-          </Search>
+          </Search> */}
+          <SearchBar />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {handleIconComponent()}
