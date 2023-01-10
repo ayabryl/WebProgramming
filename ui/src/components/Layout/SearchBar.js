@@ -2,6 +2,7 @@ import * as React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { InputBase, styled, alpha } from "@mui/material";
 import { useContext } from "react";
+import SearchContext from "../../contexts/SearchContext";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -42,11 +43,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-const onValueChange = (event) => {
-  console.log(event.target.value);
-  // TODO: insert value to context
-};
+
 const SearchBar = () => {
+  // const searchContext = useContext(SearchContext);
+  const { searchWord, setSearchWord } = useContext(SearchContext);
+  const onValueChange = (event) => {
+    // console.log(event.target.value);
+    // TODO: insert value to context
+    setSearchWord(event.target.value);
+  };
+
   return (
     <Search>
       <SearchIconWrapper>
@@ -55,6 +61,7 @@ const SearchBar = () => {
       <StyledInputBase
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
+        value={searchWord}
         onChange={onValueChange}
       />
     </Search>

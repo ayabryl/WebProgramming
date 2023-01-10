@@ -6,20 +6,26 @@ import Cart from "./pages/Cart";
 import ProfilePage from "./pages/ProfilePage";
 import ProductPage from "./pages/ProductPage";
 import { LoginContext, LoginProvider } from "./contexts/LoginContext";
-
+// import { SearchProvider } from "./contexts/SearchContext";
+import SearchContext from "./contexts/SearchContext";
+import { useState } from "react";
 function App() {
   // return <AuthPage />;
+  const [searchWord, setSearchWord] = useState("");
+
   return (
     <LoginProvider>
-      <Layout>
-        <Routes>
-          <Route path="/" exact element={<HomePage />}></Route>
-          <Route path="/auth" exact element={<AuthPage />}></Route>
-          <Route path="/profile" exact element={<ProfilePage />}></Route>
-          <Route path="/cart" exact element={<Cart />}></Route>
-          <Route path="/product" exact element={<ProductPage />}></Route>
-        </Routes>
-      </Layout>
+      <SearchContext.Provider value={{ searchWord, setSearchWord }}>
+        <Layout>
+          <Routes>
+            <Route path="/" exact element={<HomePage />}></Route>
+            <Route path="/auth" exact element={<AuthPage />}></Route>
+            <Route path="/profile" exact element={<ProfilePage />}></Route>
+            <Route path="/cart" exact element={<Cart />}></Route>
+            <Route path="/product" exact element={<ProductPage />}></Route>
+          </Routes>
+        </Layout>
+      </SearchContext.Provider>
     </LoginProvider>
   );
 }
