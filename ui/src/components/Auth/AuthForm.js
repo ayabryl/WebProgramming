@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import toast, { Toaster } from "react-hot-toast";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../contexts/LoginContext";
 import { useContext } from "react";
@@ -32,7 +31,8 @@ const AuthForm = () => {
   const [passwordHelperText, setPasswordHelperText] = useState("");
   const navigate = useNavigate();
 
-  const { login } = useLoginContext();
+  // const { login } = useLoginContext();
+  const { email, idToken, login } = useContext(LoginContext);
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -65,9 +65,6 @@ const AuthForm = () => {
       setPasswordHelperText("");
     }
 
-    console.log("emailError" + emailError);
-    console.log("passwordError" + passwordError);
-
     if (emailError || passwordError) {
       return false;
     } else {
@@ -75,6 +72,31 @@ const AuthForm = () => {
     }
   };
 
+  const CreateNewUserInMongo = (id) => {
+    const body = {
+      _id: id,
+      name: "",
+      phone_number: "",
+      city: "",
+      address_line: "",
+      is_admin: false,
+      comment: "",
+    };
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    };
+    // Save the new user in mongo (with the firebase id)
+    fetch("http://localhost:3001/addUser", requestOptions)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Error Occured, Try again");
+      });
+  };
   const submitHandler = (event) => {
     event.preventDefault();
 
@@ -84,15 +106,17 @@ const AuthForm = () => {
     if (validate(enteredEmail, enteredPassword)) {
       setIsLoading(true);
 
-      let url;
-      let email;
+      const url = isLogin
+        ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`
+        : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`;
+      // let email = enteredEmail;
       let idToken;
 
-      if (isLogin) {
-        url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`;
-      } else {
-        url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`;
-      }
+      // if (isLogin) {
+      //   url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`;
+      // } else {
+      //   url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`;
+      // }
       fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -117,36 +141,18 @@ const AuthForm = () => {
           }
         })
         .then((data) => {
-          idToken = data.idToken;
-          email = data.email;
-          const body = {
-            _id: data.idToken,
-            name: "",
-            phone_number: "",
-            city: "",
-            address_line: "",
-            is_admin: false,
-            comment: "",
-          };
-          const requestOptions = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
-          };
-          // Save the new user in mongo (with the firebase id)
-          fetch("http://localhost:3001/addUser", requestOptions)
-            .then((response) => {
-              console.log(response);
-            })
-            .catch((error) => {
-              console.log(error);
-              toast.error("Error Occured, Try again");
-            });
-
-          toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
           console.log(data);
-          login(email, idToken, data.isAdmin);
+          if (!isLogin) {
+            CreateNewUserInMongo(data.idToken);
+          }
+          toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
+          // console.log(email);
+          login(data.email, data.idToken, data.isAdmin);
+
           navigate("/", { replace: true });
+        })
+        .then(() => {
+          console.log(email, idToken);
         })
         .catch((err) => {
           toast.error(err.message);

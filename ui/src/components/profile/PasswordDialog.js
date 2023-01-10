@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, Fragment, useContext } from "react";
 import {
   Button,
   TextField,
@@ -9,11 +9,12 @@ import {
 } from "@mui/material/";
 
 import toast, { Toaster } from "react-hot-toast";
-import Cookies from "js-cookie";
+import { LoginContext } from "../../contexts/LoginContext";
 
 const PasswordDialog = (props) => {
   const open = props.open;
   const handleClose = props.handleClose;
+  const loggedUserContext = useContext(LoginContext);
 
   const key = "AIzaSyDM0fLUWNTYnSjw1KhsswJRI4QBKxK2OKc";
   const passwordInputRef = useRef(null);
@@ -21,7 +22,7 @@ const PasswordDialog = (props) => {
   const [passwordHelperText, setPasswordHelperText] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
-  const idToken = Cookies.get("idToken");
+  const idToken = loggedUserContext.idToken;
 
   const validate = (password) => {
     // Validate password
@@ -53,13 +54,13 @@ const PasswordDialog = (props) => {
     if (validate(enteredPassword)) {
       setIsLoading(true);
 
-      let url;
+      // let url;
 
-      url = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${key}`;
+      const url = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${key}`;
       fetch(url, {
         method: "POST",
         body: JSON.stringify({
-          idToken: Cookies.get("idToken"),
+          idToken: idToken,
           password: enteredPassword,
           returnSecureToken: false,
         }),
@@ -82,7 +83,6 @@ const PasswordDialog = (props) => {
         .then((data) => {
           //ToDo: save the user to the page and exit from this page
           toast.success(`Successfully changed!`);
-          console.log("dcd");
           handleClose();
           console.log(data);
         })
@@ -93,7 +93,7 @@ const PasswordDialog = (props) => {
   };
 
   return (
-    <div>
+    <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Change Password</DialogTitle>
@@ -115,7 +115,7 @@ const PasswordDialog = (props) => {
           <Button onClick={submitHandler}>Change</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Fragment>
   );
 };
 
