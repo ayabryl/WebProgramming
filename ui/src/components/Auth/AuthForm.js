@@ -146,7 +146,6 @@ const AuthForm = () => {
             CreateNewUserInMongo(data.localId);
           }
           toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
-          // console.log(email);
           login(data.email, data.localId, data.isAdmin);
 
           navigate("/", { replace: true });
