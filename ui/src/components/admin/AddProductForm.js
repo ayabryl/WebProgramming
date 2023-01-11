@@ -73,7 +73,7 @@ const AddProductForm = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     };
-    // Save the new user in mongo (with the firebase id)
+    // Save the new product in db
     fetch("http://localhost:3001/addProduct", requestOptions)
       .then((response) => {
         console.log(response);

@@ -99,7 +99,6 @@ const AuthForm = () => {
   };
   const submitHandler = (event) => {
     event.preventDefault();
-
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
@@ -109,14 +108,7 @@ const AuthForm = () => {
       const url = isLogin
         ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`
         : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`;
-      // let email = enteredEmail;
-      let localId;
 
-      // if (isLogin) {
-      //   url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${key}`;
-      // } else {
-      //   url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`;
-      // }
       fetch(url, {
         method: "POST",
         body: JSON.stringify({
@@ -134,27 +126,32 @@ const AuthForm = () => {
             return res.json();
           } else {
             return res.json().then((data) => {
-              let errorMessage = `Auth failed: ${data.error.message}`;
-
+              const errorMessage = `Auth failed: ${data.error.message}`;
               throw new Error(errorMessage);
             });
           }
         })
         .then((data) => {
-          console.log(data);
+          let isAdmin = false;
           if (!isLogin) {
             CreateNewUserInMongo(data.localId);
+          } else {
+            // Check if the user is admin
+            fetch("http://localhost:3001/users/isAdmin/" + data.localId)
+              .then((res) => {
+                res.json().then((ans) => {
+                  isAdmin = ans;
+                });
+              })
+              .catch((err) => console.log(err));
           }
           toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
-          login(data.email, data.localId, data.isAdmin);
-
+          login(data.email, data.localId, isAdmin);
           navigate("/", { replace: true });
         })
-        .then(() => {
-          console.log(email, localId);
-        })
         .catch((err) => {
-          toast.error(err.message);
+          console.log(err.message);
+          toast.error("Error Occured, Try again");
         });
     }
   };
