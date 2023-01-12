@@ -19,7 +19,7 @@ const Orders = (props) => {
 
   const fetchOrdersData = () => {
     const url = props.specificUser
-      ? "http://localhost:3001/orders/" + loggedUserContext.uid
+      ? "http://localhost:3001/orders/userId/" + loggedUserContext.uid
       : "http://localhost:3001/orders";
     axios.get(url).then((res) => {
       const data = res.data;
@@ -29,29 +29,37 @@ const Orders = (props) => {
 
   useEffect(() => {
     console.log("Fetching data...");
-    // fetchOrdersData();
+    fetchOrdersData();
+
     console.log(orders);
-    setOrders([
-      {
-        order_status: "Deliverd",
-        created_at: new Date().toUTCString(),
-        products: [],
-        user_id:
-          "Q.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hvcGF1dGhyZWFj",
-      },
-    ]);
+    // setOrders([
+    //   {
+    //     order_status: "Deliverd",
+    //     created_at: new Date().toUTCString(),
+    //     products: [],
+    //     user_id:
+    //       "Q.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hvcGF1dGhyZWFj",
+    //   },
+    //   {
+    //     order_status: "Deliverd",
+    //     created_at: new Date().toUTCString(),
+    //     products: [],
+    //     user_id:
+    //       "Q.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hvcGF1dGhyZWFj",
+    //   },
+    // ]);
   }, []);
 
   const ordersShow = orders.map((order) => (
-    <Grid item xs={3}>
-      <Order order={order}></Order>
+    <Grid item xs={12}>
+      <Order order={order} specificUser={props.specificUser}></Order>
     </Grid>
   ));
 
   return (
     <React.Fragment>
       <Toaster position="top-center" reverseOrder={false} />
-      <Grid>
+      <Grid display="flex" justifyContent="center">
         <Grid container spacing={4} sx={{ p: 1 }}>
           {ordersShow}
         </Grid>
