@@ -14,7 +14,7 @@ class LoginProvider extends React.Component {
       <LoginContext.Provider
         value={{
           email: this.state.email,
-          uid: this.state.idToken,
+          uid: this.state.uid,
           isAdmin: this.state.isAdmin,
           login: (email, uid, isAdmin) =>
             this.setState({ email, uid, isAdmin }),

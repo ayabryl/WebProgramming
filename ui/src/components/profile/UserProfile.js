@@ -72,7 +72,7 @@ const UserProfile = (props) => {
       comment: CommentForDelivery,
     };
     const requestOptions = {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     };
@@ -80,6 +80,7 @@ const UserProfile = (props) => {
     fetch("http://localhost:3001/updateUser", requestOptions)
       .then((response) => {
         toast.success(`Your details updated :)`);
+        fetchUserDetails();
       })
       .catch((error) => {
         console.log(error);
