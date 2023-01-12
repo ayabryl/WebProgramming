@@ -1,26 +1,13 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import React from "react";
-import {
-  Button,
-  TextField,
-  Grid,
-  Box,
-  Paper,
-  Input,
-  IconButton,
-} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import CancelIcon from "@mui/icons-material/Cancel";
+import { Grid } from "@mui/material";
+
 import { styled } from "@mui/material/styles";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import ViewListIcon from "@mui/icons-material/ViewList";
-import LeaderboardIcon from "@mui/icons-material/Leaderboard";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Order from "./Order";
 import axios from "axios";
 
 import toast, { Toaster } from "react-hot-toast";
+import { LoginContext } from "../../contexts/LoginContext";
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
@@ -28,9 +15,13 @@ const StyledH1 = styled("h1")({
 
 const Orders = (props) => {
   const [orders, setOrders] = useState([]);
+  const loggedUserContext = useContext(LoginContext);
 
   const fetchOrdersData = () => {
-    axios.get(`http://localhost:3001/orders`).then((res) => {
+    const url = props.specificUser
+      ? "http://localhost:3001/orders/" + loggedUserContext.uid
+      : "http://localhost:3001/orders";
+    axios.get(url).then((res) => {
       const data = res.data;
       setOrders(data);
     });

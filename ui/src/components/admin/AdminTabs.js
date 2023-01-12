@@ -76,7 +76,7 @@ const AdminTabs = () => {
       </Tabs>
 
       <TabPanel value={value} index={0}>
-        <Orders />
+        <Orders specificUser={false} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         graph

@@ -14,6 +14,7 @@ const {
   updateOrder,
   updateProduct,
   getUserById,
+  getOrdersByUserId,
 } = require("./api/api");
 const hostname = "localhost";
 const port = 3001;
@@ -98,6 +99,17 @@ app.get("/orders", async (req, res) => {
   }
 });
 
+app.get("/orders/userId/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const orders = await getOrdersByUserId(id);
+    res.send(orders);
+  } catch (err) {
+    res.send("Error finding orders for this user " + err);
+  }
+
+});
+
 app.post("/addProduct", async (req, res) => {
   try {
     const newProduct = new Product(req.body);
@@ -158,7 +170,7 @@ app.post("/addProducts", async (req, res) => {
           product_type: element.product_type,
           image_link: element.image_link,
           description: element.description,
-          product_colors: element.product_colors
+          product_colors: element.product_colors,
         });
         newProduct.save((err, result) => {
           if (err) {
