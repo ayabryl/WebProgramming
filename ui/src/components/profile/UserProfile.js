@@ -26,7 +26,7 @@ const UserProfile = (props) => {
   const [open, setOpen] = useState(false);
   const loggedUserContext = useContext(LoginContext);
 
-  const idToken = loggedUserContext.idToken;
+  const uid = loggedUserContext.uid;
   const email = loggedUserContext.email;
 
   const [city, setCity] = useState("");
@@ -36,7 +36,7 @@ const UserProfile = (props) => {
   const [phone, setPhone] = useState("");
 
   const fetchUserDetails = () => {
-    const url = "http://localhost:3001/users/" + idToken;
+    const url = "http://localhost:3001/users/" + uid;
     console.log(url);
 
     fetch(url)
@@ -63,7 +63,7 @@ const UserProfile = (props) => {
 
   const submitHandler = (event) => {
     const body = {
-      _id: idToken,
+      _id: uid,
       name: name,
       phone_number: phone,
       city: city,
@@ -72,7 +72,7 @@ const UserProfile = (props) => {
       comment: CommentForDelivery,
     };
     const requestOptions = {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     };
@@ -80,6 +80,7 @@ const UserProfile = (props) => {
     fetch("http://localhost:3001/updateUser", requestOptions)
       .then((response) => {
         toast.success(`Your details updated :)`);
+        fetchUserDetails();
       })
       .catch((error) => {
         console.log(error);

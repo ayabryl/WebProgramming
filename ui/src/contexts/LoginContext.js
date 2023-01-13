@@ -5,7 +5,7 @@ const LoginContext = React.createContext();
 class LoginProvider extends React.Component {
   state = {
     email: null,
-    idToken: null,
+    uid: null,
     isAdmin: false,
   };
 
@@ -14,12 +14,12 @@ class LoginProvider extends React.Component {
       <LoginContext.Provider
         value={{
           email: this.state.email,
-          idToken: this.state.idToken,
+          uid: this.state.uid,
           isAdmin: this.state.isAdmin,
-          login: (email, idToken, isAdmin) =>
-            this.setState({ email, idToken, isAdmin }),
+          login: (email, uid, isAdmin) =>
+            this.setState({ email, uid, isAdmin }),
           logout: () =>
-            this.setState({ email: null, idToken: null, isAdmin: false }),
+            this.setState({ email: null, uid: null, isAdmin: false }),
         }}
       >
         {this.props.children}
