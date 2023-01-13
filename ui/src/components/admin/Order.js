@@ -24,7 +24,7 @@ import axios from "axios";
 import Collapse from "@mui/material/Collapse";
 import * as React from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import ProducrInOrder from "../profile/ProductsInOrder";
 import toast, { Toaster } from "react-hot-toast";
 
 const StyledH1 = styled("h1")({
@@ -95,86 +95,6 @@ const Order = (props) => {
   };
 
   return (
-    // <Card
-    //   sx={{
-    //     display: "flex",
-    //     height: "105%",
-    //     width: "105%",
-    //     boxShadow: 1,
-    //     borderRadius: 2,
-    //     justifyContent: "space-around",
-    //   }}
-    // >
-    //   <Toaster position="top-center" reverseOrder={false} />
-    //   <Box
-    //     sx={{
-    //       display: "flex",
-    //       flexDirection: "column",
-    //       justifyContent: "space-between",
-    //       ml: 2,
-    //     }}
-    //   >
-    //     <CardContent>
-    //       <Typography variant="h5" component="h2">
-    //         Order #{order._id}
-    //       </Typography>
-    //       <Typography color="textSecondary">
-    //         Ordered on {order.created_at}
-    //       </Typography>
-
-    //       <Typography variant="body2">Name: {order.name}</Typography>
-    //       <Typography variant="body2">
-    //         Phone number: {order.phone_number}
-    //       </Typography>
-    //       <Typography variant="body2">City: {order.city}</Typography>
-    //       <Typography variant="body2">
-    //         address_line: {order.address_line}
-    //       </Typography>
-    //       <Typography variant="body2">Comment: {customer.comment}</Typography>
-
-    //       <Typography variant="body2">
-    //         Items:
-    //         <ul>
-    //           {order.products.map((item) => (
-    //             <li key={item.name}>
-    //               {item.name} ({item.product_type})
-    //             </li>
-    //           ))}
-    //         </ul>
-    //       </Typography>
-    //     </CardContent>
-
-    //     <Box
-    //       sx={{
-    //         display: "flex",
-    //         flexDirection: "row",
-    //         alignItems: "right",
-    //         ml: 1,
-    //         justifyContent: "space-around",
-    //       }}
-    //     >
-    //       <TextField
-    //         id="outlined-select-currency"
-    //         select
-    //         label="order status"
-    //         defaultValue={order.order_status}
-    //         fullWidth="80%"
-    //         sx={{ mb: 2, mr: 2, ml: 2 }}
-    //         onChange={handleOrderStatusChange}
-    //       >
-    //         <MenuItem key="Deliverd" value="Deliverd">
-    //           Deliverd
-    //         </MenuItem>
-    //         <MenuItem key="In Progress" value="In Progress">
-    //           In Progress
-    //         </MenuItem>
-    //         <MenuItem key="New order" value="New order">
-    //           New order
-    //         </MenuItem>
-    //       </TextField>
-    //     </Box>
-    //   </Box>
-    // </Card>
     <Box
       sx={{
         width: "70%",
@@ -190,18 +110,55 @@ const Order = (props) => {
         rowSpacing={1}
         direction="column"
         justifyContent="flex-start"
-        alignItems="center"
-        sx={{ mt: 2 }}
+        alignItems="start"
+        sx={{ m: 2 }}
       >
-        <Grid item>
-          <Typography variant="h5" component="h2">
-            Order #{order._id}{" "}
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Typography color="textSecondary">
-            Ordered on {order.created_at}
-          </Typography>
+        <Grid
+          container
+          direction="row"
+          display="flex"
+          justifyContent="space-between"
+        >
+          <Grid item xs={8}>
+            <Typography variant="h6" component="h2">
+              Order #{order._id}{" "}
+            </Typography>
+            <Typography color="textSecondary">
+              Ordered on {order.created_at}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="order status"
+              defaultValue={order.order_status}
+              disabled={props.specificUser}
+              onChange={handleOrderStatusChange}
+            >
+              <MenuItem key="Deliverd" value="Deliverd">
+                Deliverd
+              </MenuItem>
+              <MenuItem key="In Progress" value="In Progress">
+                In Progress
+              </MenuItem>
+              <MenuItem key="New order" value="New order">
+                New order
+              </MenuItem>
+            </TextField>
+          </Grid>
+          <Grid item xs={1}>
+            <CardActions>
+              <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+              >
+                <ExpandMoreIcon />
+              </ExpandMore>
+            </CardActions>
+          </Grid>
         </Grid>
         <Grid
           container
@@ -230,38 +187,16 @@ const Order = (props) => {
             <Typography variant="body2">Comment: {customer.comment}</Typography>
           </Grid>
         </Grid>
-        <TextField
-          id="outlined-select-currency"
-          select
-          label="order status"
-          defaultValue={order.order_status}
-          width="40%"
-          disabled={props.specificUser}
-          onChange={handleOrderStatusChange}
+
+        <Collapse
+          in={expanded}
+          timeout="auto"
+          unmountOnExit
+          sx={{ minWidth: "100%" }}
         >
-          <MenuItem key="Deliverd" value="Deliverd">
-            Deliverd
-          </MenuItem>
-          <MenuItem key="In Progress" value="In Progress">
-            In Progress
-          </MenuItem>
-          <MenuItem key="New order" value="New order">
-            New order
-          </MenuItem>
-        </TextField>
-        <CardActions>
-          <ExpandMore
-            expand={expanded}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </ExpandMore>
-        </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
+          <CardContent products={order.products}>
             {/* TODO: add component that show products */}
+            <ProducrInOrder></ProducrInOrder>
           </CardContent>
         </Collapse>
       </Grid>

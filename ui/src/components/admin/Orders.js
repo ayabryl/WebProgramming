@@ -51,7 +51,7 @@ const Orders = (props) => {
   }, []);
 
   const ordersShow = orders.map((order) => (
-    <Grid item xs={12}>
+    <Grid item xs={12} display="flex" justifyContent="center">
       <Order order={order} specificUser={props.specificUser}></Order>
     </Grid>
   ));
@@ -59,7 +59,7 @@ const Orders = (props) => {
   return (
     <React.Fragment>
       <Toaster position="top-center" reverseOrder={false} />
-      <Grid display="flex" justifyContent="center">
+      <Grid>
         <Grid container spacing={4} sx={{ p: 1 }}>
           {ordersShow}
         </Grid>
