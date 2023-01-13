@@ -37,6 +37,7 @@ const ProductCard = (props) => {
         sx={{
           display: "flex",
           flexDirection: "column",
+          alignItems:"center",
           justifyContent: "space-between",
         }}
       >

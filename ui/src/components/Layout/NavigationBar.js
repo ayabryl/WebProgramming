@@ -11,15 +11,11 @@ import {
   styled,
   alpha,
 } from "@mui/material";
-
-import { Link } from "react-router-dom";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import BuildIcon from "@mui/icons-material/Build";
-import { LoginContext } from "../../contexts/LoginContext";
-import { useContext } from "react";
 
 import { LoginContext } from "../../contexts/LoginContext";
 import SearchBar from "./SearchBar";

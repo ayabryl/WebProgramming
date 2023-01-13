@@ -18,7 +18,8 @@ export default function Product(props) {
                         alt={props.makeUpProduct.name} />
                     </Box>
                     <Box  sx={{  display: 'flex', flexGrow: 1, alignItems:"center", justifyContent: 'flx-start' }}>
-                         <ProductDetails handleAddToCartClick={props.handleAddToCart}
+                         <ProductDetails chosenColor={props.chosenColor} 
+                         handleAddToCartClick={props.handleAddToCart}
                          sx={{  display: 'flex', flexGrow: 1}}
                          makeUpProduct={props.makeUpProduct}></ProductDetails>
                     </Box>

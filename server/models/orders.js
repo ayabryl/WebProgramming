@@ -5,10 +5,13 @@ const ordersSchema = new Schema({
   order_status: String,
   created_at: Date,
   products: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product"
+    product_name: String,
+    amount: Number,
+    color: {hex_value: String,colour_name: String},
+    price: Number
     }],
   user_id: String,
+  total_price: Number
 });
 
 // Compile model from schema
