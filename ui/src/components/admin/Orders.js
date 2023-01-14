@@ -1,26 +1,13 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import React from "react";
-import {
-  Button,
-  TextField,
-  Grid,
-  Box,
-  Paper,
-  Input,
-  IconButton,
-} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import CancelIcon from "@mui/icons-material/Cancel";
+import { Grid } from "@mui/material";
+
 import { styled } from "@mui/material/styles";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import ViewListIcon from "@mui/icons-material/ViewList";
-import LeaderboardIcon from "@mui/icons-material/Leaderboard";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Order from "./Order";
 import axios from "axios";
 
 import toast, { Toaster } from "react-hot-toast";
+import { LoginContext } from "../../contexts/LoginContext";
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
@@ -28,9 +15,13 @@ const StyledH1 = styled("h1")({
 
 const Orders = (props) => {
   const [orders, setOrders] = useState([]);
+  const loggedUserContext = useContext(LoginContext);
 
   const fetchOrdersData = () => {
-    axios.get(`http://localhost:3001/orders`).then((res) => {
+    const url = props.specificUser
+      ? "http://localhost:3001/orders/userId/" + loggedUserContext.uid
+      : "http://localhost:3001/orders";
+    axios.get(url).then((res) => {
       const data = res.data;
       setOrders(data);
     });
@@ -38,22 +29,30 @@ const Orders = (props) => {
 
   useEffect(() => {
     console.log("Fetching data...");
-    // fetchOrdersData();
+    fetchOrdersData();
+
     console.log(orders);
-    setOrders([
-      {
-        order_status: "Deliverd",
-        created_at: new Date().toUTCString(),
-        products: [],
-        user_id:
-          "Q.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hvcGF1dGhyZWFj",
-      },
-    ]);
+    // setOrders([
+    //   {
+    //     order_status: "Deliverd",
+    //     created_at: new Date().toUTCString(),
+    //     products: [],
+    //     user_id:
+    //       "Q.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hvcGF1dGhyZWFj",
+    //   },
+    //   {
+    //     order_status: "Deliverd",
+    //     created_at: new Date().toUTCString(),
+    //     products: [],
+    //     user_id:
+    //       "Q.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hvcGF1dGhyZWFj",
+    //   },
+    // ]);
   }, []);
 
   const ordersShow = orders.map((order) => (
-    <Grid item xs={3}>
-      <Order order={order}></Order>
+    <Grid item xs={12} display="flex" justifyContent="center">
+      <Order order={order} specificUser={props.specificUser}></Order>
     </Grid>
   ));
 

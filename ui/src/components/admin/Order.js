@@ -3,11 +3,14 @@ import {
   Card,
   CardContent,
   CardMedia,
+  CardHeader,
   Typography,
   Box,
   IconButton,
   TextField,
   MenuItem,
+  Grid,
+  CardActions,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -18,35 +21,54 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import axios from "axios";
-
+import Collapse from "@mui/material/Collapse";
+import * as React from "react";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ProducrInOrder from "../profile/ProductsInOrder";
 import toast, { Toaster } from "react-hot-toast";
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
 });
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
 const Order = (props) => {
   const [order, setOrder] = useState(props.order);
   const [customer, setCustomer] = useState([]);
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   const fetchOrderCustomerData = (user_id) => {
-    axios.get(`http://localhost:3001//users/${user_id}`).then((res) => {
+    axios.get(`http://localhost:3001/users/${user_id}`).then((res) => {
       const data = res.data;
+      console.log(data);
       setCustomer(data);
     });
   };
   useEffect(() => {
     console.log("Fetching data...");
-    // fetchOrderCustomerData(order.user_id);
-    setCustomer({
-      _id: "String",
-      name: "String",
-      phone_number: "String",
-      city: "String",
-      address_line: "String",
-      is_admin: false,
-      comment: "String",
-    });
+    fetchOrderCustomerData(order.user_id);
+    // setCustomer({
+    //   _id: "String",
+    //   name: "String",
+    //   phone_number: "String",
+    //   city: "String",
+    //   address_line: "String",
+    //   is_admin: false,
+    //   comment: "String",
+    // });
   }, []);
 
   const handleOrderStatusChange = (event) => {
@@ -73,86 +95,112 @@ const Order = (props) => {
   };
 
   return (
-    <Card
+    <Box
       sx={{
+        width: "70%",
         display: "flex",
-        height: "105%",
-        width: "105%",
         boxShadow: 1,
         borderRadius: 2,
-        justifyContent: "space-around",
+        justifyContent: "center",
       }}
     >
       <Toaster position="top-center" reverseOrder={false} />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          ml: 2,
-        }}
+      <Grid
+        container
+        rowSpacing={1}
+        direction="column"
+        justifyContent="flex-start"
+        alignItems="start"
+        sx={{ m: 2 }}
       >
-        <CardContent>
-          <Typography variant="h5" component="h2">
-            Order #{order._id}
-          </Typography>
-          <Typography color="textSecondary">
-            Ordered on {order.created_at}
-          </Typography>
-
-          <Typography variant="body2">Name: {order.name}</Typography>
-          <Typography variant="body2">
-            Phone number: {order.phone_number}
-          </Typography>
-          <Typography variant="body2">City: {order.city}</Typography>
-          <Typography variant="body2">
-            address_line: {order.address_line}
-          </Typography>
-          <Typography variant="body2">Comment: {customer.comment}</Typography>
-
-          <Typography variant="body2">
-            Items:
-            <ul>
-              {order.products.map((item) => (
-                <li key={item.name}>
-                  {item.name} ({item.product_type})
-                </li>
-              ))}
-            </ul>
-          </Typography>
-        </CardContent>
-
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "right",
-            ml: 1,
-            justifyContent: "space-around",
-          }}
+        <Grid
+          container
+          direction="row"
+          display="flex"
+          justifyContent="space-between"
         >
-          <TextField
-            id="outlined-select-currency"
-            select
-            label="order status"
-            defaultValue={order.order_status}
-            fullWidth="80%"
-            sx={{ mb: 2, mr: 2, ml: 2 }}
-            onChange={handleOrderStatusChange}
-          >
-            <MenuItem key="Deliverd" value="Deliverd">
-              Deliverd
-            </MenuItem>
-            <MenuItem key="In Progress" value="In Progress">
-              In Progress
-            </MenuItem>
-            <MenuItem key="New order" value="New order">
-              New order
-            </MenuItem>
-          </TextField>
-        </Box>
-      </Box>
-    </Card>
+          <Grid item xs={8}>
+            <Typography variant="h6" component="h2">
+              Order #{order._id}{" "}
+            </Typography>
+            <Typography color="textSecondary">
+              Ordered on {order.created_at}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="order status"
+              defaultValue={order.order_status}
+              disabled={props.specificUser}
+              onChange={handleOrderStatusChange}
+            >
+              <MenuItem key="Deliverd" value="Deliverd">
+                Deliverd
+              </MenuItem>
+              <MenuItem key="In Progress" value="In Progress">
+                In Progress
+              </MenuItem>
+              <MenuItem key="New order" value="New order">
+                New order
+              </MenuItem>
+            </TextField>
+          </Grid>
+          <Grid item xs={1}>
+            <CardActions>
+              <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+              >
+                <ExpandMoreIcon />
+              </ExpandMore>
+            </CardActions>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="flex-start"
+          sx={{ m: 2 }}
+        >
+          <Grid item xs={2}>
+            <Typography variant="body2">Name: {customer.name}</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography variant="body2">
+              Phone number: {customer.phone_number}
+            </Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography variant="body2">City: {customer.city}</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="body2">
+              Address : {customer.address_line}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="body2">Comment: {customer.comment}</Typography>
+          </Grid>
+        </Grid>
+
+        <Collapse
+          in={expanded}
+          timeout="auto"
+          unmountOnExit
+          sx={{ minWidth: "100%" }}
+        >
+          <CardContent products={order.products}>
+            {/* TODO: add component that show products */}
+            <ProducrInOrder></ProducrInOrder>
+          </CardContent>
+        </Collapse>
+      </Grid>
+    </Box>
   );
 };
 

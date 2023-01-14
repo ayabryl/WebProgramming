@@ -23,6 +23,10 @@ const getUserById = async (id) => {
   return await User.findById(id);
 };
 
+const getOrdersByUserId = async (id) => {
+  return await Order.find({ user_id: id });
+};
+
 const addProducts = async (products) => {
   products.forEach((element) => {
     const newProduct = new Product(element);
@@ -71,4 +75,5 @@ module.exports = {
   updateOrder,
   updateProduct,
   getUserById,
+  getOrdersByUserId,
 };

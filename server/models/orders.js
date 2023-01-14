@@ -16,3 +16,10 @@ const ordersSchema = new Schema({
 
 // Compile model from schema
 module.exports = mongoose.model("Order", ordersSchema);
+
+product_colors: [
+  {
+    hex_value: String,
+    colour_name: String,
+  },
+];
