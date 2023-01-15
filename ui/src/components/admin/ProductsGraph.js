@@ -5,79 +5,40 @@ import { Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Order from "./Order";
 import axios from "axios";
-import { Bar } from "react-chartjs-2";
 
 import toast, { Toaster } from "react-hot-toast";
 import { LoginContext } from "../../contexts/LoginContext";
 
-const StyledH1 = styled("h1")({
-  textAlign: "center",
-});
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+} from "recharts";
 
 const ProductsGraph = (props) => {
-  const [chartData, setChartData] = useState({});
-  const [chartOptions, setChartOptions] = useState({
-    scales: {
-      xAxes: [
-        {
-          type: "category",
-        },
-      ],
-      yAxes: [
-        {
-          type: "linear",
-        },
-      ],
-    },
-  });
-
-  const [data, setData] = useState({
-    labels: [], // an array of product names
-    datasets: [
-      {
-        label: "Total Orders",
-        data: [], // an array of total number of orders for each product
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        borderWidth: 1,
-      },
-    ],
-  });
+  const [data, setData] = useState([]);
 
   const fetchData = () => {
-    let chartData1 = [];
-    let chartOptions1 = [];
-
     axios
       .get("http://localhost:3001/orders/productStatistic")
       .then((response) => {
         console.log(response);
         if (response.data !== "") {
+          let labels = [];
+          let data = [];
           response.data.forEach((element) => {
-            chartData1.push(element._id);
-            chartOptions1.push(element.total);
+            if (element._id !== null) {
+              data.push({ name: element._id, total: element.total });
+            }
           });
 
-          setChartData(chartData);
+          setData(data);
         }
-
-        setChartOptions(chartOptions);
       });
-
-    setData({
-      data: {
-        labels: chartOptions1,
-        datasets: [
-          {
-            label: "Total Orders",
-            data: chartData1,
-            backgroundColor: "rgba(255, 99, 132, 0.2)",
-            borderColor: "rgba(255, 99, 132, 1)",
-            borderWidth: 1,
-          },
-        ],
-      },
-    });
   };
 
   useEffect(() => {
@@ -87,7 +48,14 @@ const ProductsGraph = (props) => {
   return (
     <React.Fragment>
       <Toaster position="top-center" reverseOrder={false} />
-      <Grid> {/* <Bar data={data} chartOptions={chartOptions} /> */}</Grid>
+      <BarChart width={600} height={300} data={data}>
+        <XAxis dataKey="name" />
+        <YAxis />
+        <CartesianGrid strokeDasharray="3 3" />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="total" fill="#e3f2fd" />
+      </BarChart>
     </React.Fragment>
   );
 };
