@@ -97,7 +97,7 @@ const NavigationBar = () => {
 
   return (
     <Box sx={{ flexGrow: 1, mr: 2, ml: 2 }}>
-      <AppBar position="static" style={{ background: "#8D91C7" }}>
+      <AppBar position="static" style={{ background: "success" }}>
         <Toolbar>
           <Link to="/" style={{ textDecoration: "none" }}>
             <Typography

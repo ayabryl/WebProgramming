@@ -163,7 +163,7 @@ const AuthForm = () => {
           display: "flex",
           "& > :not(style)": {
             m: 1,
-            width: 350,
+            width: 300,
             height: 420,
           },
         }}
@@ -171,13 +171,13 @@ const AuthForm = () => {
         <Toaster position="top-center" reverseOrder={false} />
         <Paper elevation={3}>
           <Grid
-            sx={{ mt: 2 }}
+            sx={{ mt: 1 }}
             container
             alignItems="center"
             justifyContent="center"
           >
             <form onSubmit={submitHandler}>
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={{ mb: 6 }}>
                 <StyledH1>{isLogin ? "Login" : "Sign Up"}</StyledH1>
               </Grid>
               <Grid item xs={12} sx={{ mb: 2 }}>
@@ -189,7 +189,7 @@ const AuthForm = () => {
                   inputRef={emailInputRef}
                 />
               </Grid>
-              <Grid item xs={12} sx={{ mb: 4 }}>
+              <Grid item xs={12} sx={{ mb: 7 }}>
                 <TextField
                   label="Password"
                   type="password"
@@ -203,9 +203,14 @@ const AuthForm = () => {
                 <Grid
                   item
                   xs={12}
-                  sx={{ mb: 2, display: "flex", justifyContent: "center" }}
+                  sx={{ mb: 1, display: "flex", justifyContent: "center" }}
                 >
-                  <Button type="submit" variant="contained" color="primary">
+                  <Button
+                    type="submit"
+                    variant="contained"
+
+                    // style={{ color: "white" }}
+                  >
                     {isLogin ? "Login" : "Create Account"}
                   </Button>
                 </Grid>
@@ -221,10 +226,10 @@ const AuthForm = () => {
                 sx={{ mb: 2, display: "flex", justifyContent: "center" }}
               >
                 <Button
+                  sx={{ mb: 2 }}
                   onClick={switchAuthModeHandler}
                   type="submit"
-                  variant="outlined"
-                  color="primary"
+                  color="secondary"
                 >
                   {isLogin
                     ? "Create new account"
