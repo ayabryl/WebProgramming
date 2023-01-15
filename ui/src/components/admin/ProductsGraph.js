@@ -5,6 +5,7 @@ import { Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Order from "./Order";
 import axios from "axios";
+import { Button } from "@mui/material";
 
 import toast, { Toaster } from "react-hot-toast";
 import { LoginContext } from "../../contexts/LoginContext";
@@ -17,10 +18,13 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  PieChart,
+  Pie,
 } from "recharts";
 
 const ProductsGraph = (props) => {
   const [data, setData] = useState([]);
+  const [graphType, setGraphType] = useState("bar"); // added state to keep track of the current graph type
 
   const fetchData = () => {
     axios
@@ -45,17 +49,50 @@ const ProductsGraph = (props) => {
     fetchData();
   }, {});
 
+  // function to handle button click and change the graphType state
+  const handleGraphTypeChange = () => {
+    if (graphType === "bar") {
+      setGraphType("pie");
+    } else {
+      setGraphType("bar");
+    }
+  };
+
   return (
     <React.Fragment>
       <Toaster position="top-center" reverseOrder={false} />
-      <BarChart width={600} height={300} data={data}>
-        <XAxis dataKey="name" />
-        <YAxis />
-        <CartesianGrid strokeDasharray="3 3" />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="total" fill="#e3f2fd" />
-      </BarChart>
+      <Grid container justifyItems="center">
+        <Grid item xs={12} alignContent="center">
+          <Button onClick={handleGraphTypeChange}>Change Graph</Button>
+        </Grid>
+
+        <Grid item xs={8}>
+          {graphType === "bar" ? (
+            <BarChart width={600} height={300} data={data}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <CartesianGrid strokeDasharray="3 3" />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="total" fill="#8884d8" />
+            </BarChart>
+          ) : (
+            <PieChart width={600} height={300}>
+              <Pie
+                dataKey="total"
+                data={data}
+                cx="50%"
+                cy="50%"
+                outerRadius={50}
+                fill="#8884d8"
+                label
+              />
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          )}
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 };
