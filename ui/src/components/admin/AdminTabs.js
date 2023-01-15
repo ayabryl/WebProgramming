@@ -20,8 +20,10 @@ import LeaderboardIcon from "@mui/icons-material/Leaderboard";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Orders from "./Orders";
 import AddProductForm from "./AddProductForm";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import toast, { Toaster } from "react-hot-toast";
+import ProductsGraph from "./ProductsGraph";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -79,7 +81,7 @@ const AdminTabs = () => {
         <Orders specificUser={false} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        graph
+        <ProductsGraph />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <AddProductForm />

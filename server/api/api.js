@@ -66,6 +66,29 @@ const updateProduct = async (product) => {
   return updatedProduct;
 };
 
+const productStatistic = async () => {
+  const productStatistic = await Order.mapReduce(
+    function () {
+      if (this.products && this.products.length > 0) {
+        this.products.forEach((product) => {
+          emit(product.product_name, 1);
+        });
+      }
+    },
+    function (key, values) {
+      if (values && values.length > 0) {
+        return values.reduce((acc, curr) => acc + curr, 0);
+      }
+    },
+    {
+      out: { inline: 1 },
+      // query: { order_status: "completed" },
+    }
+  );
+
+  return productStatistic;
+};
+
 module.exports = {
   getProducts,
   getOrders,
@@ -76,4 +99,5 @@ module.exports = {
   updateProduct,
   getUserById,
   getOrdersByUserId,
+  productStatistic,
 };

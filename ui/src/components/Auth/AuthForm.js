@@ -205,7 +205,12 @@ const AuthForm = () => {
                   xs={12}
                   sx={{ mb: 1, display: "flex", justifyContent: "center" }}
                 >
-                  <Button type="submit" variant="contained" color="primary">
+                  <Button
+                    type="submit"
+                    variant="contained"
+
+                    // style={{ color: "white" }}
+                  >
                     {isLogin ? "Login" : "Create Account"}
                   </Button>
                 </Grid>
@@ -221,9 +226,10 @@ const AuthForm = () => {
                 sx={{ mb: 2, display: "flex", justifyContent: "center" }}
               >
                 <Button
+                  sx={{ mb: 2 }}
                   onClick={switchAuthModeHandler}
                   type="submit"
-                  color="primary"
+                  color="secondary"
                 >
                   {isLogin
                     ? "Create new account"
