@@ -16,6 +16,15 @@ import SearchContext from "./contexts/SearchContext";
 import { CartContextProvider } from "./contexts/CartContext";
 
 const theme = createTheme({
+  typography: {
+    fontFamily: [
+      "Nunito",
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+    ].join(","),
+  },
   palette: {
     primary: {
       light: "#e3f2fd",
