@@ -11,6 +11,7 @@ import {
   Box,
 } from "@mui/material/";
 import toast, { Toaster } from "react-hot-toast";
+import { StyledButtonContained, theme } from "../../theme";
 
 const AddProductForm = () => {
   const [formData, setFormData] = useState({
@@ -96,7 +97,7 @@ const AddProductForm = () => {
           sx={{
             display: "flex",
             height: "100%",
-            width: 800,
+            width: "100%",
             boxShadow: 1,
             borderRadius: 2,
           }}
@@ -190,7 +191,15 @@ const AddProductForm = () => {
                 sx={{ mt: 2 }}
               >
                 <Grid item xs={12}>
-                  <Typography>Product Colors: </Typography>
+                  <Typography
+                    sx={{
+                      color: "primary.dark",
+                      fontWeight: "bold",
+                      mt: 1,
+                    }}
+                  >
+                    Product Colors:{" "}
+                  </Typography>
                 </Grid>
                 <Grid
                   item
@@ -242,22 +251,39 @@ const AddProductForm = () => {
                           </FormControl>
                         </Grid>
 
-                        <Button onClick={() => handleRemoveColor(index)}>
+                        <Button
+                          sx={{
+                            color: "secondary.light",
+                            "&:hover": { color: "primary.main" },
+                          }}
+                          onClick={() => handleRemoveColor(index)}
+                        >
                           Remove Color
                         </Button>
                       </Grid>
                     </div>
                   ))}
                 </Grid>
-                <Button sx={{ mt: 1 }} onClick={handleAddColor}>
+                <Button
+                  sx={{
+                    color: "primary.dark",
+                    "&:hover": { color: "primary.main" },
+                    mt: 1,
+                  }}
+                  onClick={handleAddColor}
+                >
                   Add Another Color
                 </Button>
               </Grid>
             </FormControl>
             <Grid item sx={4}>
-              <Button variant="contained" sx={{ mt: 1 }} onClick={handleSubmit}>
+              <StyledButtonContained
+                variant="contained"
+                sx={{ mt: 1 }}
+                onClick={handleSubmit}
+              >
                 Add Product
-              </Button>
+              </StyledButtonContained>
             </Grid>
           </Grid>
         </Box>

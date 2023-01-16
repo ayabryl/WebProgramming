@@ -1,7 +1,7 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import * as React from "react";
 import { styled } from "@mui/system";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
 const theme = createTheme({
   typography: {
@@ -14,7 +14,7 @@ const theme = createTheme({
     primary: {
       light: "#a29f92",
       main: "#1a1916",
-      dark: "#1e88e5",
+      dark: "#8e70ad",
       200: "#90caf9",
       800: "#1565c0",
       contrastText: "#fff",
@@ -74,17 +74,15 @@ export const StyledButtonContained = styled(Button)(
       backgroundColor: theme.palette[color].light,
     },
     "background-color": theme.palette[color].main,
+    color: "white",
   })
 );
 
-export const StyledButtonOutlined = styled(Button)(
-  ({ theme, color = "secondary" }) => ({
-    ":hover": {
-      color: "white",
-      backgroundColor: theme.palette[color].light,
-    },
-    "background-color": theme.palette[color].main,
-  })
-);
+// export const StyledTextField = styled(TextField)(({ theme }) => ({
+//   color: theme.palette.primary.light,
+//   ":hover": {
+//     color: theme.palette.primary.light,
+//   },
+// }));
 
 export default theme;
