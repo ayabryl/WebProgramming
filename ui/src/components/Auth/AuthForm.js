@@ -164,14 +164,14 @@ const AuthForm = () => {
           "& > :not(style)": {
             m: 1,
             width: 300,
-            height: 420,
+            height: 460,
           },
         }}
       >
         <Toaster position="top-center" reverseOrder={false} />
         <Paper elevation={3}>
           <Grid
-            sx={{ mt: 1 }}
+            sx={{ mt: 0.5 }}
             container
             alignItems="center"
             justifyContent="center"
@@ -189,7 +189,7 @@ const AuthForm = () => {
                   inputRef={emailInputRef}
                 />
               </Grid>
-              <Grid item xs={12} sx={{ mb: 7 }}>
+              <Grid item xs={12} sx={{ mb: 6 }}>
                 <TextField
                   label="Password"
                   type="password"
