@@ -218,7 +218,7 @@ const AddProductForm = () => {
                         align="center"
                         justifyContent="center"
                       >
-                        <Grid item xs={3} sx={{ mr: 1 }}>
+                        <Grid item xs={3} sx={{ mr: 1.5 }}>
                           <FormControl>
                             <InputLabel htmlFor={`hex_value-${index}`}>
                               Hex Value
@@ -234,7 +234,7 @@ const AddProductForm = () => {
                             />
                           </FormControl>
                         </Grid>
-                        <Grid item xs={3} sx={{ mr: 1 }}>
+                        <Grid item xs={3} sx={{ mr: 0.5 }}>
                           <FormControl>
                             <InputLabel htmlFor={`color_name-${index}`}>
                               Color Name
@@ -257,6 +257,7 @@ const AddProductForm = () => {
                             "&:hover": { color: "primary.main" },
                           }}
                           onClick={() => handleRemoveColor(index)}
+                          size="small"
                         >
                           Remove Color
                         </Button>
@@ -264,27 +265,29 @@ const AddProductForm = () => {
                     </div>
                   ))}
                 </Grid>
-                <Button
-                  sx={{
-                    color: "primary.dark",
-                    "&:hover": { color: "primary.main" },
-                    mt: 1,
-                  }}
-                  onClick={handleAddColor}
+                <Grid item sx={12}>
+                  <Button
+                    sx={{
+                      color: "primary.dark",
+                      "&:hover": { color: "primary.main" },
+                      mt: 1,
+                    }}
+                    onClick={handleAddColor}
+                  >
+                    Add Another Color
+                  </Button>
+                </Grid>
+              </Grid>
+              <Grid item sx={12}>
+                <StyledButtonContained
+                  variant="contained"
+                  sx={{ mt: 1 }}
+                  onClick={handleSubmit}
                 >
-                  Add Another Color
-                </Button>
+                  Add Product
+                </StyledButtonContained>
               </Grid>
             </FormControl>
-            <Grid item sx={4}>
-              <StyledButtonContained
-                variant="contained"
-                sx={{ mt: 1 }}
-                onClick={handleSubmit}
-              >
-                Add Product
-              </StyledButtonContained>
-            </Grid>
           </Grid>
         </Box>
       </form>

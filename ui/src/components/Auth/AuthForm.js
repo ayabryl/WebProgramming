@@ -183,7 +183,14 @@ const AuthForm = () => {
           >
             <form onSubmit={submitHandler}>
               <Grid item xs={12} sx={{ mb: 6 }}>
-                <StyledH1>{isLogin ? "Login" : "Sign Up"}</StyledH1>
+                <StyledH1
+                  sx={{
+                    color: "primary.light",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {isLogin ? "Login" : "Sign Up"}
+                </StyledH1>
               </Grid>
               <Grid item xs={12} sx={{ mb: 2 }}>
                 <TextField
