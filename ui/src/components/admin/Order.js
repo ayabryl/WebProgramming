@@ -154,7 +154,6 @@ const Order = (props) => {
               select
               label="order status"
               defaultValue={order.order_status}
-              onChange={handleOrderStatusChange}
               fullWidth
             >
               <MenuItem value="In Progress">In Progress</MenuItem>
