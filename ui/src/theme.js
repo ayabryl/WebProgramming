@@ -1,26 +1,27 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
+import * as React from "react";
+import { styled } from "@mui/system";
+import { Button } from "@mui/material";
 
 const theme = createTheme({
   typography: {
-    fontFamily: [
-      "Nunito",
-      "Roboto",
-      '"Helvetica Neue"',
-      "Arial",
-      "sans-serif",
-    ].join(","),
+    fontFamily: "sans-serif",
+    button: {
+      fontStyle: "sans-serif",
+    },
   },
   palette: {
     primary: {
-      light: "#e3f2fd",
-      main: "#2F7977",
+      light: "#a29f92",
+      main: "#1a1916",
       dark: "#1e88e5",
       200: "#90caf9",
       800: "#1565c0",
+      contrastText: "#fff",
     },
     secondary: {
-      light: "#d1c4e9",
-      main: "#90BBC2",
+      light: "#9f9b99",
+      main: "#817c86",
       dark: "#651fff",
       200: "#b39ddb",
       800: "#6200ea",
@@ -59,26 +60,31 @@ const theme = createTheme({
       900: "#111936",
     },
     text: {
-      primary: "#212121",
-      secondary: "#90BBC2",
+      primary: "#383734",
+      secondary: "#817c86",
       hint: "#C8F4F9",
-    },
-
-    typography: {
-      subtitle1: {
-        fontSize: 12,
-      },
-      body1: {
-        fontWeight: 500,
-      },
-      button: {
-        fontStyle: "sans-serif",
-      },
-    },
-    fontfamily: {
-      fontStyle: "sans-serif",
     },
   },
 });
+
+export const StyledButtonContained = styled(Button)(
+  ({ theme, color = "secondary" }) => ({
+    ":hover": {
+      color: "white",
+      backgroundColor: theme.palette[color].light,
+    },
+    "background-color": theme.palette[color].main,
+  })
+);
+
+export const StyledButtonOutlined = styled(Button)(
+  ({ theme, color = "secondary" }) => ({
+    ":hover": {
+      color: "white",
+      backgroundColor: theme.palette[color].light,
+    },
+    "background-color": theme.palette[color].main,
+  })
+);
 
 export default theme;

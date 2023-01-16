@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../contexts/LoginContext";
 import { useContext } from "react";
 import Context from "@mui/base/TabsUnstyled/TabsContext";
+import { StyledButtonContained } from "../../theme";
 
 const useLoginContext = () => {
   const context = useContext(LoginContext);
@@ -205,14 +206,14 @@ const AuthForm = () => {
                   xs={12}
                   sx={{ mb: 1, display: "flex", justifyContent: "center" }}
                 >
-                  <Button
+                  <StyledButtonContained
                     type="submit"
                     variant="contained"
 
                     // style={{ color: "white" }}
                   >
                     {isLogin ? "Login" : "Create Account"}
-                  </Button>
+                  </StyledButtonContained>
                 </Grid>
               )}
               {isLoading && (
