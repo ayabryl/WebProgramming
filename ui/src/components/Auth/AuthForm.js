@@ -136,18 +136,22 @@ const AuthForm = () => {
           let isAdmin = false;
           if (!isLogin) {
             CreateNewUserInMongo(data.localId);
+            login(data.email, data.localId, isAdmin);
           } else {
             // Check if the user is admin
             fetch("http://localhost:3001/users/isAdmin/" + data.localId)
               .then((res) => {
                 res.json().then((ans) => {
                   isAdmin = ans;
+
+                  login(data.email, data.localId, isAdmin);
                 });
               })
               .catch((err) => console.log(err));
           }
+
           toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
-          login(data.email, data.localId, isAdmin);
+
           navigate("/", { replace: true });
         })
         .catch((err) => {
