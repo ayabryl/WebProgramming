@@ -61,9 +61,20 @@ const ProductsGraph = (props) => {
   return (
     <React.Fragment>
       <Toaster position="top-center" reverseOrder={false} />
-      <Grid container justifyItems="center">
-        <Grid item xs={12} alignContent="center">
-          <Button onClick={handleGraphTypeChange}>Change Graph</Button>
+      <Grid
+        container
+        justifyItems="center"
+        direction="column"
+        alignItems="center"
+      >
+        <Grid item xs={4} sx={{ mb: 3 }} alignContent="center">
+          <Button
+            color="secondary"
+            variant="outlined"
+            onClick={handleGraphTypeChange}
+          >
+            Change Graph
+          </Button>
         </Grid>
 
         <Grid item xs={8}>
@@ -74,7 +85,7 @@ const ProductsGraph = (props) => {
               <CartesianGrid strokeDasharray="3 3" />
               <Tooltip />
               <Legend />
-              <Bar dataKey="total" fill="#8884d8" />
+              <Bar dataKey="total" color="secondary" fill="primary" />
             </BarChart>
           ) : (
             <PieChart width={600} height={300}>
@@ -84,7 +95,7 @@ const ProductsGraph = (props) => {
                 cx="50%"
                 cy="50%"
                 outerRadius={50}
-                fill="#8884d8"
+                fill="primary"
                 label
               />
               <Tooltip />

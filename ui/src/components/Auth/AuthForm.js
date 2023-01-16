@@ -229,7 +229,6 @@ const AuthForm = () => {
                 <Button
                   sx={{ mb: 2 }}
                   onClick={switchAuthModeHandler}
-                  type="submit"
                   color="secondary"
                 >
                   {isLogin
