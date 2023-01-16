@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../contexts/LoginContext";
 import { useContext } from "react";
 import Context from "@mui/base/TabsUnstyled/TabsContext";
+import { StyledButtonContained } from "../../theme";
 
 const useLoginContext = () => {
   const context = useContext(LoginContext);
@@ -135,18 +136,22 @@ const AuthForm = () => {
           let isAdmin = false;
           if (!isLogin) {
             CreateNewUserInMongo(data.localId);
+            login(data.email, data.localId, isAdmin);
           } else {
             // Check if the user is admin
             fetch("http://localhost:3001/users/isAdmin/" + data.localId)
               .then((res) => {
                 res.json().then((ans) => {
                   isAdmin = ans;
+
+                  login(data.email, data.localId, isAdmin);
                 });
               })
               .catch((err) => console.log(err));
           }
+
           toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
-          login(data.email, data.localId, isAdmin);
+
           navigate("/", { replace: true });
         })
         .catch((err) => {
@@ -164,21 +169,28 @@ const AuthForm = () => {
           "& > :not(style)": {
             m: 1,
             width: 300,
-            height: 420,
+            height: 460,
           },
         }}
       >
         <Toaster position="top-center" reverseOrder={false} />
         <Paper elevation={3}>
           <Grid
-            sx={{ mt: 1 }}
+            sx={{ mt: 0.5 }}
             container
             alignItems="center"
             justifyContent="center"
           >
             <form onSubmit={submitHandler}>
               <Grid item xs={12} sx={{ mb: 6 }}>
-                <StyledH1>{isLogin ? "Login" : "Sign Up"}</StyledH1>
+                <StyledH1
+                  sx={{
+                    color: "primary.light",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {isLogin ? "Login" : "Sign Up"}
+                </StyledH1>
               </Grid>
               <Grid item xs={12} sx={{ mb: 2 }}>
                 <TextField
@@ -189,7 +201,7 @@ const AuthForm = () => {
                   inputRef={emailInputRef}
                 />
               </Grid>
-              <Grid item xs={12} sx={{ mb: 7 }}>
+              <Grid item xs={12} sx={{ mb: 6 }}>
                 <TextField
                   label="Password"
                   type="password"
@@ -205,14 +217,14 @@ const AuthForm = () => {
                   xs={12}
                   sx={{ mb: 1, display: "flex", justifyContent: "center" }}
                 >
-                  <Button
+                  <StyledButtonContained
                     type="submit"
                     variant="contained"
 
                     // style={{ color: "white" }}
                   >
                     {isLogin ? "Login" : "Create Account"}
-                  </Button>
+                  </StyledButtonContained>
                 </Grid>
               )}
               {isLoading && (
@@ -228,7 +240,6 @@ const AuthForm = () => {
                 <Button
                   sx={{ mb: 2 }}
                   onClick={switchAuthModeHandler}
-                  type="submit"
                   color="secondary"
                 >
                   {isLogin
