@@ -16,6 +16,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 import PasswordDialog from "./PasswordDialog";
 import { LoginContext } from "../../contexts/LoginContext";
+import { StyledButtonContained } from "../../theme";
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
@@ -90,60 +91,121 @@ const UserDetails = (props) => {
   };
 
   return (
-    <Grid container alignItems="center" justifyContent="center">
-      <Box
-        sx={{
-          display: "flex",
-          "& > :not(style)": {
-            m: 2,
-            width: "45%",
-            height: "110%",
-          },
-          justifyContent: "center",
-        }}
-      >
+    <Grid display="flex" justifyContent="center">
+      <Paper elevation={3} sx={{ width: "50%", height: "120%", ml: 2, p: 2 }}>
         <Toaster position="top-center" reverseOrder={false} />
-        <Paper elevation={3}>
-          <Grid
-            sx={{ mt: 1, ml: 4 }}
-            container
-            justifyContent="center"
-            rowSpacing={1}
-          >
-            {!edit ? (
-              <Grid item xs={12} alignSelf="flex-end">
-                <IconButton onClick={() => setEdit(true)} aria-label="edit">
-                  <EditIcon color="primary" />
-                </IconButton>
-              </Grid>
-            ) : (
-              <Grid item xs={12} alignSelf="flex-end">
-                <IconButton onClick={() => setEdit(false)} aria-label="edit">
-                  <CancelIcon color="primary" />
-                </IconButton>
-              </Grid>
-            )}
-
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          rowSpacing={2}
+          columnSpacing={2}
+          alignItems="center"
+        >
+          {!edit ? (
             <Grid item xs={12}>
-              <StyledH1> My Profile</StyledH1>
+              <IconButton onClick={() => setEdit(true)} aria-label="edit">
+                <EditIcon color="primary" />
+              </IconButton>
             </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                disabled={!edit}
-                id="name"
-                label="full name"
-                value={name}
-                onChange={(event) => {
-                  setName(event.target.value);
-                }}
-                variant="outlined"
-              />
+          ) : (
+            <Grid item xs={12} alignSelf="flex-end">
+              <IconButton onClick={() => setEdit(false)} aria-label="edit">
+                <CancelIcon color="primary" />
+              </IconButton>
             </Grid>
+          )}
 
-            <Grid item xs={6}>
+          <Grid item xs={12}>
+            <StyledH1
+              sx={{
+                color: "primary.light",
+                fontWeight: "bold",
+              }}
+            >
+              My Profile
+            </StyledH1>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              disabled={!edit}
+              id="name"
+              label="full name"
+              value={name}
+              onChange={(event) => {
+                setName(event.target.value);
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              disabled
+              id="email"
+              label="email"
+              value={email}
+              variant="outlined"
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              disabled={!edit}
+              id="city"
+              label="city"
+              value={city}
+              onChange={(event) => {
+                setCity(event.target.value);
+              }}
+              variant="outlined"
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              disabled={!edit}
+              id="address"
+              label="address line"
+              value={addressLine}
+              onChange={(event) => {
+                setAddressLine(event.target.value);
+              }}
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              disabled={!edit}
+              id="CommentForDelivery"
+              label="Comment For Delivery"
+              value={CommentForDelivery}
+              onChange={(event) => {
+                setCommentForDelivery(event.target.value);
+              }}
+              variant="outlined"
+              fullWidth
+              rows={3}
+              multiline
+            />
+          </Grid>
+          <Grid
+            direction="column"
+            item
+            xs={6}
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            fullWidth
+          >
+            <Grid item xs={12}>
               <TextField
+                fullWidth
                 disabled={!edit}
+                sx={{ width: "100%" }}
                 id="phone"
                 label="phone number"
                 value={phone}
@@ -153,110 +215,53 @@ const UserDetails = (props) => {
                 variant="outlined"
               />
             </Grid>
-
-            <Grid
-              container
-              item
-              xs={12}
-              alignItems="flex-start"
-              justifyContent="flex-start"
-            >
-              <Grid item xs={6}>
-                <Input size="small" disabled placeholder="**************" />
-              </Grid>
-              <Grid item xs={6}>
-                <Button
-                  size="extara"
-                  fontSize="small"
-                  disabled={!edit}
-                  onClick={() => handleChangePasswordClicked(true)}
-                >
-                  changing password
-                </Button>
-              </Grid>
-              <Grid item xs={12}>
-                <PasswordDialog
-                  open={open}
-                  handleClose={() => handleChangePasswordClicked(false)}
-                />
-              </Grid>
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                disabled
-                id="email"
-                label="email"
-                value={email}
-                variant="outlined"
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
+            <Grid item xs={12}>
+              <Button
+                size="extara"
+                fontSize="small"
                 disabled={!edit}
-                id="city"
-                label="city"
-                value={city}
-                onChange={(event) => {
-                  setCity(event.target.value);
-                }}
-                variant="outlined"
+                onClick={() => handleChangePasswordClicked(true)}
+              >
+                changing password
+              </Button>
+              <PasswordDialog
+                open={open}
+                handleClose={() => handleChangePasswordClicked(false)}
               />
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                disabled={!edit}
-                id="address"
-                label="address line"
-                value={addressLine}
-                onChange={(event) => {
-                  setAddressLine(event.target.value);
-                }}
-                variant="outlined"
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                disabled={!edit}
-                id="CommentForDelivery"
-                label="Comment For Delivery"
-                value={CommentForDelivery}
-                onChange={(event) => {
-                  setCommentForDelivery(event.target.value);
-                }}
-                variant="outlined"
-                rows={3}
-                multiline
-              />
-            </Grid>
-
-            <Grid
-              item
-              xs={12}
-              sx={{ mb: 2, mt: 3, display: "flex", justifyContent: "center" }}
-            >
-              {edit ? (
-                <Button
-                  variant="outlined"
-                  onClick={submitHandler}
-                  type="submit"
-                  color="primary"
-                >
-                  Update
-                </Button>
-              ) : (
-                <Grid
-                  item
-                  xs={12}
-                  sx={{ mb: 2, mt: 3, justifyContent: "center" }}
-                />
-              )}
             </Grid>
           </Grid>
-        </Paper>
-      </Box>
+
+          {/* <Grid item xs={12}></Grid> */}
+          {/* </Grid> */}
+
+          {/* <Grid item xs={6}>
+            <Input size="small" disabled placeholder="**************" />
+          </Grid> */}
+
+          <Grid
+            item
+            xs={12}
+            sx={{ mb: 2, mt: 3, display: "flex", justifyContent: "center" }}
+          >
+            {edit ? (
+              <StyledButtonContained
+                variant="outlined"
+                onClick={submitHandler}
+                type="submit"
+                color="primary"
+              >
+                Update
+              </StyledButtonContained>
+            ) : (
+              <Grid
+                item
+                xs={12}
+                sx={{ mb: 2, mt: 3, justifyContent: "center" }}
+              />
+            )}
+          </Grid>
+        </Grid>
+      </Paper>
     </Grid>
   );
 };
