@@ -7,7 +7,7 @@ import { LoginContext } from "../../contexts/LoginContext";
 import { Box } from "@mui/system";
 
 const Cart = (props) => {
-  const { email, idToken, login } = useContext(LoginContext);
+  const { email, uid, login } = useContext(LoginContext);
   const navigate = useNavigate();
   const { cart, addToCart, removeFromCart } = useContext(CartContext);
 
@@ -57,7 +57,7 @@ const Cart = (props) => {
     const order = {
       products: products,
       created_at: new Date(),
-      user_id: idToken,
+      user_id: uid,
       status: "New order",
       total_price: getTotal,
     };
