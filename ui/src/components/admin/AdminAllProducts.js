@@ -5,18 +5,13 @@ import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
-import ProductCard from "./ProductCard";
+import ProductCard from "../Home/ProductCard";
 import SearchContext from "../../contexts/SearchContext";
 
-const Market = () => {
+const AdminAllProducts = () => {
   const [products, setProducts] = useState([]);
   const [parsedProduct, setParsedProducts] = useState([]);
   const { searchWord } = useContext(SearchContext);
-  const navigate = useNavigate();
-
-  const toProductPage = (product) => {
-    navigate("/product", { state: { product: product } });
-  };
 
   const fetchData = () => {
     axios.get(`http://localhost:3001/products`).then((res) => {
@@ -41,13 +36,7 @@ const Market = () => {
       );
     }
     productsShow = productsShow.map((p) => (
-      <Grid
-        item
-        xs={3}
-        onClick={() => {
-          toProductPage(p);
-        }}
-      >
+      <Grid item xs={3}>
         <ProductCard
           key={Math.random().toString()}
           name={p.name}
@@ -56,7 +45,7 @@ const Market = () => {
           price={p.price}
           imageURL={p.image_link}
           id={p.id}
-          adminPage={false}
+          adminPage={true}
         ></ProductCard>
       </Grid>
     ));
@@ -74,4 +63,4 @@ const Market = () => {
     </Fragment>
   );
 };
-export default Market;
+export default AdminAllProducts;

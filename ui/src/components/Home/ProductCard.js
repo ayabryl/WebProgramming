@@ -10,8 +10,20 @@ import {
 } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link } from "react-router-dom";
+import DeleteForever from "@mui/icons-material/DeleteForever";
+import EditSharpIcon from "@mui/icons-material/EditSharp";
 
 const ProductCard = (props) => {
+  const handleEditProduct = () => {
+    // TODO: delete product in db
+    console.log("delete product");
+  };
+
+  const handleDeleteProduct = () => {
+    // TODO: open dialog to change product
+    console.log("edit product");
+  };
+
   return (
     <Box
       sx={{
@@ -31,29 +43,27 @@ const ProductCard = (props) => {
           alignItems="space-between"
           direction="row"
         >
-          <Link to="/product" style={{ textDecoration: "none" }}>
-            <Grid item xs={12}>
-              <Typography
-                sx={{
-                  color: "primary.main",
-                  fontWeight: "bold",
-                  mt: 1,
-                  ml: 1,
-                }}
-              >
-                {props.category}
-              </Typography>
+          <Grid item xs={12}>
+            <Typography
+              sx={{
+                color: "primary.main",
+                fontWeight: "bold",
+                mt: 1,
+                ml: 1,
+              }}
+            >
+              {props.category}
+            </Typography>
 
-              <Typography
-                sx={{
-                  color: "secondary.main",
-                  ml: 1,
-                }}
-              >
-                {props.name}
-              </Typography>
-            </Grid>
-          </Link>
+            <Typography
+              sx={{
+                color: "secondary.main",
+                ml: 1,
+              }}
+            >
+              {props.name}
+            </Typography>
+          </Grid>
           <Grid
             item
             xs={12}
@@ -72,21 +82,35 @@ const ProductCard = (props) => {
             >
               {props.price}₪
             </Typography>
-
-            <IconButton sx={{ color: "primary.main" }}>
-              <AddShoppingCartIcon />
-            </IconButton>
+            {!props.adminPage ? (
+              <IconButton sx={{ color: "primary.main" }}>
+                <AddShoppingCartIcon />
+              </IconButton>
+            ) : (
+              <React.Fragment>
+                <IconButton
+                  sx={{ color: "secondary.main" }}
+                  onClick={handleEditProduct}
+                >
+                  <EditSharpIcon />
+                </IconButton>
+                <IconButton
+                  sx={{ color: "secondary.main" }}
+                  onClick={handleDeleteProduct}
+                >
+                  <DeleteForever />
+                </IconButton>
+              </React.Fragment>
+            )}
           </Grid>
         </Grid>
         <Grid item xs={4}>
-          <Link to="/product" style={{ textDecoration: "none" }}>
-            <CardMedia
-              component="img"
-              // sx={{ width: "100%", height: "100%" }}
-              image={props.imageURL}
-              alt={props.name}
-            />
-          </Link>
+          <CardMedia
+            component="img"
+            // sx={{ width: "100%", height: "100%" }}
+            image={props.imageURL}
+            alt={props.name}
+          />
         </Grid>
       </Grid>
     </Box>

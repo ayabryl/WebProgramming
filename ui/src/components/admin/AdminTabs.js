@@ -21,9 +21,12 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Orders from "./Orders";
 import AddProductForm from "./AddProductForm";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+// import DeleteForever from '@mui/icons-material/DeleteForever';
+import EditSharpIcon from "@mui/icons-material/EditSharp";
 
 import toast, { Toaster } from "react-hot-toast";
 import ProductsGraph from "./ProductsGraph";
+import AdminAllProducts from "./AdminAllProducts";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -75,6 +78,7 @@ const AdminTabs = () => {
         <Tab icon={<ViewListIcon />} label="Orders" iconPosition="end"></Tab>
         <Tab icon={<LeaderboardIcon />} label="Statistics" iconPosition="end" />
         <Tab icon={<AddCircleIcon />} label="Add product" iconPosition="end" />
+        <Tab icon={<EditSharpIcon />} label="All products" iconPosition="end" />
       </Tabs>
 
       <TabPanel value={value} index={0}>
@@ -85,6 +89,9 @@ const AdminTabs = () => {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <AddProductForm />
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        <AdminAllProducts />
       </TabPanel>
     </Box>
   );
