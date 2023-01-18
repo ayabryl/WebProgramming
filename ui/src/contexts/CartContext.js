@@ -1,10 +1,6 @@
 import { createContext, useState } from "react";
 import React from "react";
 
-// const CartContext = createContext({
-//     cart: [],
-//     setCart: () => {},
-//   });
 
 const CartContext = React.createContext(
     {

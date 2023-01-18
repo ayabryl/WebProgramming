@@ -69,7 +69,12 @@ const UserProfile = () => {
   };
 
   return (
-    <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+    <Box
+      sx={{
+        width: "80%",
+        bgcolor: "background.paper",
+      }}
+    >
       <Tabs value={value} onChange={handleChange} centered>
         <Tab icon={<LeaderboardIcon />} label="My Details" iconPosition="end" />
         <Tab icon={<ViewListIcon />} label="My Orders" iconPosition="end" />

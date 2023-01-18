@@ -15,6 +15,7 @@ const {
   updateProduct,
   getUserById,
   getOrdersByUserId,
+  productStatistic,
 } = require("./api/api");
 const hostname = "localhost";
 const port = 3001;
@@ -107,7 +108,17 @@ app.get("/orders/userId/:id", async (req, res) => {
   } catch (err) {
     res.send("Error finding orders for this user " + err);
   }
+});
 
+productStatistic;
+
+app.get("/orders/productStatistic", async (req, res) => {
+  try {
+    const products = await productStatistic();
+    res.send(products);
+  } catch (err) {
+    res.send("Error finding products" + err);
+  }
 });
 
 app.post("/addProduct", async (req, res) => {

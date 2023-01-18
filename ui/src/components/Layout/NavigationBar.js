@@ -82,22 +82,23 @@ const NavigationBar = () => {
   };
 
   const handleAdminLogin = () => {
-    // if (email === null && isAdmin === false) {
-    //   return null;
-    // } else if (isAdmin === true) {
-    return (
-      <Link to="/admin">
-        <IconButton size="large" edge="end" style={{ color: "white" }}>
-          <BuildIcon />
-        </IconButton>
-      </Link>
-    );
-    // }
+    console.log(isAdmin);
+    if (email === null || isAdmin === false) {
+      return null;
+    } else if (isAdmin === true) {
+      return (
+        <Link to="/admin">
+          <IconButton size="large" edge="end" style={{ color: "white" }}>
+            <BuildIcon />
+          </IconButton>
+        </Link>
+      );
+    }
   };
 
   return (
     <Box sx={{ flexGrow: 1, mr: 2, ml: 2 }}>
-      <AppBar position="static" style={{ background: "#8D91C7" }}>
+      <AppBar position="static" style={{ background: "success" }}>
         <Toolbar>
           <Link to="/" style={{ textDecoration: "none" }}>
             <Typography

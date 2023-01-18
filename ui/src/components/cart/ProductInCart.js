@@ -46,26 +46,29 @@ export default function ProductInCart(props) {
                 }}>
                     <CardContent >
                         <Box sx={{ display: "flex", flexDirection: "column" }}>
-                            <Typography component="div" variant="h6">
+                            <Typography sx={{
+                                color: "primary.main",
+                                fontWeight: "bold",
+                            }} component="div">
                                 {props.category}
                             </Typography>
-                            <Typography variant="body2" color="text.secondary" component="div">
+                            <Typography color="secondary.main" component="div">
                                 {props.name}
                             </Typography>
                         </Box>
                     </CardContent>
                 </Box>
-                 <Box sx={{
+                <Box sx={{
                     display: "flex",
                     flexGrow: 2,
                     justifyContent: "flex-start"
                 }}>
-                <CardMedia
-                    component="img"
-                    sx={{ width: 100, maxHigh: 100, height: 100 }}
-                    image={props.imageURL}
-                    alt={props.name}
-                />
+                    <CardMedia
+                        component="img"
+                        sx={{ width: 100, maxHigh: 100, height: 100 }}
+                        image={props.imageURL}
+                        alt={props.name}
+                    />
                 </Box>
                 <Box sx={{
                     display: "flex",

@@ -16,8 +16,9 @@ class LoginProvider extends React.Component {
           email: this.state.email,
           uid: this.state.uid,
           isAdmin: this.state.isAdmin,
-          login: (email, uid, isAdmin) =>
-            this.setState({ email, uid, isAdmin }),
+          login: (email, uid, isAdmin) => {
+            this.setState({ email, uid, isAdmin });
+          },
           logout: () =>
             this.setState({ email: null, uid: null, isAdmin: false }),
         }}

@@ -1,10 +1,11 @@
-import { ListItem, Typography, List, Button, Card, Grid } from "@mui/material"
+import { ListItem, Typography, List, Button, Card, Grid } from "@mui/material";
 import { CartContext } from "../../contexts/CartContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductInCart from "./ProductInCart";
 import { LoginContext } from "../../contexts/LoginContext";
 import { Box } from "@mui/system";
+import { StyledButtonContained } from "../../theme";
 
 const Cart = (props) => {
   const loggedUserContext = useContext(LoginContext);
@@ -40,9 +41,12 @@ const Cart = (props) => {
     </Grid>
   ));
 
-  const getTotal = cart.length ? cart.map((p) => p.price).reduce((prev, next) => prev + next) : 0;
+  const getTotal = cart.length
+    ? cart.map((p) => p.price).reduce((prev, next) => prev + next)
+    : 0;
 
   const handleOrder = () => {
+    //todo: add option to chose amount
     const products = cart.map((product) => ({
       product_name: product.name,
       price: product.price,
@@ -53,7 +57,7 @@ const Cart = (props) => {
       products: products,
       created_at: new Date(),
       user_id: loggedUserContext.uid,
-      status: 'New order',
+      order_status: "In Progress",
       total_price: getTotal
     }
     props.handleOrder(order);
@@ -68,7 +72,10 @@ const Cart = (props) => {
           flexDirection: 'column',
           marginLeft: "50px"
         }}>
-        <Typography sx={{ marginTop: '50px' }} variant="h5">My Basket</Typography>
+        <Typography sx={{
+          marginTop: '50px', color: "primary.main",
+          fontWeight: "bold",
+        }} variant="h5">My Basket</Typography>
         <Box sx={{
           display: "flex",
           justifyContent: "start",
@@ -79,22 +86,52 @@ const Cart = (props) => {
             </Grid>
           </Grid>
         </Box>
-        <Typography sx={{ marginTop: '20px' }}>Estimated Total: {getTotal}</Typography>
-        <Button size='large'
+        <Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{ mb: 1, display: "flex", justifyContent: "flex-start" }}
+          >
+            <Typography sx={{
+              color: "primary.main",
+              fontWeight: "bold",
+              mt: 1,
+              ml: 1,
+            }}>
+              Estimated Total: {getTotal}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{ mb: 1, display: "flex", justifyContent: "flex-start"}}
+          >
+            <StyledButtonContained
+              type="submit"
+              variant="contained"
+
+            >Order
+            </StyledButtonContained>
+          </Grid>
+        </Grid>
+        {/* <Button
+          size="large"
           onClick={handleOrder}
           sx={{
-            height: '50px',
-            width: '50px',
-            marginTop: '20px',
-            color: 'white', backgroundColor: 'black', ':hover': {
-              bgcolor: 'grey',
-              color: 'white',
-            }
-          }}>Order</Button>
-
+            height: "50px",
+            width: "50px",
+            color: "white",
+            backgroundColor: "black",
+            ":hover": {
+              bgcolor: "grey",
+              color: "white",
+            },
+          }}
+        > Order
+        </Button> */}
       </Box>
     </div>
-  )
-}
+  );
+};
 
 export default Cart;
