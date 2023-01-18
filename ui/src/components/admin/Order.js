@@ -57,34 +57,11 @@ const StyledTextField = styled(TextField)(({ theme, order_status }) => {
 
 const Order = (props) => {
   const [order, setOrder] = useState(props.order);
-  const [customer, setCustomer] = useState([]);
   const [expanded, setExpanded] = React.useState(false);
   const [orderStatus, setOrderStatus] = useState(props.order.order_status);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-  const fetchOrderCustomerData = (user_id) => {
-    axios.get(`http://localhost:3001/users/${user_id}`).then((res) => {
-      const data = res.data;
-      console.log(data);
-      setCustomer(data);
-    });
-  };
-  useEffect(() => {
-    console.log("Fetching data...");
-    fetchOrderCustomerData(order.user_id);
-    // setCustomer({
-    //   _id: "String",
-    //   name: "String",
-    //   phone_number: "String",
-    //   city: "String",
-    //   address_line: "String",
-    //   is_admin: false,
-    //   comment: "String",
-    // });
-  }, []);
 
   const handleOrderStatusChange = (event) => {
     const body = {
@@ -182,23 +159,25 @@ const Order = (props) => {
           sx={{ m: 2 }}
         >
           <Grid item xs={2}>
-            <Typography variant="body2">Name: {customer.name}</Typography>
+            <Typography variant="body2">Name: {props.customer.name}</Typography>
           </Grid>
           <Grid item xs={2}>
             <Typography variant="body2">
-              Phone number: {customer.phone_number}
+              Phone number: {props.customer.phone_number}
             </Typography>
           </Grid>
           <Grid item xs={2}>
-            <Typography variant="body2">City: {customer.city}</Typography>
+            <Typography variant="body2">City: {props.customer.city}</Typography>
           </Grid>
           <Grid item xs={3}>
             <Typography variant="body2">
-              Address : {customer.address_line}
+              Address : {props.customer.address_line}
             </Typography>
           </Grid>
           <Grid item xs={3}>
-            <Typography variant="body2">Comment: {customer.comment}</Typography>
+            <Typography variant="body2">
+              Comment: {props.customer.comment}
+            </Typography>
           </Grid>
         </Grid>
 
@@ -208,9 +187,9 @@ const Order = (props) => {
           unmountOnExit
           sx={{ minWidth: "100%" }}
         >
-          <CardContent products={order.products}>
+          <CardContent>
             {/* TODO: add component that show products */}
-            <ProducrInOrder></ProducrInOrder>
+            <ProducrInOrder products={order.products}></ProducrInOrder>
           </CardContent>
         </Collapse>
       </Grid>

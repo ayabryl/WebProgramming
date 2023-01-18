@@ -230,14 +230,6 @@ const UserDetails = (props) => {
               />
             </Grid>
           </Grid>
-
-          {/* <Grid item xs={12}></Grid> */}
-          {/* </Grid> */}
-
-          {/* <Grid item xs={6}>
-            <Input size="small" disabled placeholder="**************" />
-          </Grid> */}
-
           <Grid
             item
             xs={12}
