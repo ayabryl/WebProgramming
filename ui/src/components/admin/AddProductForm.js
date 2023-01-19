@@ -78,7 +78,7 @@ const AddProductForm = () => {
     fetch("http://localhost:3001/addProduct", requestOptions)
       .then((response) => {
         console.log(response);
-        toast.error("The product successfuly added");
+        toast.success("The product successfuly added");
         navigate("/", { replace: true });
       })
       .catch((error) => {

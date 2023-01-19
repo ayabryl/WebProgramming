@@ -28,7 +28,8 @@ const EditProduct = (props) => {
   const open = props.open;
   const handleClose = props.handleClose;
   const [selectedColor, setSelectColor] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [handleAddColorClicked, setAddColorClicked] = useState(false);
+  const [newColor, setNewColor] = useState({ hex_value: "", colour_name: "" });
   const [formData, setFormData] = useState({
     price: props.product.price,
     name: props.product.name,
@@ -41,9 +42,6 @@ const EditProduct = (props) => {
     imageLink: props.product.image_link,
     productColors: props.product.product_colors,
   });
-  const [handleAddColorClicked, setAddColorClicked] = useState(false);
-  const [newColor, setNewColor] = useState({ hex_value: "", colour_name: "" });
-  const [phone, setPhone] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -77,86 +75,38 @@ const EditProduct = (props) => {
     setSelectColor("");
   };
 
-  const handleSubmit = (event) => {
+  const submitHandler = (event) => {
     event.preventDefault();
-    // submit form data to server
-
     const body = {
+      _id: props.product._id,
       price: formData.price,
       name: formData.name,
       brand: formData.brand,
       priceSign: formData.priceSign,
-      productLink: formData.productLink,
+      product_link: formData.productLink,
       description: formData.description,
       category: formData.category,
-      productType: formData.productType,
-      imageLink: formData.imageLink,
-      productColors: formData.productColors,
+      product_type: formData.productType,
+      image_link: formData.imageLink,
+      product_colors: formData.productColors,
     };
+
     const requestOptions = {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     };
-    // Save the new product in db
-    fetch("http://localhost:3001/addProduct", requestOptions)
+    // change product in db
+    fetch("http://localhost:3001/updateProduct", requestOptions)
       .then((response) => {
         console.log(response);
-        toast.error("The product successfuly added");
-        navigate("/", { replace: true });
+        toast.success("The product successfuly changed");
+        props.handleClose();
       })
       .catch((error) => {
         console.log(error);
         toast.error("Error Occured, Try again");
       });
-  };
-
-  const navigate = useNavigate();
-
-  const submitHandler = (event) => {
-    event.preventDefault();
-
-    // const enteredPassword = passwordInputRef.current.value;
-
-    // if (validate(enteredPassword)) {
-    //   setIsLoading(true);
-
-    //   // let url;
-
-    //   const url = `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${key}`;
-    //   fetch(url, {
-    //     method: "POST",
-    //     body: JSON.stringify({
-    //       localId: uid,
-    //       password: enteredPassword,
-    //       returnSecureToken: false,
-    //     }),
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //     .then((res) => {
-    //       setIsLoading(false);
-    //       if (res.ok) {
-    //         return res.json();
-    //       } else {
-    //         return res.json().then((data) => {
-    //           let errorMessage = `Changing Password failed: ${data.error.message}`;
-
-    //           throw new Error(errorMessage);
-    //         });
-    //       }
-    //     })
-    //     .then((data) => {
-    //       //ToDo: save the user to the page and exit from this page
-    //       toast.success(`Successfully changed!`);
-    //       handleClose();
-    //       console.log(data);
-    //     })
-    //     .catch((err) => {
-    //       toast.error(err.message);
-    //     });
-    // }
   };
 
   const productsColors = formData.productColors.map((p) => (
@@ -186,12 +136,12 @@ const EditProduct = (props) => {
       <Toaster position="top-center" reverseOrder={false} />
       <Dialog open={open} onClose={handleClose} sx={{ width: "100%" }}>
         <DialogTitle sx={{ color: "text.light", fontWeight: "bold" }}>
-          Edit Product #{props.product.id}
+          Edit Product #{props.product._id}
         </DialogTitle>
         <DialogContent>
           <Grid container spacing={1} justifyContent="center">
             <Toaster position="top-center" reverseOrder={false} />
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={submitHandler}>
               <Box
                 sx={{
                   display: "flex",
