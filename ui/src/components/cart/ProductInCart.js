@@ -1,17 +1,23 @@
 import * as React from "react";
-import { Card, CardContent, CardMedia, Typography, Box, Button, IconButton } from "@mui/material";
+import {
+    Card, CardContent, CardMedia, Typography, Box, Button, IconButton, FormControl
+    , InputLabel, Select, MenuItem
+} from "@mui/material";
 import DeleteForever from '@mui/icons-material/DeleteForever';
-import EditSharpIcon from '@mui/icons-material/EditSharp';
+import { createContext, useState } from "react";
 
 export default function ProductInCart(props) {
+
+    const [amount, setAmount] = useState(props.amount)
 
     const onRemoveFromCartClick = (event) => {
         props.handleRemoveFromCart(props.id);
         event.preventDefault();
     }
 
-    const toProductPage = () => {
-        props.toProductPage(props.id);
+    const handleChange = (event) => {
+        setAmount(event.target.value);
+        props.setProductAmount(props.id, amount);
     }
 
     return (
@@ -21,6 +27,8 @@ export default function ProductInCart(props) {
                 height: 120,
                 boxShadow: 1,
                 borderRadius: 2,
+                flexGrow: 1,
+                mr: 20
             }}
         >
             <Box
@@ -29,63 +37,84 @@ export default function ProductInCart(props) {
                     flexDirection: "row",
                     alignItems: "right",
                     ml: 1,
-                    width: 800,
-                    justifyContent: "space-around",
+                    flexGrow: 1,
                 }}
             >
-                <CardContent>
-                    <Typography component="div" variant="h6">
-                        {props.category}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" component="div">
-                        {props.name}
-                    </Typography>
-                </CardContent>
-                <CardMedia
-                    component="img"
-                    sx={{ width: 100, maxHigh: 100, height: 100 }}
-                    image={props.imageURL}
-                    alt={props.name}
-                />
-                <Typography
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                    }}
-                >
-                    {props.price}₪
-                </Typography>
                 <Box sx={{
+                    display: "flex",
+                    flexGrow: 2,
+                }}>
+                    <CardContent >
+                        <Box sx={{ display: "flex", flexDirection: "column" }}>
+                            <Typography sx={{
+                                color: "primary.main",
+                                fontWeight: "bold",
+                            }} component="div">
+                                {props.category}
+                            </Typography>
+                            <Typography color="secondary.main" component="div">
+                                {props.name}
+                            </Typography>
+                        </Box>
+                    </CardContent>
+                </Box>
+                <Box sx={{
+                    display: "flex",
+                    flexGrow: 2,
+                    justifyContent: "flex-start"
+                }}>
+                    <CardMedia
+                        component="img"
+                        sx={{ width: 100, maxHigh: 100, height: 100 }}
+                        image={props.imageURL}
+                        alt={props.name}
+                    />
+                </Box>
+                <Box sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    marginRight: '20px',
+                    flexGrow: 2,
+                    justifyContent: "center",
+                    justifyContent: "flex-end"
+                }}>
+                    <Box sx={{
                         display: "flex",
                         alignItems: "flex-end",
-                        flexDirection:"column",
-                        marginRight:'20px'
+                        flexDirection: "column",
+                        marginRight: '20px',
+                        ml: "20px",
+                        justifyContent: 'space-evenly'
                     }}>
-                          <IconButton onClick={onRemoveFromCartClick}
-                        size="large"
+                        <Typography
+                            sx={{
+                                display: "flex",
+                                alignItems: "center",
+                            }}
+                        >
+                            {props.price}₪
+                        </Typography>
+                        <FormControl sx={{ minWidth: 120 }} size="small">
+                            <InputLabel id="demo-select-small">Amount</InputLabel>
+                            <Select
+                                value={amount}
+                                label="amount"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value={1}>1</MenuItem>
+                                <MenuItem value={2}>2</MenuItem>
+                                <MenuItem value={3}>3</MenuItem>
+                                <MenuItem value={4}>4</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+                    <IconButton onClick={onRemoveFromCartClick} sx={{ marginRight: "5px" }}
                         edge="end"
                         aria-haspopup="true"
                     >
                         <DeleteForever />
                     </IconButton>
-                    <IconButton onClick={toProductPage}
-                        size="large"
-                        edge="end"
-                        aria-haspopup="true"
-                    >
-                        <EditSharpIcon />
-                    </IconButton>
                 </Box>
-
-                {/* <Typography
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {props.price}₪
-        </Typography> */}
             </Box>
         </Card>
     );
