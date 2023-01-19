@@ -52,6 +52,10 @@ const theme = createTheme({
       100: "#f5f5f5",
       500: "#8492c4",
     },
+    info: {
+      light: "#F0F8FF",
+      main: "#F0F8FF",
+    },
     dark: {
       light: "#bdc8f0",
       main: "#29314f",
