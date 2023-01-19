@@ -50,12 +50,13 @@ const Market = () => {
       >
         <ProductCard
           key={Math.random().toString()}
-          name={p.name}
-          category={p.category}
-          description={p.description}
-          price={p.price}
-          imageURL={p.image_link}
-          id={p.id}
+          product={p}
+          // name={p.name}
+          // category={p.category}
+          // description={p.description}
+          // price={p.price}
+          // imageURL={p.image_link}
+          // id={p.id}
           adminPage={false}
         ></ProductCard>
       </Grid>

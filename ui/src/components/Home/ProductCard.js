@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -13,17 +14,22 @@ import { Link } from "react-router-dom";
 import DeleteForever from "@mui/icons-material/DeleteForever";
 import EditSharpIcon from "@mui/icons-material/EditSharp";
 import axios from "axios";
+import EditProduct from "../admin/EditProduct";
 
 const ProductCard = (props) => {
+  const [openDialog, setOpenDialog] = useState(false);
+  console.log("admin page");
+  console.log(props.adminPage);
   const fetchData = () => {
     axios
-      .delete(`http://localhost:3001/deleteProduct/` + props.id)
+      .delete(`http://localhost:3001/deleteProduct/` + props.product._id)
       .then((res) => {
         console.log(res);
       });
   };
 
   const handleEditProduct = () => {
+    setOpenDialog(true);
     // TODO: delete product in db
     console.log("edit product");
   };
@@ -62,7 +68,7 @@ const ProductCard = (props) => {
                 ml: 1,
               }}
             >
-              {props.category}
+              {props.product.category}
             </Typography>
 
             <Typography
@@ -71,7 +77,7 @@ const ProductCard = (props) => {
                 ml: 1,
               }}
             >
-              {props.name}
+              {props.product.name}
             </Typography>
           </Grid>
           <Grid
@@ -90,7 +96,7 @@ const ProductCard = (props) => {
                 mb: 1,
               }}
             >
-              {props.price}₪
+              {props.product.price}₪
             </Typography>
             {!props.adminPage ? (
               <IconButton sx={{ color: "primary.main" }}>
@@ -117,12 +123,16 @@ const ProductCard = (props) => {
         <Grid item xs={4}>
           <CardMedia
             component="img"
-            // sx={{ width: "100%", height: "100%" }}
-            image={props.imageURL}
-            alt={props.name}
+            image={props.product.image_link}
+            alt={props.product.name}
           />
         </Grid>
       </Grid>
+      <EditProduct
+        product={props.product}
+        open={openDialog}
+        handleClose={() => setOpenDialog(false)}
+      />
     </Box>
   );
 };

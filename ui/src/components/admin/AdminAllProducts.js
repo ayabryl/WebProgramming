@@ -39,12 +39,13 @@ const AdminAllProducts = () => {
       <Grid item xs={3}>
         <ProductCard
           key={Math.random().toString()}
-          name={p.name}
-          category={p.category}
-          description={p.description}
-          price={p.price}
-          imageURL={p.image_link}
-          id={p._id}
+          product={p}
+          //   name={p.name}
+          //   category={p.category}
+          //   description={p.description}
+          //   price={p.price}
+          //   imageURL={p.image_link}
+          //   id={p._id}
           adminPage={true}
         ></ProductCard>
       </Grid>
