@@ -12,6 +12,7 @@ import {
   Grid,
   Typography,
   Box,
+  IconButton,
 } from "@mui/material/";
 
 import { LoginContext } from "../../contexts/LoginContext";
@@ -19,6 +20,9 @@ import { useNavigate } from "react-router-dom";
 import {} from "@mui/material/";
 import toast, { Toaster } from "react-hot-toast";
 import { StyledButtonContained, theme } from "../../theme";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const EditProduct = (props) => {
   const open = props.open;
@@ -46,22 +50,22 @@ const EditProduct = (props) => {
     }));
   };
 
-  const [productColors, setProductColors] = useState([
-    { hexValue: "", colorName: "" },
-  ]);
+  const [selectedColor, setSelectColor] = useState("");
 
-  const handleAddColor = () => {
-    setProductColors([...productColors, { hexValue: "", colorName: "" }]);
-  };
+  //   const handleAddColor = () => {
+  //     setProductColors([...productColors, { hexValue: "", colorName: "" }]);
+  //   };
 
-  const handleRemoveColor = (index) => {
-    setProductColors(productColors.filter((_, i) => i !== index));
-  };
-
-  const handleColorChange = (index, event) => {
-    const values = [...productColors];
-    values[index][event.target.name] = event.target.value;
-    setProductColors(values);
+  const handleRemoveColor = () => {
+    const tempColors = formData.productColors.filter(
+      (color) => color.hex_value !== selectedColor
+    );
+    setFormData((prevState) => ({
+      ...prevState,
+      productColors: tempColors,
+    }));
+    setSelectColor("");
+    console.log("remove click");
   };
 
   const handleSubmit = (event) => {
@@ -168,12 +172,16 @@ const EditProduct = (props) => {
   };
 
   const productsColors = formData.productColors.map((p) => (
-    <Grid item key={Math.random().toString()}>
+    <Grid
+      item
+      onClick={() => setSelectColor(p.hex_value)}
+      key={Math.random().toString()}
+    >
       <span
         style={{
           height: "25px",
           width: "25px",
-          borderColor: p.hex_value,
+          borderColor: p.hex_value === selectedColor ? "#000000" : p.hex_value,
           borderStyle: "solid",
           borderWidth: "0.2em",
           backgroundColor: p.hex_value,
@@ -294,7 +302,21 @@ const EditProduct = (props) => {
                     />
                   </Grid>
                   <Grid item xs={12}></Grid>
-
+                  <Grid item sx={12}>
+                    <IconButton
+                      variant="outlined"
+                      onClick={handleRemoveColor}
+                      style={{
+                        borderColor: "#FFFFFF",
+                        borderStyle: "solid",
+                        backgroundColor: "#FFFFFF",
+                        display: "inline-block",
+                      }}
+                      sx={{ fontWeight: "bold" }}
+                    >
+                      <RemoveIcon />
+                    </IconButton>
+                  </Grid>
                   <FormControl>
                     <Grid
                       item
@@ -309,7 +331,7 @@ const EditProduct = (props) => {
                     </Grid>
                   </FormControl>
                   <Grid item sx={12}>
-                    <Button
+                    <IconButton
                       variant="outlined"
                       style={{
                         borderColor: "#FFFFFF",
@@ -319,10 +341,10 @@ const EditProduct = (props) => {
                       }}
                       sx={{ fontWeight: "bold" }}
                     >
-                      +
-                    </Button>
+                      <AddIcon />
+                    </IconButton>
                   </Grid>
-                  <Grid
+                  {/* <Grid
                     item
                     xs={12}
                     container
@@ -352,8 +374,8 @@ const EditProduct = (props) => {
                           onChange={(event) => handleColorChange()}
                         />
                       </FormControl>
-                    </Grid>
-                  </Grid>
+                    </Grid> */}
+                  {/* </Grid> */}
                 </Grid>
               </Box>
             </form>

@@ -18,6 +18,7 @@ import EditProduct from "../admin/EditProduct";
 
 const ProductCard = (props) => {
   const [openDialog, setOpenDialog] = useState(false);
+  
   console.log("admin page");
   console.log(props.adminPage);
   const fetchData = () => {
@@ -30,12 +31,11 @@ const ProductCard = (props) => {
 
   const handleEditProduct = () => {
     setOpenDialog(true);
-    // TODO: delete product in db
+    // TODO: edit product in db
     console.log("edit product");
   };
 
   const handleDeleteProduct = () => {
-    // TODO: open dialog to change product
     console.log("delete product");
     fetchData();
   };
