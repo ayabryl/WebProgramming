@@ -21,7 +21,6 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Orders from "./Orders";
 import AddProductForm from "./AddProductForm";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-// import DeleteForever from '@mui/icons-material/DeleteForever';
 import EditSharpIcon from "@mui/icons-material/EditSharp";
 
 import toast, { Toaster } from "react-hot-toast";

@@ -1,16 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Box,
-  IconButton,
-  Grid,
-} from "@mui/material";
+import { CardMedia, Typography, Box, IconButton, Grid } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { Link } from "react-router-dom";
 import DeleteForever from "@mui/icons-material/DeleteForever";
 import EditSharpIcon from "@mui/icons-material/EditSharp";
 import axios from "axios";
@@ -18,7 +9,7 @@ import EditProduct from "../admin/EditProduct";
 
 const ProductCard = (props) => {
   const [openDialog, setOpenDialog] = useState(false);
-  
+
   console.log("admin page");
   console.log(props.adminPage);
   const fetchData = () => {
@@ -31,12 +22,9 @@ const ProductCard = (props) => {
 
   const handleEditProduct = () => {
     setOpenDialog(true);
-    // TODO: edit product in db
-    console.log("edit product");
   };
 
   const handleDeleteProduct = () => {
-    console.log("delete product");
     fetchData();
   };
 

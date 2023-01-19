@@ -1,8 +1,7 @@
 import { useState, useEffect, useContext, Fragment } from "react";
-import { Grid, Typography, Button } from "@mui/material";
+import { Grid } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 import ProductCard from "../Home/ProductCard";
@@ -40,12 +39,6 @@ const AdminAllProducts = () => {
         <ProductCard
           key={Math.random().toString()}
           product={p}
-          //   name={p.name}
-          //   category={p.category}
-          //   description={p.description}
-          //   price={p.price}
-          //   imageURL={p.image_link}
-          //   id={p._id}
           adminPage={true}
         ></ProductCard>
       </Grid>

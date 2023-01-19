@@ -1,4 +1,4 @@
-import { useState, useRef, Fragment, useContext } from "react";
+import { useState, Fragment } from "react";
 import {
   Button,
   TextField,
@@ -7,17 +7,11 @@ import {
   DialogActions,
   DialogContent,
   FormControl,
-  InputLabel,
-  Input,
   Grid,
-  Typography,
   Box,
   IconButton,
 } from "@mui/material/";
 
-import { LoginContext } from "../../contexts/LoginContext";
-import { useNavigate } from "react-router-dom";
-import {} from "@mui/material/";
 import toast, { Toaster } from "react-hot-toast";
 import { StyledButtonContained, theme } from "../../theme";
 import AddIcon from "@mui/icons-material/Add";
@@ -34,8 +28,8 @@ const EditProduct = (props) => {
     price: props.product.price,
     name: props.product.name,
     brand: props.product.brand,
-    priceSign: props.product.priceSign,
-    productLink: props.product.productLink,
+    priceSign: props.product.price_sign,
+    productLink: props.product.product_link,
     description: props.product.description,
     category: props.product.category,
     productType: props.product.type,
@@ -131,6 +125,21 @@ const EditProduct = (props) => {
     </Grid>
   ));
 
+  const handleCloseSelect = () => {
+    props.handleClose();
+    setFormData({
+      price: props.product.price,
+      name: props.product.name,
+      brand: props.product.brand,
+      priceSign: props.product.price_sign,
+      productLink: props.product.product_link,
+      description: props.product.description,
+      category: props.product.category,
+      productType: props.product.type,
+      imageLink: props.product.image_link,
+      productColors: props.product.product_colors,
+    });
+  };
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
@@ -141,7 +150,7 @@ const EditProduct = (props) => {
         <DialogContent>
           <Grid container spacing={1} justifyContent="center">
             <Toaster position="top-center" reverseOrder={false} />
-            <form onSubmit={submitHandler}>
+            <form>
               <Box
                 sx={{
                   display: "flex",
@@ -340,7 +349,7 @@ const EditProduct = (props) => {
         <DialogActions>
           <Grid container display="flex" justifyContent="space-between">
             <Button
-              onClick={handleClose}
+              onClick={handleCloseSelect}
               sx={{ color: "error.dark", fontWeight: "bold" }}
             >
               Cancel
@@ -348,6 +357,7 @@ const EditProduct = (props) => {
             <Button
               onClick={submitHandler}
               sx={{ color: "success.dark", fontWeight: "bold" }}
+              type="submit"
             >
               Change
             </Button>
