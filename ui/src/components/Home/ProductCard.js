@@ -12,16 +12,26 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link } from "react-router-dom";
 import DeleteForever from "@mui/icons-material/DeleteForever";
 import EditSharpIcon from "@mui/icons-material/EditSharp";
+import axios from "axios";
 
 const ProductCard = (props) => {
+  const fetchData = () => {
+    axios
+      .delete(`http://localhost:3001/deleteProduct/` + props.id)
+      .then((res) => {
+        console.log(res);
+      });
+  };
+
   const handleEditProduct = () => {
     // TODO: delete product in db
-    console.log("delete product");
+    console.log("edit product");
   };
 
   const handleDeleteProduct = () => {
     // TODO: open dialog to change product
-    console.log("edit product");
+    console.log("delete product");
+    fetchData();
   };
 
   return (

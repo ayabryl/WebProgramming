@@ -16,6 +16,7 @@ const {
   getUserById,
   getOrdersByUserId,
   productStatistic,
+  deleteProduct,
 } = require("./api/api");
 const hostname = "localhost";
 const port = 3001;
@@ -217,4 +218,14 @@ app.post("/addOrder", async (req, res) => {
     }
   });
   res.send("success adding new order");
+});
+
+app.delete("/deleteProduct/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const ans = await deleteProduct(id);
+    res.send("success delete product: " + id);
+  } catch (err) {
+    res.send("Error delete this product " + err);
+  }
 });

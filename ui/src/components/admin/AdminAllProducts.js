@@ -44,7 +44,7 @@ const AdminAllProducts = () => {
           description={p.description}
           price={p.price}
           imageURL={p.image_link}
-          id={p.id}
+          id={p._id}
           adminPage={true}
         ></ProductCard>
       </Grid>
