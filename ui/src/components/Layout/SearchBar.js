@@ -4,13 +4,14 @@ import { InputBase, styled, alpha } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 import SearchContext from "../../contexts/SearchContext";
+import { theme } from "../../theme";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: "primary.main",
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: "primary.main",
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -32,7 +33,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
+  color: "primary.main",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
@@ -43,14 +44,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
       width: "50ch",
     },
   },
+  border: "1px solid black",
 }));
 
 const SearchBar = () => {
-  // const searchContext = useContext(SearchContext);
   const { searchWord, setSearchWord } = useContext(SearchContext);
   const onValueChange = (event) => {
-    // console.log(event.target.value);
-    // TODO: insert value to context
     setSearchWord(event.target.value);
   };
 
@@ -60,7 +59,7 @@ const SearchBar = () => {
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
-        placeholder="Search…"
+        placeholder="Search for items and brands"
         inputProps={{ "aria-label": "search" }}
         value={searchWord}
         onChange={onValueChange}

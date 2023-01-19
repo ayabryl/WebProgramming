@@ -90,7 +90,6 @@ const ProducrInOrder = (props) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const rows = props.products.map((p) => {
-    console.log("test");
     return {
       name: p.product_name,
       color: p.color.hex_value,
