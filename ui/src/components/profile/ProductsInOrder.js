@@ -90,6 +90,7 @@ const ProducrInOrder = (props) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const rows = props.products.map((p) => {
+    console.log("test");
     return {
       name: p.product_name,
       color: p.color.hex_value,
@@ -97,7 +98,7 @@ const ProducrInOrder = (props) => {
       quantity: p.amount,
     };
   });
- 
+
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
