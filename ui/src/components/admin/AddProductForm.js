@@ -79,7 +79,7 @@ const AddProductForm = () => {
       .then((response) => {
         console.log(response);
         toast.success("The product successfuly added");
-        navigate("/", { replace: true });
+        // navigate("/", { replace: true });
       })
       .catch((error) => {
         console.log(error);

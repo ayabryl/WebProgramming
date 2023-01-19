@@ -48,7 +48,6 @@ const AdminAllProducts = () => {
 
   return (
     <Fragment>
-      <Toaster position="top-center" reverseOrder={false} />
       <Grid sx={{ mt: 3 }}>
         <Grid container spacing={4} sx={{ p: 3 }}>
           {parsedProduct}
