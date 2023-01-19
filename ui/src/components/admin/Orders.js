@@ -16,6 +16,7 @@ const StyledH1 = styled("h1")({
 const Orders = (props) => {
   const [orders, setOrders] = useState([]);
   const loggedUserContext = useContext(LoginContext);
+  const [customer, setCustomer] = useState([]);
 
   const fetchOrdersData = () => {
     const url = props.specificUser
@@ -27,32 +28,27 @@ const Orders = (props) => {
     });
   };
 
+  const fetchOrderCustomerData = (user_id) => {
+    axios.get(`http://localhost:3001/users/${user_id}`).then((res) => {
+      const data = res.data;
+      console.log(data);
+      setCustomer(data);
+    });
+  };
+
   useEffect(() => {
     console.log("Fetching data...");
     fetchOrdersData();
-
-    console.log(orders);
-    // setOrders([
-    //   {
-    //     order_status: "Deliverd",
-    //     created_at: new Date().toUTCString(),
-    //     products: [],
-    //     user_id:
-    //       "Q.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hvcGF1dGhyZWFj",
-    //   },
-    //   {
-    //     order_status: "Deliverd",
-    //     created_at: new Date().toUTCString(),
-    //     products: [],
-    //     user_id:
-    //       "Q.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2hvcGF1dGhyZWFj",
-    //   },
-    // ]);
+    fetchOrderCustomerData(loggedUserContext.uid);
   }, []);
 
   const ordersShow = orders.map((order) => (
     <Grid item xs={12} display="flex" justifyContent="center">
-      <Order order={order} specificUser={props.specificUser}></Order>
+      <Order
+        order={order}
+        specificUser={props.specificUser}
+        customer={customer}
+      ></Order>
     </Grid>
   ));
 
