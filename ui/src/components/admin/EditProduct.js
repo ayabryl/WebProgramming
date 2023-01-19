@@ -27,7 +27,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 const EditProduct = (props) => {
   const open = props.open;
   const handleClose = props.handleClose;
-
+  const [selectedColor, setSelectColor] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     price: props.product.price,
@@ -41,6 +41,9 @@ const EditProduct = (props) => {
     imageLink: props.product.image_link,
     productColors: props.product.product_colors,
   });
+  const [handleAddColorClicked, setAddColorClicked] = useState(false);
+  const [newColor, setNewColor] = useState({ hex_value: "", colour_name: "" });
+  const [phone, setPhone] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -50,11 +53,18 @@ const EditProduct = (props) => {
     }));
   };
 
-  const [selectedColor, setSelectColor] = useState("");
-
-  //   const handleAddColor = () => {
-  //     setProductColors([...productColors, { hexValue: "", colorName: "" }]);
-  //   };
+  const handleAddClicked = () => {
+    if (newColor.colour_name !== "" && newColor.hex_value !== "") {
+      let tempColors = formData.productColors;
+      tempColors = [...formData.productColors, newColor];
+      console.log(tempColors);
+      setFormData((prevState) => ({
+        ...prevState,
+        productColors: tempColors,
+      }));
+      setNewColor({ hex_value: "", colour_name: "" });
+    }
+  };
 
   const handleRemoveColor = () => {
     const tempColors = formData.productColors.filter(
@@ -65,7 +75,6 @@ const EditProduct = (props) => {
       productColors: tempColors,
     }));
     setSelectColor("");
-    console.log("remove click");
   };
 
   const handleSubmit = (event) => {
@@ -103,27 +112,6 @@ const EditProduct = (props) => {
   };
 
   const navigate = useNavigate();
-  //   const validate = (password) => {
-  //     // Validate password
-  //     if (!password) {
-  //       setPasswordError(true);
-  //       setPasswordHelperText("Password is required");
-  //     } else if (password.length < 8) {
-  //       setPasswordError(true);
-  //       setPasswordHelperText("Password must be at least 8 characters long");
-  //     } else {
-  //       setPasswordError(false);
-  //       setPasswordHelperText("");
-  //     }
-
-  //     console.log(uid);
-
-  //     if (passwordError) {
-  //       return false;
-  //     } else {
-  //       return true;
-  //     }
-  //   };
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -306,12 +294,6 @@ const EditProduct = (props) => {
                     <IconButton
                       variant="outlined"
                       onClick={handleRemoveColor}
-                      style={{
-                        borderColor: "#FFFFFF",
-                        borderStyle: "solid",
-                        backgroundColor: "#FFFFFF",
-                        display: "inline-block",
-                      }}
                       sx={{ fontWeight: "bold" }}
                     >
                       <RemoveIcon />
@@ -330,70 +312,96 @@ const EditProduct = (props) => {
                       {productsColors}
                     </Grid>
                   </FormControl>
-                  <Grid item sx={12}>
-                    <IconButton
-                      variant="outlined"
-                      style={{
-                        borderColor: "#FFFFFF",
-                        borderStyle: "solid",
-                        backgroundColor: "#FFFFFF",
-                        display: "inline-block",
-                      }}
-                      sx={{ fontWeight: "bold" }}
-                    >
-                      <AddIcon />
-                    </IconButton>
-                  </Grid>
-                  {/* <Grid
-                    item
-                    xs={12}
-                    container
-                    align="center"
-                    justifyContent="center"
-                  >
-                    <Grid item xs={3} sx={{ mr: 1.5 }}>
-                      <FormControl>
-                        <InputLabel>Hex Value</InputLabel>
-                        <Input
-                          //   id={`hex_value-${index}`}
-                          name="hexValue"
-                          type="text"
-                          //   value={color.hexValue}
-                          onChange={(event) => handleColorChange()}
-                        />
-                      </FormControl>
+                  {!handleAddColorClicked ? (
+                    <Grid item sx={12}>
+                      <IconButton
+                        variant="outlined"
+                        sx={{ fontWeight: "bold" }}
+                        onClick={() => setAddColorClicked(true)}
+                      >
+                        <AddIcon />
+                      </IconButton>
                     </Grid>
-                    <Grid item xs={3} sx={{ mr: 0.5 }}>
-                      <FormControl>
-                        <InputLabel>Color Name</InputLabel>
-                        <Input
-                          //   id={`color_name-${index}`}
-                          name="colorName"
-                          type="text"
-                          //   value={color.colorName}
-                          onChange={(event) => handleColorChange()}
-                        />
-                      </FormControl>
-                    </Grid> */}
-                  {/* </Grid> */}
+                  ) : (
+                    <Fragment>
+                      <Grid item sx={12}>
+                        <IconButton
+                          variant="outlined"
+                          sx={{ fontWeight: "bold" }}
+                          onClick={() => setAddColorClicked(false)}
+                        >
+                          <CancelIcon />
+                        </IconButton>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        container
+                        align="center"
+                        justifyContent="center"
+                      >
+                        <Grid item xs={3} sx={{ mr: 1.5 }}>
+                          <TextField
+                            label="Hex Value"
+                            type="text"
+                            fullWidth="100%"
+                            name="Hex Vaule"
+                            value={newColor.hex_value}
+                            onChange={(event) => {
+                              setNewColor({
+                                hex_value: event.target.value,
+                                colour_name: newColor.colour_name,
+                              });
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={3}>
+                          <TextField
+                            label="Color name"
+                            type="text"
+                            fullWidth="100%"
+                            name="Color name"
+                            value={newColor.colour_name}
+                            onChange={(event) => {
+                              setNewColor({
+                                hex_value: newColor.hex_value,
+                                colour_name: event.target.value,
+                              });
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={3} sx={{ mr: 0.5 }}>
+                          <StyledButtonContained
+                            variant="contained"
+                            sx={{ mt: 1 }}
+                            onClick={handleAddClicked}
+                          >
+                            Add
+                          </StyledButtonContained>
+                        </Grid>
+                      </Grid>
+                    </Fragment>
+                  )}
                 </Grid>
               </Box>
             </form>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={handleClose}
-            sx={{ color: "error.dark", fontWeight: "bold" }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={submitHandler}
-            sx={{ color: "success.dark", fontWeight: "bold" }}
-          >
-            Change
-          </Button>
+          <Grid container display="flex" justifyContent="space-between">
+            <Button
+              onClick={handleClose}
+              sx={{ color: "error.dark", fontWeight: "bold" }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={submitHandler}
+              sx={{ color: "success.dark", fontWeight: "bold" }}
+            >
+              Change
+            </Button>
+          </Grid>
         </DialogActions>
       </Dialog>
     </Fragment>
