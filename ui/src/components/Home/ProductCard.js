@@ -6,88 +6,90 @@ import {
   Typography,
   Box,
   IconButton,
+  Grid,
 } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link } from "react-router-dom";
 
 const ProductCard = (props) => {
-  // const handleAddToCart = (event) => {
-  //   event.preventDefault();
-  //   const selectedProdact = {
-  //     name: props.name,
-  //     description: props.description,
-  //     price: props.price,
-  //     imageURL: props.imageURL,
-  //     id: props.id,
-  //   };
-  //   props.addToCart(selectedProdact);
-  // };
-
   return (
-    <Card
+    <Box
       sx={{
         display: "flex",
-        height: 200,
         boxShadow: 1,
         borderRadius: 2,
-        justifyContent: "space-around",
+        width: "100%",
+        height: "100%",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems:"center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Link to="/product" style={{ textDecoration: "none" }}>
-          <CardContent>
-            <Typography component="div" variant="body1">
-              {props.category}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" component="div">
-              {props.name}
-            </Typography>
-          </CardContent>
-        </Link>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "right",
-            ml: 1,
-            justifyContent: "space-around",
-          }}
+      <Grid container direction="row">
+        <Grid
+          item
+          xs={8}
+          container
+          justifyContent="sapce-between"
+          alignItems="space-between"
+          direction="row"
         >
-          <Typography
-            sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            {props.price}₪
-          </Typography>
+          <Link to="/product" style={{ textDecoration: "none" }}>
+            <Grid item xs={12}>
+              <Typography
+                sx={{
+                  color: "primary.main",
+                  fontWeight: "bold",
+                  mt: 1,
+                  ml: 1,
+                }}
+              >
+                {props.category}
+              </Typography>
 
-          <IconButton
-            size="large"
-            edge="end"
-            aria-label="account of current user"
-            aria-haspopup="true"
+              <Typography
+                sx={{
+                  color: "secondary.main",
+                  ml: 1,
+                }}
+              >
+                {props.name}
+              </Typography>
+            </Grid>
+          </Link>
+          <Grid
+            item
+            xs={12}
+            display="flex"
+            justifyContent="space-around"
+            alignItems="flex-end"
+            direction="row"
           >
-            <AddShoppingCartIcon />
-          </IconButton>
-        </Box>
-      </Box>
-      <Link to="/product" style={{ textDecoration: "none" }}>
-        <CardMedia
-          component="img"
-          sx={{ width: 170, maxHigh: 150, height: 150 }}
-          image={props.imageURL}
-          alt={props.name}
-        />
-      </Link>
-    </Card>
+            <Typography
+              sx={{
+                display: "flex",
+                color: "primary.main",
+                ml: 2,
+                mb: 1,
+              }}
+            >
+              {props.price}₪
+            </Typography>
+
+            <IconButton sx={{ color: "primary.main" }}>
+              <AddShoppingCartIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+        <Grid item xs={4}>
+          <Link to="/product" style={{ textDecoration: "none" }}>
+            <CardMedia
+              component="img"
+              // sx={{ width: "100%", height: "100%" }}
+              image={props.imageURL}
+              alt={props.name}
+            />
+          </Link>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 export default ProductCard;
