@@ -1,37 +1,57 @@
-import * as React from "react";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Box,
-  IconButton,
-  Grid,
-} from "@mui/material";
+import { useState, Fragment } from "react";
+import { CardMedia, Typography, Box, IconButton, Grid } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { Link } from "react-router-dom";
+import DeleteForever from "@mui/icons-material/DeleteForever";
+import EditSharpIcon from "@mui/icons-material/EditSharp";
+import axios from "axios";
+import EditProduct from "../admin/EditProduct";
+import toast, { Toaster } from "react-hot-toast";
 
 const ProductCard = (props) => {
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const fetchData = () => {
+    axios
+      .delete(`http://localhost:3001/deleteProduct/` + props.product._id)
+      .then((res) => {
+        console.log(res);
+        toast.success("Product successfuly deleted");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Error Occured, Try again");
+      });
+  };
+
+  const handleEditProduct = () => {
+    setOpenDialog(true);
+  };
+
+  const handleDeleteProduct = () => {
+    fetchData();
+  };
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        boxShadow: 1,
-        borderRadius: 2,
-        width: "100%",
-        height: "100%",
-      }}
-    >
-      <Grid container direction="row">
-        <Grid
-          item
-          xs={8}
-          container
-          justifyContent="sapce-between"
-          alignItems="space-between"
-          direction="row"
-        >
-          <Link to="/product" style={{ textDecoration: "none" }}>
+    <Fragment>
+      <Toaster position="top-center" reverseOrder={false} />
+      <Box
+        sx={{
+          display: "flex",
+          boxShadow: 1,
+          borderRadius: 2,
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <Grid container direction="row">
+          <Grid
+            item
+            xs={8}
+            container
+            justifyContent="sapce-between"
+            alignItems="space-between"
+            direction="row"
+          >
             <Grid item xs={12}>
               <Typography
                 sx={{
@@ -41,7 +61,7 @@ const ProductCard = (props) => {
                   ml: 1,
                 }}
               >
-                {props.category}
+                {props.product.category}
               </Typography>
 
               <Typography
@@ -50,46 +70,64 @@ const ProductCard = (props) => {
                   ml: 1,
                 }}
               >
-                {props.name}
+                {props.product.name}
               </Typography>
             </Grid>
-          </Link>
-          <Grid
-            item
-            xs={12}
-            display="flex"
-            justifyContent="space-around"
-            alignItems="flex-end"
-            direction="row"
-          >
-            <Typography
-              sx={{
-                display: "flex",
-                color: "primary.main",
-                ml: 2,
-                mb: 1,
-              }}
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent="space-around"
+              alignItems="flex-end"
+              direction="row"
             >
-              {props.price}₪
-            </Typography>
-
-            <IconButton sx={{ color: "primary.main" }}>
-              <AddShoppingCartIcon />
-            </IconButton>
+              <Typography
+                sx={{
+                  display: "flex",
+                  color: "primary.main",
+                  ml: 2,
+                  mb: 1,
+                }}
+              >
+                {props.product.price}₪
+              </Typography>
+              {!props.adminPage ? (
+                <IconButton sx={{ color: "primary.main" }}>
+                  <AddShoppingCartIcon />
+                </IconButton>
+              ) : (
+                <Fragment>
+                  <IconButton
+                    sx={{ color: "secondary.main" }}
+                    onClick={handleEditProduct}
+                  >
+                    <EditSharpIcon />
+                  </IconButton>
+                  <IconButton
+                    sx={{ color: "secondary.main" }}
+                    onClick={handleDeleteProduct}
+                  >
+                    <DeleteForever />
+                  </IconButton>
+                </Fragment>
+              )}
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={4}>
-          <Link to="/product" style={{ textDecoration: "none" }}>
+          <Grid item xs={4}>
             <CardMedia
               component="img"
-              // sx={{ width: "100%", height: "100%" }}
-              image={props.imageURL}
-              alt={props.name}
+              image={props.product.image_link}
+              alt={props.product.name}
             />
-          </Link>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+        <EditProduct
+          product={props.product}
+          open={openDialog}
+          handleClose={() => setOpenDialog(false)}
+        />
+      </Box>
+    </Fragment>
   );
 };
 export default ProductCard;

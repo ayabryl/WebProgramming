@@ -27,6 +27,7 @@ import * as React from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ProducrInOrder from "../profile/ProductsInOrder";
 import toast, { Toaster } from "react-hot-toast";
+import theme from "../../theme";
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
@@ -42,18 +43,22 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const StyledTextField = styled(TextField)(({ theme, order_status }) => {
-  let color;
-  if (order_status === "Deliverd") {
-    color = theme.palette.success.light;
-    console.log(color);
-  } else if (order_status === "In Progress") {
-    color = theme.palette.info.light;
-  } else {
-    color = theme.palette.error.light;
-  }
-  return { color };
-});
+// export const StyledButtonContained = styled(Button)(
+//   ({ theme, color = "secondary" }) => ({
+//     ":hover": {
+//       color: "white",
+//       backgroundColor: theme.palette[color].light,
+//     },
+//     "background-color": theme.palette[color].main,
+//     color: "white",
+//   })
+// );
+
+const StyledTextField = styled(TextField)(({ theme, colorOrder }) => ({
+  "background-color": colorOrder(),
+  "border-color": colorOrder(),
+  color: "black",
+}));
 
 const Order = (props) => {
   const [order, setOrder] = useState(props.order);
@@ -61,6 +66,21 @@ const Order = (props) => {
   const [orderStatus, setOrderStatus] = useState(props.order.order_status);
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const colorOrder = () => {
+    let color;
+    if (orderStatus === "Deliverd") {
+      color = theme.palette.success.light;
+      // border-color = theme.palette.success.light;
+    } else if (orderStatus === "New Order") {
+      color = theme.palette.orange.yellow;
+    }else if (orderStatus === "In Progress") {
+      color = theme.palette.info.light;
+    } else {
+      color = theme.palette.orange.light;
+    }
+    return color;
   };
 
   const handleOrderStatusChange = (event) => {
@@ -115,7 +135,15 @@ const Order = (props) => {
           justifyContent="space-between"
         >
           <Grid item xs={8}>
-            <Typography variant="h6" component="h2">
+            <Typography
+              variant="h6"
+              component="h2"
+              sx={{
+                color: "primary.dark",
+                fontWeight: "bold",
+                mt: 1,
+              }}
+            >
               Order #{order._id}{" "}
             </Typography>
             <Typography color="textSecondary">
@@ -124,16 +152,17 @@ const Order = (props) => {
           </Grid>
           <Grid item xs={2}>
             <StyledTextField
+              colorOrder={colorOrder}
               value={orderStatus}
               onChange={handleOrderStatusChange}
-              order_status={orderStatus}
-              variant="filled"
+              variant="outlined"
               disabled={props.specificUser}
               select
+              size="small"
               label="order status"
-              defaultValue={order.order_status}
               fullWidth
             >
+              <MenuItem value="New Order">New Order</MenuItem>
               <MenuItem value="In Progress">In Progress</MenuItem>
               <MenuItem value="Deliverd">Deliverd</MenuItem>
               <MenuItem value="Cancelled">Cancelled</MenuItem>
@@ -162,7 +191,7 @@ const Order = (props) => {
           <Grid item xs={2}>
             <Typography variant="body2">Name: {props.customer.name}</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography variant="body2">
               Phone number: {props.customer.phone_number}
             </Typography>
@@ -175,7 +204,7 @@ const Order = (props) => {
               Address : {props.customer.address_line}
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={6}>
             <Typography variant="body2">
               Comment: {props.customer.comment}
             </Typography>

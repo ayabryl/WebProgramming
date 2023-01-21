@@ -35,6 +35,7 @@ const theme = createTheme({
       light: "#fbe9e7",
       main: "#ffab91",
       dark: "#d84315",
+      yellow: "#FAF8D0"
     },
     warning: {
       light: "#fff8e1",
@@ -51,6 +52,10 @@ const theme = createTheme({
       50: "#fafafa",
       100: "#f5f5f5",
       500: "#8492c4",
+    },
+    info: {
+      light: "#F0F8FF",
+      main: "#F0F8FF",
     },
     dark: {
       light: "#bdc8f0",

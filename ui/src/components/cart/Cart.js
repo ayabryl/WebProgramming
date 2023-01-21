@@ -4,41 +4,37 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductInCart from "./ProductInCart";
 import { LoginContext } from "../../contexts/LoginContext";
+import React from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { Box } from "@mui/system";
+import { StyledButtonContained } from "../../theme";
 
 const Cart = (props) => {
-  const { email, uid, login } = useContext(LoginContext);
+  const loggedUserContext = useContext(LoginContext);
   const navigate = useNavigate();
-  const { cart, addToCart, removeFromCart } = useContext(CartContext);
+  const { cart, removeFromCart } = useContext(CartContext);
 
   const handleRemoveFromCart = (productId) => {
     removeFromCart(productId);
-  };
+  }
 
-  const toProductPage = (productId) => {
-    const product = cart.find((p) => p.id === productId);
-    navigate("/product", { state: { product: product } });
-  };
+  const setProductAmount = (productId, amount) => {
+    const index = cart.findIndex((p) => p.id === productId);
+    cart[index].amount = amount;
+  }
 
   const products = cart?.map((p) => (
-    <Grid item xs={12} key={Math.random().toString()}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-start",
-        }}
-      >
-        <ProductInCart
-          toProductPage={toProductPage}
-          handleRemoveFromCart={handleRemoveFromCart}
+    <Grid item xs={12}
+      key={Math.random().toString()}>
+        <ProductInCart setProductAmount={setProductAmount} handleRemoveFromCart={handleRemoveFromCart}
           key={Math.random().toString()}
           name={p.name}
+          amount={p.amount}
           category={p.category}
           price={p.price}
           imageURL={p.image_link}
           id={p.id}
         ></ProductInCart>
-      </Box>
     </Grid>
   ));
 
@@ -52,17 +48,17 @@ const Cart = (props) => {
       product_name: product.name,
       price: product.price,
       color: product.product_colors[0],
-      amount: product.amount,
-    }));
+      amount: product.amount
+    }))
     const order = {
       products: products,
       created_at: new Date(),
-      user_id: uid,
-      status: "New order",
-      total_price: getTotal,
-    };
+      user_id: loggedUserContext.uid,
+      order_status: "New Order",
+      total_price: getTotal
+    }
     props.handleOrder(order);
-  };
+  }
 
   return (
     <div>
@@ -70,29 +66,58 @@ const Cart = (props) => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          flexDirection: "column",
-          marginLeft: "50px",
-        }}
-      >
-        <Typography sx={{ marginTop: "50px" }} variant="h5">
-          My Basket
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "start",
-          }}
-        >
-          <Grid sx={{ mt: 1 }}>
+          flexDirection: 'column',
+          marginLeft: "50px"
+        }}>
+        <Typography sx={{
+          marginTop: '50px', color: "primary.main",
+          fontWeight: "bold",
+        }} variant="h5">My Basket</Typography>
+         <React.Fragment>
+      <Toaster position="top-center" reverseOrder={false} />
+      <Grid>
+        <Grid container spacing={4} sx={{ p: 1 }}>
+          {products}
+        </Grid>
+      </Grid>
+    </React.Fragment>
+        {/* <Box sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "start",
+        }}>
             <Grid container spacing={2}>
               {products}
             </Grid>
+        </Box> */}
+        <Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{ mb: 1, display: "flex", justifyContent: "flex-start" }}
+          >
+            <Typography sx={{
+              color: "primary.main",
+              fontWeight: "bold",
+              mt: 1,
+            }}>
+              Estimated Total: {getTotal}
+            </Typography>
           </Grid>
-        </Box>
-        <Typography sx={{ marginTop: "50px" }}>
-          Estimated Total: {getTotal}
-        </Typography>
-        <Button
+          <Grid
+            item
+            xs={12}
+            sx={{ mb: 1, display: "flex", justifyContent: "flex-start"}}
+          >
+            <StyledButtonContained
+              type="submit"
+              variant="contained"
+              onClick={handleOrder}
+            >Order
+            </StyledButtonContained>
+          </Grid>
+        </Grid>
+        {/* <Button
           size="large"
           onClick={handleOrder}
           sx={{
@@ -105,9 +130,8 @@ const Cart = (props) => {
               color: "white",
             },
           }}
-        >
-          Order
-        </Button>
+        > Order
+        </Button> */}
       </Box>
     </div>
   );

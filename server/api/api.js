@@ -104,6 +104,10 @@ const productStatistic = async () => {
   return productStatistic;
 };
 
+const deleteProduct = async (id) => {
+  return await Product.deleteOne({ _id: id });
+};
+
 module.exports = {
   getProducts,
   getOrders,
@@ -115,4 +119,5 @@ module.exports = {
   getUserById,
   getOrdersByUserId,
   productStatistic,
+  deleteProduct,
 };

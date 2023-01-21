@@ -18,6 +18,7 @@ const {
   getUserById,
   getOrdersByUserId,
   productStatistic,
+  deleteProduct
 } = require("./api/api");
 const { parse }  = require("url")
 const hostname = "localhost";
@@ -189,7 +190,6 @@ app.post("/addProducts", async (req, res) => {
           price: element.price,
           brand: element.brand,
           name: element.name,
-          // price_sign: element.price_sign,
           product_link: element.product_link,
           description: element.description,
           category: element.category,
@@ -234,4 +234,12 @@ app.post("/addOrder", async (req, res) => {
   res.send("success adding new order");
 });
 
-
+app.delete("/deleteProduct/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const ans = await deleteProduct(id);
+    res.send("success delete product: " + id);
+  } catch (err) {
+    res.send("Error delete this product " + err);
+  }
+});

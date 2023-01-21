@@ -1,16 +1,13 @@
 import { createContext, useState } from "react";
 import React from "react";
 
-// const CartContext = createContext({
-//     cart: [],
-//     setCart: () => {},
-//   });
 
 const CartContext = React.createContext(
     {
         cart: [],
         removeFromCart: (productId) => {},
-        addToCart : (product) => {}
+        addToCart : (product) => {},
+        clearCart: () => {}
     }
 ) 
 
@@ -20,6 +17,10 @@ const CartContextProvider = (props) => {
     const addToCartHandler = (product) => {
         const newCart = cart?.length ? upsertProduct(product) : [product]
         setCart(newCart)
+    }
+
+    const handleClearCart = () => {
+        setCart([]);
     }
 
     const upsertProduct= (product) => {
@@ -38,7 +39,8 @@ const CartContextProvider = (props) => {
     const contextValue = {
         cart: cart,
         removeFromCart: removeFromCartHandler,
-        addToCart: addToCartHandler
+        addToCart: addToCartHandler,
+        clearCart: handleClearCart
     }
 
     return <CartContext.Provider value={contextValue}>

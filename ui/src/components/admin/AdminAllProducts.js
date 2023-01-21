@@ -1,27 +1,19 @@
 import { useState, useEffect, useContext, Fragment } from "react";
 import { Grid, TablePagination } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
 import axios from "axios";
 
-import ProductCard from "./ProductCard";
+import ProductCard from "../Home/ProductCard";
 import SearchContext from "../../contexts/SearchContext";
 import SearchBar from "../Layout/SearchBar";
 import TablePaginationActions from "../Layout/TablePaginationAction";
 
-
-const Market = () => {
+const AdminAllProducts = () => {
   const [products, setProducts] = useState([]);
   const [parsedProduct, setParsedProducts] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(16);
+  const [rowsPerPage, setRowsPerPage] = useState(12);
   const { searchWord } = useContext(SearchContext);
-  const navigate = useNavigate();
-
-  const toProductPage = (product) => {
-    navigate("/product", { state: { product: product } });
-  };
 
   const fetchData = () => {
     axios.get(`http://localhost:3001/products`).then((res) => {
@@ -46,17 +38,11 @@ const Market = () => {
       );
     }
     productsShow = productsShow.map((p) => (
-      <Grid
-        item
-        xs={3}
-        onClick={() => {
-          toProductPage(p);
-        }}
-      >
+      <Grid item xs={3}>
         <ProductCard
           key={Math.random().toString()}
           product={p}
-          adminPage={false}
+          adminPage={true}
         ></ProductCard>
       </Grid>
     ));
@@ -74,7 +60,6 @@ const Market = () => {
 
   return (
     <Fragment>
-      <Toaster position="top-center" reverseOrder={false} />
       <Grid
         sx={{ mt: 3 }}
         display="flex"
@@ -94,15 +79,14 @@ const Market = () => {
         </Grid>
       </Grid>
       <Grid
+        width="98%"
+        alignItems="center"
         display="flex"
         justifyContent="center"
-        flex-direction="column-reverse"
-        alignItems="stretch"
-        container
         sx={{ position: "absolute", bottom: 0 }}
       >
         <TablePagination
-          rowsPerPageOptions={[16, 32, 48, { label: "All", value: -1 }]}
+          rowsPerPageOptions={[12, 16, 32, { label: "All", value: -1 }]}
           colSpan={3}
           count={parsedProduct.length}
           rowsPerPage={rowsPerPage}
@@ -121,4 +105,4 @@ const Market = () => {
     </Fragment>
   );
 };
-export default Market;
+export default AdminAllProducts;
