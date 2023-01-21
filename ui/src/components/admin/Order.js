@@ -73,7 +73,9 @@ const Order = (props) => {
     if (orderStatus === "Deliverd") {
       color = theme.palette.success.light;
       // border-color = theme.palette.success.light;
-    } else if (orderStatus === "In Progress") {
+    } else if (orderStatus === "New Order") {
+      color = theme.palette.orange.yellow;
+    }else if (orderStatus === "In Progress") {
       color = theme.palette.info.light;
     } else {
       color = theme.palette.orange.light;
@@ -83,13 +85,14 @@ const Order = (props) => {
 
   const handleOrderStatusChange = (event) => {
     const body = {
+      _id: order._id,
       order_status: event.target.value,
       created_at: order.data,
       products: order.products,
       user_id: order.user_id,
     };
     const requestOptions = {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     };
@@ -159,6 +162,7 @@ const Order = (props) => {
               label="order status"
               fullWidth
             >
+              <MenuItem value="New Order">New Order</MenuItem>
               <MenuItem value="In Progress">In Progress</MenuItem>
               <MenuItem value="Deliverd">Deliverd</MenuItem>
               <MenuItem value="Cancelled">Cancelled</MenuItem>

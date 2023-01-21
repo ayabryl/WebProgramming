@@ -35,6 +35,7 @@ const theme = createTheme({
       light: "#fbe9e7",
       main: "#ffab91",
       dark: "#d84315",
+      yellow: "#FAF8D0"
     },
     warning: {
       light: "#fff8e1",
