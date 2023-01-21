@@ -230,7 +230,7 @@ const EditProduct = (props) => {
                       label="Image link"
                       type="text"
                       fullWidth="100%"
-                      name="Image link"
+                      name="imageLink"
                       value={formData.imageLink}
                       onChange={handleChange}
                     />

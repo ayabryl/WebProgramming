@@ -14,6 +14,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { StyledButtonContained, theme } from "../../theme";
 
 const AddProductForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     price: "",
     name: "",
@@ -77,15 +78,13 @@ const AddProductForm = () => {
       .then((response) => {
         console.log(response);
         toast.success("The product successfuly added");
-        // navigate("/", { replace: true });
+        navigate("/admin", { replace: true });
       })
       .catch((error) => {
         console.log(error);
         toast.error("Error Occured, Try again");
       });
   };
-
-  const navigate = useNavigate();
 
   return (
     <Grid
@@ -179,7 +178,7 @@ const AddProductForm = () => {
                   label="Image link"
                   type="text"
                   fullWidth="100%"
-                  name="Image link"
+                  name="imageLink"
                   value={formData.imageLink}
                   onChange={handleChange}
                 />
