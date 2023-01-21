@@ -7,7 +7,7 @@ import axios from "axios";
 
 import ProductCard from "./ProductCard";
 import SearchContext from "../../contexts/SearchContext";
-
+import SearchBar from "../Layout/SearchBar";
 const Market = () => {
   const [products, setProducts] = useState([]);
   const [parsedProduct, setParsedProducts] = useState([]);
@@ -61,7 +61,15 @@ const Market = () => {
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
-      <Grid sx={{ mt: 3 }}>
+      <Grid
+        sx={{ mt: 3 }}
+        display="flex"
+        alignItems="center"
+        direction="column"
+      >
+        <Grid item>
+          <SearchBar />
+        </Grid>
         <Grid container spacing={4} sx={{ p: 3 }}>
           {parsedProduct}
         </Grid>

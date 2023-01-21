@@ -1,16 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  Typography,
-  InputBase,
-  styled,
-  alpha,
-} from "@mui/material";
+import { AppBar, Box, Toolbar, IconButton, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -18,7 +9,6 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import BuildIcon from "@mui/icons-material/Build";
 import { LoginContext } from "../../contexts/LoginContext";
-import SearchBar from "./SearchBar";
 
 const useLoginContext = () => {
   const context = useContext(LoginContext);
@@ -36,12 +26,6 @@ const NavigationBar = () => {
     navigate("/");
   };
   const handleIconComponent = () => {
-    // <Link to="/auth">
-    //   <IconButton size="large" edge="end" style={{ color: "white" }}>
-    //     <LoginIcon />
-    //   </IconButton>
-    // </Link>
-
     // user not login
     if (email === null) {
       return (
@@ -111,7 +95,6 @@ const NavigationBar = () => {
               My Makeup
             </Typography>
           </Link>
-          <SearchBar />
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             {handleIconComponent()}

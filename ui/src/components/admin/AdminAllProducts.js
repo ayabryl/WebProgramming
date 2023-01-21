@@ -6,6 +6,8 @@ import axios from "axios";
 
 import ProductCard from "../Home/ProductCard";
 import SearchContext from "../../contexts/SearchContext";
+import SearchBar from "../Layout/SearchBar";
+import { StyledButtonContained, theme } from "../../theme";
 
 const AdminAllProducts = () => {
   const [products, setProducts] = useState([]);
@@ -48,7 +50,15 @@ const AdminAllProducts = () => {
 
   return (
     <Fragment>
-      <Grid sx={{ mt: 3 }}>
+      <Grid
+        sx={{ mt: 3 }}
+        display="flex"
+        alignItems="center"
+        direction="column"
+      >
+        <Grid item>
+          <SearchBar />
+        </Grid>
         <Grid container spacing={4} sx={{ p: 3 }}>
           {parsedProduct}
         </Grid>
