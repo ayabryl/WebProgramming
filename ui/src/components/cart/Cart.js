@@ -100,7 +100,6 @@ const Cart = (props) => {
               color: "primary.main",
               fontWeight: "bold",
               mt: 1,
-              ml: 1,
             }}>
               Estimated Total: {getTotal}
             </Typography>
