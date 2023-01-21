@@ -28,7 +28,6 @@ const EditProduct = (props) => {
     price: props.product.price,
     name: props.product.name,
     brand: props.product.brand,
-    priceSign: props.product.price_sign,
     productLink: props.product.product_link,
     description: props.product.description,
     category: props.product.category,
@@ -76,7 +75,6 @@ const EditProduct = (props) => {
       price: formData.price,
       name: formData.name,
       brand: formData.brand,
-      priceSign: formData.priceSign,
       product_link: formData.productLink,
       description: formData.description,
       category: formData.category,
@@ -131,7 +129,6 @@ const EditProduct = (props) => {
       price: props.product.price,
       name: props.product.name,
       brand: props.product.brand,
-      priceSign: props.product.price_sign,
       productLink: props.product.product_link,
       description: props.product.description,
       category: props.product.category,
@@ -194,16 +191,6 @@ const EditProduct = (props) => {
                       fullWidth="100%"
                       name="brand"
                       value={formData.brand}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={3.5}>
-                    <TextField
-                      label="Price Sign"
-                      type="text"
-                      fullWidth="100%"
-                      name="priceSign"
-                      value={formData.priceSign}
                       onChange={handleChange}
                     />
                   </Grid>
