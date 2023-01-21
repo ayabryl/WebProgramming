@@ -78,8 +78,8 @@ const AddProductForm = () => {
     fetch("http://localhost:3001/addProduct", requestOptions)
       .then((response) => {
         console.log(response);
-        toast.error("The product successfuly added");
-        navigate("/", { replace: true });
+        toast.success("The product successfuly added");
+        // navigate("/", { replace: true });
       })
       .catch((error) => {
         console.log(error);
@@ -176,6 +176,17 @@ const AddProductForm = () => {
                 fullWidth="100%"
                 name="category"
                 value={formData.category}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={1}></Grid>
+            <Grid item xs={3.5}>
+              <TextField
+                label="Image link"
+                type="text"
+                fullWidth="100%"
+                name="Image link"
+                value={formData.imageLink}
                 onChange={handleChange}
               />
             </Grid>

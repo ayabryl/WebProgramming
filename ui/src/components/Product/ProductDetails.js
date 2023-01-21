@@ -7,6 +7,7 @@ export default function ProductDetails(props) {
 
     const [chosenColor, setChosenColor] = useState(props.makeUpProduct.product_colors.legnth ?
         props.makeUpProduct.product_colors[0] : '');
+        
     const [amount, setAmount] = useState(props.makeUpProduct.amount ? props.makeUpProduct.amount : 1);    
     const setColor = (color) => {
         setChosenColor(color)

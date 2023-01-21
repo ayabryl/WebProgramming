@@ -1,22 +1,16 @@
 import { useState, useEffect, useContext, Fragment } from "react";
-import { Grid, Typography, Button } from "@mui/material";
+import { Grid } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import axios from "axios";
 
-import ProductCard from "./ProductCard";
+import ProductCard from "../Home/ProductCard";
 import SearchContext from "../../contexts/SearchContext";
 
-const Market = () => {
+const AdminAllProducts = () => {
   const [products, setProducts] = useState([]);
   const [parsedProduct, setParsedProducts] = useState([]);
   const { searchWord } = useContext(SearchContext);
-  const navigate = useNavigate();
-
-  const toProductPage = (product) => {
-    navigate("/product", { state: { product: product } });
-  };
 
   const fetchData = () => {
     axios.get(`http://localhost:3001/products`).then((res) => {
@@ -41,17 +35,11 @@ const Market = () => {
       );
     }
     productsShow = productsShow.map((p) => (
-      <Grid
-        item
-        xs={3}
-        onClick={() => {
-          toProductPage(p);
-        }}
-      >
+      <Grid item xs={3}>
         <ProductCard
           key={Math.random().toString()}
           product={p}
-          adminPage={false}
+          adminPage={true}
         ></ProductCard>
       </Grid>
     ));
@@ -60,7 +48,6 @@ const Market = () => {
 
   return (
     <Fragment>
-      <Toaster position="top-center" reverseOrder={false} />
       <Grid sx={{ mt: 3 }}>
         <Grid container spacing={4} sx={{ p: 3 }}>
           {parsedProduct}
@@ -69,4 +56,4 @@ const Market = () => {
     </Fragment>
   );
 };
-export default Market;
+export default AdminAllProducts;
