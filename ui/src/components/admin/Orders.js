@@ -8,6 +8,10 @@ import axios from "axios";
 
 import toast, { Toaster } from "react-hot-toast";
 import { LoginContext } from "../../contexts/LoginContext";
+import useWebSocket from 'react-use-websocket';
+
+
+const WS_URL = 'ws://127.0.0.1:3001';
 
 const StyledH1 = styled("h1")({
   textAlign: "center",
@@ -17,6 +21,21 @@ const Orders = (props) => {
   const [orders, setOrders] = useState([]);
   const loggedUserContext = useContext(LoginContext);
   const [customer, setCustomer] = useState([]);
+
+  useWebSocket(WS_URL + '?userId=' + loggedUserContext.uid, {
+    onOpen: () => {
+      console.log('WebSocket connection established.');
+    },
+    onMessage: (message) => {
+      console.log("order updated" + JSON.stringify(message))
+      updateOrderStatus(JSON.stringify(message))
+    }
+  })
+
+  const updateOrderStatus = (updatedOrder) => {
+    const newOrders = orders.map((order) => order._id === updatedOrder._id ? updatedOrder : order);
+
+  }
 
   const fetchOrdersData = () => {
     const url = props.specificUser

@@ -8,6 +8,7 @@ import axios from "axios";
 import ProductCard from "./ProductCard";
 import SearchContext from "../../contexts/SearchContext";
 
+
 const Market = () => {
   const [products, setProducts] = useState([]);
   const [parsedProduct, setParsedProducts] = useState([]);

@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const { WebSocketServer } = require('ws');
 const bodyParser = require("body-parser");
+const { uuid } = require('uuidv4');
 const axios = require("axios");
 const Product = require("./models/products");
 const Order = require("./models/orders");
@@ -17,10 +19,10 @@ const {
   getOrdersByUserId,
   productStatistic,
 } = require("./api/api");
+const { parse }  = require("url")
 const hostname = "localhost";
 const port = 3001;
 const app = express(bodyParser.urlencoded({ extended: false }));
-
 const cors = require("cors");
 const corsOptions = {
   origin: "*",
@@ -28,10 +30,20 @@ const corsOptions = {
   optionSuccessStatus: 200,
 };
 
+const clients = {};
+
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
-app.listen(3001, () => {
+let httpServer = app.listen(3001, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
+});
+const wsServer = new WebSocketServer({server:httpServer});
+
+wsServer.on('connection', function(connection,req) {
+  const userId = parse(req.url,true).query.userId;
+  console.log(`Recieved a new connection.`);
+  clients[userId] = connection;
+  console.log(`${userId} connected.`);
 });
 
 const mongoDB =
@@ -145,8 +157,11 @@ app.put("/updateUser", async (req, res) => {
 app.put("/updateOrder", async (req, res) => {
   try {
     const updatedOrder = await updateOrder(req.body);
+    if(clients[updatedOrder.user_id]) {
+      clients[updatedOrder.user_id].send(JSON.stringify(updatedOrder))
+    }
     res.send(updatedOrder);
-  } catch {
+  } catch (err) {
     console.log(err);
     res.send("error updating order. error: " + err);
   }
@@ -165,7 +180,7 @@ app.put("/updateProduct", async (req, res) => {
 app.post("/addProducts", async (req, res) => {
   await axios
     .get(
-      "https://makeup-api.herokuapp.com/api/v1/products.json?brand=maybelline&product_type=lipstick"
+      "https://makeup-api.herokuapp.com/api/v1/products.json"
     )
     .then(async function (response) {
       const newProducts = response.data.map((element) => {
@@ -174,7 +189,7 @@ app.post("/addProducts", async (req, res) => {
           price: element.price,
           brand: element.brand,
           name: element.name,
-          price_sign: element.price_sign,
+          // price_sign: element.price_sign,
           product_link: element.product_link,
           description: element.description,
           category: element.category,
@@ -218,3 +233,5 @@ app.post("/addOrder", async (req, res) => {
   });
   res.send("success adding new order");
 });
+
+

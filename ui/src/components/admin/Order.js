@@ -65,13 +65,14 @@ const Order = (props) => {
 
   const handleOrderStatusChange = (event) => {
     const body = {
+      _id: order._id,
       order_status: event.target.value,
       created_at: order.data,
       products: order.products,
       user_id: order.user_id,
     };
     const requestOptions = {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     };

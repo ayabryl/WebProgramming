@@ -23,7 +23,7 @@ export default function ProductInCart(props) {
                 borderRadius: 2,
             }}
         >
-            <Box
+            {/* <Box
                 sx={{
                     display: "flex",
                     flexDirection: "row",
@@ -85,8 +85,8 @@ export default function ProductInCart(props) {
           }}
         >
           {props.price}₪
-        </Typography> */}
-            </Box>
+        </Typography>
+            </Box> */}
         </Card>
     );
 }
