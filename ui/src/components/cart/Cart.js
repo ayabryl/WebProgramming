@@ -4,6 +4,8 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductInCart from "./ProductInCart";
 import { LoginContext } from "../../contexts/LoginContext";
+import React from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { Box } from "@mui/system";
 import { StyledButtonContained } from "../../theme";
 
@@ -24,10 +26,6 @@ const Cart = (props) => {
   const products = cart?.map((p) => (
     <Grid item xs={12}
       key={Math.random().toString()}>
-      <Box sx={{
-        display: "flex",
-        justifyContent: "flex-start",
-      }}>
         <ProductInCart setProductAmount={setProductAmount} handleRemoveFromCart={handleRemoveFromCart}
           key={Math.random().toString()}
           name={p.name}
@@ -37,7 +35,6 @@ const Cart = (props) => {
           imageURL={p.image_link}
           id={p.id}
         ></ProductInCart>
-      </Box>
     </Grid>
   ));
 
@@ -57,7 +54,7 @@ const Cart = (props) => {
       products: products,
       created_at: new Date(),
       user_id: loggedUserContext.uid,
-      order_status: "In Progress",
+      order_status: "New Order",
       total_price: getTotal
     }
     props.handleOrder(order);
@@ -76,16 +73,23 @@ const Cart = (props) => {
           marginTop: '50px', color: "primary.main",
           fontWeight: "bold",
         }} variant="h5">My Basket</Typography>
-        <Box sx={{
+         <React.Fragment>
+      <Toaster position="top-center" reverseOrder={false} />
+      <Grid>
+        <Grid container spacing={4} sx={{ p: 1 }}>
+          {products}
+        </Grid>
+      </Grid>
+    </React.Fragment>
+        {/* <Box sx={{
           display: "flex",
+          flexDirection: "row",
           justifyContent: "start",
         }}>
-          <Grid sx={{ mt: 1 }}>
             <Grid container spacing={2}>
               {products}
             </Grid>
-          </Grid>
-        </Box>
+        </Box> */}
         <Grid>
           <Grid
             item
@@ -109,7 +113,7 @@ const Cart = (props) => {
             <StyledButtonContained
               type="submit"
               variant="contained"
-
+              onClick={handleOrder}
             >Order
             </StyledButtonContained>
           </Grid>

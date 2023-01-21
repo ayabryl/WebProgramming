@@ -16,7 +16,7 @@ const {
   getUserById,
   getOrdersByUserId,
   productStatistic,
-  deleteProduct,
+  deleteProduct
 } = require("./api/api");
 const hostname = "localhost";
 const port = 3001;
@@ -175,7 +175,6 @@ app.post("/addProducts", async (req, res) => {
           price: element.price,
           brand: element.brand,
           name: element.name,
-          price_sign: element.price_sign,
           product_link: element.product_link,
           description: element.description,
           category: element.category,
