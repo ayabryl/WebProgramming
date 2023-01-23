@@ -83,7 +83,7 @@ const AdminAllProducts = () => {
         alignItems="center"
         display="flex"
         justifyContent="center"
-        sx={{ position: "absolute", bottom: 0 }}
+        sx={{ position: "relative", bottom: 0 }}
       >
         <TablePagination
           rowsPerPageOptions={[12, 16, 32, { label: "All", value: -1 }]}

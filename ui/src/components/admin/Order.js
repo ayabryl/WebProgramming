@@ -1,9 +1,6 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
-  Card,
   CardContent,
-  CardMedia,
-  CardHeader,
   Typography,
   Box,
   IconButton,
@@ -11,27 +8,17 @@ import {
   MenuItem,
   Grid,
   CardActions,
+  Collapse,
 } from "@mui/material";
-
-import EditIcon from "@mui/icons-material/Edit";
-import CancelIcon from "@mui/icons-material/Cancel";
 import { styled } from "@mui/material/styles";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import ViewListIcon from "@mui/icons-material/ViewList";
-import LeaderboardIcon from "@mui/icons-material/Leaderboard";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import axios from "axios";
-import Collapse from "@mui/material/Collapse";
-import * as React from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ProducrInOrder from "../profile/ProductsInOrder";
+
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
+
+import ProducrInOrder from "../profile/ProductsInOrder";
 import theme from "../../theme";
 
-const StyledH1 = styled("h1")({
-  textAlign: "center",
-});
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -43,17 +30,6 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-// export const StyledButtonContained = styled(Button)(
-//   ({ theme, color = "secondary" }) => ({
-//     ":hover": {
-//       color: "white",
-//       backgroundColor: theme.palette[color].light,
-//     },
-//     "background-color": theme.palette[color].main,
-//     color: "white",
-//   })
-// );
-
 const StyledTextField = styled(TextField)(({ theme, colorOrder }) => ({
   "background-color": colorOrder(),
   "border-color": colorOrder(),
@@ -62,8 +38,10 @@ const StyledTextField = styled(TextField)(({ theme, colorOrder }) => ({
 
 const Order = (props) => {
   const [order, setOrder] = useState(props.order);
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [orderStatus, setOrderStatus] = useState(props.order.order_status);
+  const [customer, setCustomer] = useState([]);
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -75,13 +53,23 @@ const Order = (props) => {
       // border-color = theme.palette.success.light;
     } else if (orderStatus === "New Order") {
       color = theme.palette.orange.yellow;
-    }else if (orderStatus === "In Progress") {
+    } else if (orderStatus === "In Progress") {
       color = theme.palette.info.light;
     } else {
       color = theme.palette.orange.light;
     }
     return color;
   };
+
+  useEffect(() => {
+    if (!props.specificUser) {
+      axios.get(`http://localhost:3001/users/${order.user_id}`).then((res) => {
+        setCustomer(res.data);
+      });
+    } else {
+      setCustomer(props.customer);
+    }
+  });
 
   const handleOrderStatusChange = (event) => {
     const body = {
@@ -96,10 +84,8 @@ const Order = (props) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     };
-    // Save the new user in mongo (with the firebase id)
     fetch("http://localhost:3001/updateOrder", requestOptions)
       .then((response) => {
-        console.log(response);
         setOrder({ ...order, order_status: event.target.value });
         setOrderStatus(event.target.value);
       })
@@ -189,25 +175,23 @@ const Order = (props) => {
           sx={{ m: 2 }}
         >
           <Grid item xs={2}>
-            <Typography variant="body2">Name: {props.customer.name}</Typography>
+            <Typography variant="body2">Name: {customer.name}</Typography>
           </Grid>
           <Grid item xs={3}>
             <Typography variant="body2">
-              Phone number: {props.customer.phone_number}
+              Phone number: {customer.phone_number}
             </Typography>
           </Grid>
           <Grid item xs={2}>
-            <Typography variant="body2">City: {props.customer.city}</Typography>
+            <Typography variant="body2">City: {customer.city}</Typography>
           </Grid>
           <Grid item xs={3}>
             <Typography variant="body2">
-              Address : {props.customer.address_line}
+              Address : {customer.address_line}
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="body2">
-              Comment: {props.customer.comment}
-            </Typography>
+            <Typography variant="body2">Comment: {customer.comment}</Typography>
           </Grid>
         </Grid>
 
@@ -218,7 +202,6 @@ const Order = (props) => {
           sx={{ minWidth: "100%" }}
         >
           <CardContent>
-            {/* TODO: add component that show products */}
             <ProducrInOrder products={order.products}></ProducrInOrder>
           </CardContent>
         </Collapse>
