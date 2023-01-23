@@ -75,7 +75,7 @@ const Order = (props) => {
       // border-color = theme.palette.success.light;
     } else if (orderStatus === "New Order") {
       color = theme.palette.orange.yellow;
-    }else if (orderStatus === "In Progress") {
+    } else if (orderStatus === "In Progress") {
       color = theme.palette.info.light;
     } else {
       color = theme.palette.orange.light;
@@ -218,7 +218,6 @@ const Order = (props) => {
           sx={{ minWidth: "100%" }}
         >
           <CardContent>
-            {/* TODO: add component that show products */}
             <ProducrInOrder products={order.products}></ProducrInOrder>
           </CardContent>
         </Collapse>

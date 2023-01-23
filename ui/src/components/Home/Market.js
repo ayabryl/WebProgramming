@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, Fragment } from "react";
-import { Grid, TablePagination } from "@mui/material";
+import { Grid, TablePagination, TextField, MenuItem } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
@@ -14,7 +14,8 @@ const Market = () => {
   const [products, setProducts] = useState([]);
   const [parsedProduct, setParsedProducts] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(16);
+  const [rowsPerPage, setRowsPerPage] = useState(12);
+  const [orderBy, setOrderBy] = useState("Best");
   const { searchWord } = useContext(SearchContext);
   const navigate = useNavigate();
 
@@ -44,6 +45,27 @@ const Market = () => {
           pro.description.includes(searchWord)
       );
     }
+
+    switch (orderBy) {
+      case "Low":
+        productsShow = productsShow.sort(
+          (a, b) => parseFloat(a.price) - parseFloat(b.price)
+        );
+        break;
+      case "High":
+        productsShow = productsShow.sort(
+          (a, b) => parseFloat(b.price) - parseFloat(a.price)
+        );
+        break;
+      case "Name":
+        productsShow = productsShow.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+        break;
+      default:
+        break;
+    }
+
     productsShow = productsShow.map((p) => (
       <Grid
         item
@@ -60,7 +82,7 @@ const Market = () => {
       </Grid>
     ));
     setParsedProducts(productsShow);
-  }, [searchWord, products]);
+  }, [searchWord, products, orderBy]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -69,6 +91,10 @@ const Market = () => {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const handleOrderbyChange = (event) => {
+    setOrderBy(event.target.value);
   };
 
   return (
@@ -80,9 +106,29 @@ const Market = () => {
         alignItems="center"
         direction="column"
       >
-        <Grid item>
-          <SearchBar />
+        <Grid item sx={12} direction="row" display="flex">
+          <Grid item sx={4}>
+            <SearchBar />
+          </Grid>
+          <Grid item sx={3}>
+            <TextField
+              value={orderBy}
+              onChange={handleOrderbyChange}
+              variant="outlined"
+              select
+              size="small"
+              label="order status"
+              fullWidth
+              sx={{ width: "100%" }}
+            >
+              <MenuItem value="Best">Best Match</MenuItem>
+              <MenuItem value="Low">Price Low to High</MenuItem>
+              <MenuItem value="High">Price High to Low</MenuItem>
+              <MenuItem value="Name">A-Z</MenuItem>
+            </TextField>
+          </Grid>
         </Grid>
+
         <Grid container spacing={4} sx={{ p: 3 }}>
           {rowsPerPage > 0
             ? parsedProduct.slice(
@@ -101,7 +147,7 @@ const Market = () => {
         sx={{ position: "absolute", bottom: 0 }}
       >
         <TablePagination
-          rowsPerPageOptions={[16, 32, 48, { label: "All", value: -1 }]}
+          rowsPerPageOptions={[12, 32, 48, { label: "All", value: -1 }]}
           colSpan={3}
           count={parsedProduct.length}
           rowsPerPage={rowsPerPage}
