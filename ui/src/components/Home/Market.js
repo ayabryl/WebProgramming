@@ -110,16 +110,15 @@ const Market = () => {
           <Grid item sx={4}>
             <SearchBar />
           </Grid>
-          <Grid item sx={3}>
+          <Grid item sx={3} width="100%">
             <TextField
               value={orderBy}
               onChange={handleOrderbyChange}
               variant="outlined"
               select
               size="small"
-              label="order status"
+              label="Order by"
               fullWidth
-              sx={{ width: "100%" }}
             >
               <MenuItem value="Best">Best Match</MenuItem>
               <MenuItem value="Low">Price Low to High</MenuItem>
@@ -144,7 +143,7 @@ const Market = () => {
         flex-direction="column-reverse"
         alignItems="stretch"
         container
-        sx={{ position: "absolute", bottom: 0 }}
+        sx={{ position: "relative", bottom: 0 }}
       >
         <TablePagination
           rowsPerPageOptions={[12, 32, 48, { label: "All", value: -1 }]}
