@@ -1,5 +1,12 @@
 import { useState, useEffect, useContext, Fragment } from "react";
-import { Grid, TablePagination, TextField, MenuItem } from "@mui/material";
+import {
+  Grid,
+  TablePagination,
+  TextField,
+  MenuItem,
+  Stack,
+  Chip,
+} from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
@@ -16,6 +23,7 @@ const Market = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(12);
   const [orderBy, setOrderBy] = useState("Best");
+  const [chipSelectd, setSelectedChip] = useState("all");
   const { searchWord } = useContext(SearchContext);
   const navigate = useNavigate();
 
@@ -31,7 +39,6 @@ const Market = () => {
   };
 
   useEffect(() => {
-    console.log("Fetching data...");
     fetchData();
   }, []);
 
@@ -66,6 +73,12 @@ const Market = () => {
         break;
     }
 
+    if (chipSelectd !== "all") {
+      productsShow = productsShow.filter((pro) =>
+        pro.brand.includes(chipSelectd)
+      );
+    }
+
     productsShow = productsShow.map((p) => (
       <Grid
         item
@@ -82,7 +95,7 @@ const Market = () => {
       </Grid>
     ));
     setParsedProducts(productsShow);
-  }, [searchWord, products, orderBy]);
+  }, [searchWord, products, orderBy, chipSelectd]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -97,6 +110,10 @@ const Market = () => {
     setOrderBy(event.target.value);
   };
 
+  const handleChipClick = (val) => {
+    setSelectedChip(val);
+  };
+
   return (
     <Fragment>
       <Toaster position="top-center" reverseOrder={false} />
@@ -107,10 +124,10 @@ const Market = () => {
         direction="column"
       >
         <Grid item sx={12} direction="row" display="flex">
-          <Grid item sx={4}>
+          <Grid item sx={8} width="100%">
             <SearchBar />
           </Grid>
-          <Grid item sx={3} width="100%">
+          <Grid item sx={4}>
             <TextField
               value={orderBy}
               onChange={handleOrderbyChange}
@@ -127,8 +144,37 @@ const Market = () => {
             </TextField>
           </Grid>
         </Grid>
-
-        <Grid container spacing={4} sx={{ p: 3 }}>
+        <Grid
+          sx={{ mt: 3 }}
+          item
+          container
+          diaply="flex"
+          justifyContent="center"
+        >
+          <Stack direction="row" spacing={1}>
+            <Chip
+              color="primary"
+              label="Revlon"
+              onClick={() => handleChipClick("revlon")}
+            />
+            <Chip
+              color="primary"
+              label="Maybelline"
+              onClick={() => handleChipClick("maybelline")}
+            />
+            <Chip
+              color="primary"
+              label="NYX"
+              onClick={() => handleChipClick("nyx")}
+            />
+            <Chip
+              color="primary"
+              label="All"
+              onClick={() => handleChipClick("all")}
+            />
+          </Stack>
+        </Grid>
+        <Grid item container spacing={4} sx={{ p: 3 }}>
           {rowsPerPage > 0
             ? parsedProduct.slice(
                 page * rowsPerPage,
