@@ -9,10 +9,6 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { LoginContext } from "../../contexts/LoginContext";
 
-const StyledH1 = styled("h1")({
-  textAlign: "center",
-});
-
 const Orders = (props) => {
   const [orders, setOrders] = useState([]);
   const loggedUserContext = useContext(LoginContext);
@@ -31,7 +27,6 @@ const Orders = (props) => {
   const fetchOrderCustomerData = (user_id) => {
     axios.get(`http://localhost:3001/users/${user_id}`).then((res) => {
       const data = res.data;
-      console.log(data);
       setCustomer(data);
     });
   };
