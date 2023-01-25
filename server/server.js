@@ -20,7 +20,7 @@ const {
   productStatistic,
   deleteProduct
 } = require("./api/api");
-const { parse }  = require("url")
+const { parse } = require("url")
 const hostname = "localhost";
 const port = 3001;
 const app = express(bodyParser.urlencoded({ extended: false }));
@@ -32,18 +32,23 @@ const corsOptions = {
 };
 
 const clients = {};
+const adminClients = {}
 
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
 let httpServer = app.listen(3001, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
-const wsServer = new WebSocketServer({server:httpServer});
+const wsServer = new WebSocketServer({ server: httpServer });
 
-wsServer.on('connection', function(connection,req) {
-  const userId = parse(req.url,true).query.userId;
+wsServer.on('connection', function (connection, req) {
+  const userId = parse(req.url, true).query.userId;
+  const isAdmin = (parse(req.url, true).query.isAdmin === 'true');
   console.log(`Recieved a new connection.`);
   clients[userId] = connection;
+  if (isAdmin) { 
+    adminClients[userId] = connection 
+  };
   console.log(`${userId} connected.`);
 });
 
@@ -158,7 +163,7 @@ app.put("/updateUser", async (req, res) => {
 app.put("/updateOrder", async (req, res) => {
   try {
     const updatedOrder = await updateOrder(req.body);
-    if(clients[updatedOrder.user_id]) {
+    if (clients[updatedOrder.user_id]) {
       clients[updatedOrder.user_id].send(JSON.stringify(updatedOrder))
     }
     res.send(updatedOrder);
@@ -229,6 +234,12 @@ app.post("/addOrder", async (req, res) => {
     if (err) {
       console.log(err);
       res.send("error creating order. error: " + err);
+    } else {
+      Object.keys(adminClients).forEach(user => {
+        //console.log(user, adminClients[user]);
+        //console.log(result)
+        adminClients[user].send(JSON.stringify(newOrder));
+      });
     }
   });
   res.send("success adding new order");

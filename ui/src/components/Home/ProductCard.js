@@ -63,7 +63,6 @@ const ProductCard = (props) => {
               >
                 {props.product.category}
               </Typography>
-
               <Typography
                 sx={{
                   color: "secondary.main",
