@@ -32,9 +32,9 @@ export default function ProductDetails(props) {
     setAmount(event.target.value);
   };
 
-  const onAddToCartClick = (event) => {
-    props.handleAddToCartClick(chosenColor, amount);
-    event.preventDefault();
+    const onAddToCartClick = (event) => {
+        props.handleAddToCartClick(chosenColor, amount);
+        event.preventDefault();
   };
 
   const productsColors = props.makeUpProduct.product_colors.map((p) => (

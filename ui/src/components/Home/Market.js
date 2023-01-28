@@ -17,6 +17,7 @@ import SearchContext from "../../contexts/SearchContext";
 import SearchBar from "../Layout/SearchBar";
 import TablePaginationActions from "../Layout/TablePaginationAction";
 
+
 const Market = () => {
   const [products, setProducts] = useState([]);
   const [parsedProduct, setParsedProducts] = useState([]);

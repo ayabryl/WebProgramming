@@ -49,6 +49,7 @@ const updateUser = async (user) => {
 };
 
 const updateOrder = async (order) => {
+  console.log(order);
   const filter = { _id: order._id };
   const update = { ...order };
   const updatedOrder = await Order.findOneAndUpdate(filter, update, {
