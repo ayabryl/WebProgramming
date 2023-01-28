@@ -41,12 +41,13 @@ export default function ProductDetails(props) {
         ));
 
     return (
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', mt:'50px' }}>
             <Grid container rowSpacing={2}
                 sx={{
                     display: "flex",
                     flexDirection: "column",
                     flexGrow: 1,
+                    mt:'50px'
                 }}>
                 <Grid item>
                     <Typography component="div" variant="body2">

@@ -68,6 +68,10 @@ const Order = (props) => {
     setExpanded(!expanded);
   };
 
+  useEffect(() => {
+    setOrderStatus(props.order.order_status)
+  },[props.order.order_status])
+
   const colorOrder = () => {
     let color;
     if (orderStatus === "Deliverd") {
