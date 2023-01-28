@@ -18,7 +18,8 @@ const {
   getUserById,
   getOrdersByUserId,
   productStatistic,
-  deleteProduct
+  deleteProduct,
+  deleteNullProducts,
 } = require("./api/api");
 const { parse } = require("url")
 const hostname = "localhost";
@@ -185,9 +186,7 @@ app.put("/updateProduct", async (req, res) => {
 
 app.post("/addProducts", async (req, res) => {
   await axios
-    .get(
-      "https://makeup-api.herokuapp.com/api/v1/products.json"
-    )
+    .get("https://makeup-api.herokuapp.com/api/v1/products.json?brand=nyx")
     .then(async function (response) {
       const newProducts = response.data.map((element) => {
         const newProduct = new Product({
@@ -250,6 +249,15 @@ app.delete("/deleteProduct/:id", async (req, res) => {
     const id = req.params.id;
     const ans = await deleteProduct(id);
     res.send("success delete product: " + id);
+  } catch (err) {
+    res.send("Error delete this product " + err);
+  }
+});
+
+app.delete("/deleteNullProducts/", async (req, res) => {
+  try {
+    const ans = await deleteNullProducts();
+    res.send(ans);
   } catch (err) {
     res.send("Error delete this product " + err);
   }

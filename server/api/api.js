@@ -108,8 +108,19 @@ const deleteProduct = async (id) => {
   return await Product.deleteOne({ _id: id });
 };
 
+const deleteNullProducts = async () => {
+  try {
+    await Product.deleteMany({ category: null });
+    await Product.deleteMany({ image_link: null });
+    await Product.deleteMany({ description: null });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   getProducts,
+  deleteNullProducts,
   getOrders,
   getUsers,
   addProducts,

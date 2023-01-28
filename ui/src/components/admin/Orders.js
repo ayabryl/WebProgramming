@@ -13,10 +13,6 @@ import useWebSocket from 'react-use-websocket';
 
 const WS_URL = 'ws://127.0.0.1:3001';
 
-const StyledH1 = styled("h1")({
-  textAlign: "center",
-});
-
 const Orders = (props) => {
   const [orders, setOrders] = useState([]);
   const loggedUserContext = useContext(LoginContext);
@@ -56,7 +52,6 @@ const Orders = (props) => {
   const fetchOrderCustomerData = (user_id) => {
     axios.get(`http://localhost:3001/users/${user_id}`).then((res) => {
       const data = res.data;
-      console.log(data);
       setCustomer(data);
     });
   };
