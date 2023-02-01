@@ -137,6 +137,7 @@ const Market = () => {
               size="small"
               label="Order by"
               fullWidth
+
             >
               <MenuItem value="Best">Best Match</MenuItem>
               <MenuItem value="Low">Price Low to High</MenuItem>

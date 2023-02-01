@@ -95,7 +95,7 @@ const AuthForm = () => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error("Error Occured, Try again");
+        toast.error("Error occured, try again later");
       });
   };
   const submitHandler = (event) => {
@@ -150,13 +150,12 @@ const AuthForm = () => {
               .catch((err) => console.log(err));
           }
 
-          toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
+          // toast.success(`Successfull ${isLogin ? "Login" : "Sign Up"} !`);
 
           navigate("/", { replace: true });
         })
         .catch((err) => {
           console.log(err.message);
-          toast.error("Error Occured, Try again");
         });
     }
   };
