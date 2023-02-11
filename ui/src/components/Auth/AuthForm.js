@@ -136,7 +136,7 @@ const AuthForm = () => {
           let isAdmin = false;
           if (!isLogin) {
             CreateNewUserInMongo(data.localId);
-            login(data.email, data.localId, isAdmin);
+            login(data.email, data.localId, isAdmin, data.idToken);
           } else {
             // Check if the user is admin
             fetch("http://localhost:3001/users/isAdmin/" + data.localId)
@@ -144,7 +144,7 @@ const AuthForm = () => {
                 res.json().then((ans) => {
                   isAdmin = ans;
 
-                  login(data.email, data.localId, isAdmin);
+                  login(data.email, data.localId, isAdmin, data.idToken);
                 });
               })
               .catch((err) => console.log(err));

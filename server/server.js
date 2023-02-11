@@ -192,7 +192,7 @@ app.put("/updateProduct", async (req, res) => {
 
 app.post("/addProducts", async (req, res) => {
   await axios
-    .get("https://makeup-api.herokuapp.com/api/v1/products.json?brand=nyx")
+    .get("https://makeup-api.herokuapp.com/api/v1/products.json?brand=colourpop")
     .then(async function (response) {
       const newProducts = response.data.map((element) => {
         const newProduct = new Product({
@@ -219,6 +219,7 @@ app.post("/addProducts", async (req, res) => {
     .catch(function (error) {
       console.log(error);
     });
+  await deleteNullProducts();
   res.send("success adding products");
 });
 

@@ -110,6 +110,7 @@ const deleteProduct = async (id) => {
 
 const deleteNullProducts = async () => {
   try {
+    await Product.deleteMany({ product_colors: [] });
     await Product.deleteMany({ category: null });
     await Product.deleteMany({ image_link: null });
     await Product.deleteMany({ description: null });
