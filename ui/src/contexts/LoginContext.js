@@ -7,6 +7,7 @@ class LoginProvider extends React.Component {
     email: null,
     uid: null,
     isAdmin: false,
+    idToken: null
   };
 
   render() {
@@ -16,11 +17,11 @@ class LoginProvider extends React.Component {
           email: this.state.email,
           uid: this.state.uid,
           isAdmin: this.state.isAdmin,
-          login: (email, uid, isAdmin) => {
-            this.setState({ email, uid, isAdmin });
-          },
+          idToken: this.state.idToken,
+          login: (email, uid, isAdmin, idToken) =>
+            this.setState({ email, uid, isAdmin, idToken }),
           logout: () =>
-            this.setState({ email: null, uid: null, isAdmin: false }),
+            this.setState({ email: null, uid: null, isAdmin: false, idToken:null }),
         }}
       >
         {this.props.children}

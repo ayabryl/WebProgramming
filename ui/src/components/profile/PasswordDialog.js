@@ -22,7 +22,7 @@ const PasswordDialog = (props) => {
   const [passwordHelperText, setPasswordHelperText] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
-  const uid = loggedUserContext.uid;
+  const idToken = loggedUserContext.idToken;
 
   const validate = (password) => {
     // Validate password
@@ -36,8 +36,6 @@ const PasswordDialog = (props) => {
       setPasswordError(false);
       setPasswordHelperText("");
     }
-
-    console.log(uid);
 
     if (passwordError) {
       return false;
@@ -60,7 +58,7 @@ const PasswordDialog = (props) => {
       fetch(url, {
         method: "POST",
         body: JSON.stringify({
-          localId: uid,
+          idToken: idToken,
           password: enteredPassword,
           returnSecureToken: false,
         }),
