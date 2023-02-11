@@ -7,6 +7,8 @@ import ProductCard from "../Home/ProductCard";
 import SearchContext from "../../contexts/SearchContext";
 import SearchBar from "../Layout/SearchBar";
 import TablePaginationActions from "../Layout/TablePaginationAction";
+import useWebSocket from 'react-use-websocket';
+import { LoginContext } from "../../contexts/LoginContext";
 
 const AdminAllProducts = () => {
   const [products, setProducts] = useState([]);
@@ -15,12 +17,26 @@ const AdminAllProducts = () => {
   const [rowsPerPage, setRowsPerPage] = useState(12);
   const { searchWord } = useContext(SearchContext);
 
+  const WS_URL = 'ws://127.0.0.1:3001';
+  const loggedUserContext = useContext(LoginContext);
+
+
   const fetchData = () => {
     axios.get(`http://localhost:3001/products`).then((res) => {
       const data = res.data;
       setProducts(data);
     });
   };
+
+  useWebSocket(WS_URL + '?userId=' + loggedUserContext.uid + '&isAdmin=' + loggedUserContext.isAdmin, {
+    onOpen: () => {
+      console.log('WebSocket connection established.');
+    },
+    onMessage: (message) => {
+      fetchData();
+    },
+  })
+ 
 
   useEffect(() => {
     console.log("Fetching data...");

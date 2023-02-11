@@ -9,7 +9,7 @@ export default function Product(props) {
                 {/* <Grid sx={{ flexDirection: 'row',  display: 'flex', flexGrow: 1, justifyContent: 'center' ,
                 alignItems:"center", width: '100%'}}
                 container spacing={1}> */}
-                  <Grid container direction="row" spacing={1}>
+                  <Grid container direction="row" spacing={1} sx={{mt:10}}>
                     <Grid item
                         sx={{  display: 'flex', flexGrow: 1, alignItems:"center", justifyContent: 'center' }}>
                         <CardMedia
