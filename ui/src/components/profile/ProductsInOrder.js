@@ -19,7 +19,7 @@ const ProducrInOrder = (props) => {
   const rows = props.products.map((p) => {
     return {
       name: p.product_name,
-      color: p.color.hex_value,
+      color: p.color?.hex_value,
       price: p.price,
       quantity: p.amount,
     };

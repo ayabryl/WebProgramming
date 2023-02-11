@@ -15,7 +15,7 @@ const ProductPage = () => {
     const newProduct =  {...location.state.product, amount: amount}
     newProduct.product_colors = newProduct.product_colors.filter((color) => color.hex_value === chosenColor.hex_value)
     addToCart(newProduct)
-    navigate('/cart');
+    navigate('/');
   }
   return (
     <Product style={{ height: '100vh', width: '100vh' }}
