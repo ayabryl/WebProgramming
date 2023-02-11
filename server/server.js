@@ -144,6 +144,9 @@ app.post("/addProduct", async (req, res) => {
   try {
     const newProduct = new Product(req.body);
     await addProducts([newProduct]);
+    Object.keys(adminClients).forEach(user => { 
+      adminClients[user].send();
+    });
     res.send("success adding new product");
   } catch {
     console.log(err);
@@ -177,6 +180,9 @@ app.put("/updateOrder", async (req, res) => {
 app.put("/updateProduct", async (req, res) => {
   try {
     const updatedProduct = await updateProduct(req.body);
+    Object.keys(adminClients).forEach(user => { 
+      adminClients[user].send();
+    });
     res.send(updatedProduct);
   } catch {
     console.log(err);
@@ -234,9 +240,7 @@ app.post("/addOrder", async (req, res) => {
       console.log(err);
       res.send("error creating order. error: " + err);
     } else {
-      Object.keys(adminClients).forEach(user => {
-        //console.log(user, adminClients[user]);
-        //console.log(result)
+      Object.keys(adminClients).forEach(user => { 
         adminClients[user].send(JSON.stringify(newOrder));
       });
     }
@@ -248,6 +252,9 @@ app.delete("/deleteProduct/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const ans = await deleteProduct(id);
+    Object.keys(adminClients).forEach(user => { 
+      adminClients[user].send();
+    });
     res.send("success delete product: " + id);
   } catch (err) {
     res.send("Error delete this product " + err);
